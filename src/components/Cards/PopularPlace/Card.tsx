@@ -60,17 +60,6 @@ const Card: React.FC<CardProps> = ({
         </div>
       </div>
       <div className="p-2">
-        {/* <div className='flex justify-between'>
-                    <div className='flex gap-2 items-center'>
-                        <div className='text-yellow'>
-                            <FaStar />
-                        </div>
-                        <div>
-                            {rating}
-                        </div>
-                    </div>
-                    <div>{date}</div>
-                </div> */}
         <div className=" font-bold">{title}</div>
         <div className="my-4 font-semibold">
           <div className="flex flex-wrap items-center gap-1">
