@@ -1,9 +1,19 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { IoMdAddCircleOutline, IoMdRemoveCircleOutline } from "react-icons/io"
 import { Tooltip } from "react-tooltip"
 
-const InputRateCard = () => {
-  const [tableData, setTableData] = useState(Array.from({ length: 0 }, () => ({ item: "", prize: "" })))
+const InputRateCard = ({
+  onRateCardChange,
+  error,
+}: {
+  onRateCardChange: (data: any[]) => void
+  error: any
+}) => {
+  const [tableData, setTableData] = useState(Array.from({ length: 0 }, () => ({ title: "", price: "" })))
+
+  useEffect(() => {
+    onRateCardChange(tableData)
+  }, [tableData, onRateCardChange])
 
   const handleInputChange = (index: number, key: string, value: string) => {
     setTableData(prevData => {
@@ -14,7 +24,7 @@ const InputRateCard = () => {
   }
 
   const handleAddRow = () => {
-    setTableData(prevData => [...prevData, { item: "", prize: "" }])
+    setTableData(prevData => [...prevData, { title: "", price: "" }])
   }
 
   const handleRemoveRow = (index: number) => {
@@ -48,20 +58,22 @@ const InputRateCard = () => {
             <tr key={index}>
               <td>
                 <input
-                  className="w-full bg-transparent rounded-lg p-1 my-1 border border-primary focus:outline-none focus:ring-transparent"
+                  name="item"
+                  className="w-full bg-transparent rounded-sm p-1 px-3 my-2 border border-primary focus:outline-none focus:ring-transparent"
                   placeholder="Item"
                   type="text"
-                  value={row.item}
-                  onChange={e => handleInputChange(index, "item", e.target.value)}
+                  value={row.title}
+                  onChange={e => handleInputChange(index, "title", e.target.value)}
                 />
               </td>
-              <td>
+              <td className="ps-3">
                 <input
-                  className="w-full bg-transparent rounded-lg p-1 my-1 border border-primary focus:outline-none focus:ring-transparent"
+                  name="price"
+                  className="w-full bg-transparent rounded-sm p-1 px-3 my-2 border border-primary focus:outline-none focus:ring-transparent"
                   placeholder="Price"
                   type="text"
-                  value={row.prize}
-                  onChange={e => handleInputChange(index, "prize", e.target.value)}
+                  value={row.price}
+                  onChange={e => handleInputChange(index, "price", e.target.value)}
                 />
               </td>
               <td className="items-center text-xl">
@@ -76,6 +88,7 @@ const InputRateCard = () => {
           ))}
         </tbody>
       </table>
+      {error && <p className="text-red-600 text-sm">{error}</p>}
     </div>
   )
 }

@@ -13,6 +13,7 @@ type InputTextSocialLinksProps = {
   required: boolean
   icon?: string
   error?: string | undefined
+  defaultValue?: string
 }
 const InputTextSocialLinks = ({
   type,
@@ -23,10 +24,11 @@ const InputTextSocialLinks = ({
   required,
   icon,
   error,
+  defaultValue,
 }: InputTextSocialLinksProps) => {
   const IconComponent = (() => {
     switch (icon) {
-      case "facebook":
+      case "fb":
         return FaFacebookF
       case "instagram":
         return FaInstagram
@@ -49,6 +51,7 @@ const InputTextSocialLinks = ({
           }`}
           placeholder={placeholder}
           {...register(name, { required })}
+          defaultValue={defaultValue}
         />
         <div className="btn absolute flex right-3 top-2 transform translate-y-5">
           <IconComponent />

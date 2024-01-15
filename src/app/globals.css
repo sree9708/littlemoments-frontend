@@ -46,8 +46,11 @@ select:-webkit-autofill:focus {
   border: 2px solid #275efe;
   top: -10px;
 }
+/* .padding {
+  margin: 0px calc(10% + 36px);
+} */
 .padding {
-  @apply mx-5 sm:mx-12 md:mx-24 lg:mx-44 xl:mx-64 my-12;
+  @apply mx-5 sm:mx-12 md:mx-24 lg:mx-36 xl:mx-52 my-12;
 }
 
 .registration-left {

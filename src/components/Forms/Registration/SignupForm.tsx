@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useContext } from "react"
+import React, { use, useContext, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
@@ -8,6 +8,8 @@ import InputText from "../../Inputs/InputText"
 import RegistrationButton from "../../Buttons/RegistrationButton"
 import Link from "next/link"
 import { SignupContext, SignupContextProps } from "@/services/Context/SignupContext"
+import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
+import { addUserDetails } from "@/services/Redux/reducers/userSlice"
 
 const schema = yup
   .object({
@@ -16,15 +18,20 @@ const schema = yup
       .required("Username is required.")
       .min(3, "Username must be at least 3 characters.")
       .max(20, "Username must not exceed 20 characters."),
-    city: yup
+    email: yup
+      .string()
+      .required("Email is required.")
+      .email("Email must be a valid email address.")
+      .max(50, "Email must not exceed 50 characters."),
+    currentCity: yup
       .string()
       .required("City is required.")
       .min(2, "City must be at least 2 characters.")
       .max(50, "City must not exceed 50 characters."),
-    age: yup
-      .string()
-      .required("Age is required.")
-      .matches(/^[0-9]+$/, "Age must be number without any special characters."),
+    // age: yup
+    //   .string()
+    //   .required("Age is required.")
+    //   .matches(/^[0-9]+$/, "Age must be number without any special characters."),
     gender: yup
       .string()
       .required("Gender is required.")
@@ -38,17 +45,25 @@ const SignupForm = () => {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) })
 
   const { setIsSignup } = useContext(SignupContext) as SignupContextProps
+  const dispatch = useAppDispatch()
+  const userDetails = useAppSelector(state => state.user.userDetails)
 
   const onSubmitSignup = (data: any) => {
     console.log("data", data)
+    dispatch(addUserDetails(data))
     setIsSignup(false)
   }
 
-  const isGenderSelected = watch("gender")
+  const isGenderSelected = watch("gender") || ""
+  const defaultGender = userDetails?.gender || ""
+  useEffect(() => {
+    setValue("gender", defaultGender) // Set default value using setValue
+  }, [defaultGender, setValue])
 
   return (
     <>
@@ -60,32 +75,45 @@ const SignupForm = () => {
           register={register}
           required
           error={errors.username?.message}
+          defaultValue={userDetails?.username}
         />
         <InputText
-          name="city"
+          name="email"
+          type="text"
+          placeholder="Email"
+          register={register}
+          required
+          error={errors.email?.message}
+          defaultValue={userDetails?.email}
+        />
+        <InputText
+          name="currentCity"
           type="text"
           placeholder="City"
           register={register}
           required
-          error={errors.city?.message}
+          error={errors.currentCity?.message}
+          defaultValue={userDetails?.currentCity}
         />
-        <InputText
+        {/* <InputText
           name="age"
           type="text"
           placeholder="Age"
           register={register}
           required
           error={errors.age?.message}
-        />
+          defaultValue={userDetails?.age}
+        /> */}
         {/* <InputText name="gender" type="text" placeholder='Gender' register={register} required error={errors.gender?.message} /> */}
         <select
           id="gender"
-          className={`block w-full autofill:bg-yellow-200 bg-transparent rounded-lg p-4 my-3 border-2  text-xl border-primary focus:outline-none focus:ring-transparent appearance-none peer 
-          ${isGenderSelected ? "text-black" : "text-gray-400"}`}
+          className={`block w-full autofill:bg-yellow-200 bg-transparent rounded-lg p-4 my-3 border-2 text-xl border-primary focus:outline-none focus:ring-transparent appearance-none peer ${
+            isGenderSelected === "" ? "text-gray-400" : "text-black"
+          }`}
           {...register("gender")}
         >
-          <option value="" selected className="text-black">
-            Gender
+          <option value="" selected className="text-gray-400">
+            {isGenderSelected ? "Select Gender" : "Gender"}
           </option>
           <option value="female">Female</option>
           <option value="male">Male</option>

@@ -8,10 +8,13 @@ import { useContext, useEffect } from "react"
 import { TrackerContext, TrackerContextProps } from "@/services/Context/TrackerContext"
 import { useRouter } from "next/navigation"
 import InputTextSocialLinks from "@/components/Inputs/InputTextSocialLinks"
+import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
+import { addPlace, addSocialLinks } from "@/services/Redux/reducers/propSlice"
+import { FaArrowLeftLong } from "react-icons/fa6"
 
 const schema = yup
   .object({
-    facebook: yup
+    fb: yup
       .string()
       .url("Please enter a valid URL")
       .min(3, "Facebook must be at least 3 characters.")
@@ -42,33 +45,41 @@ const SocialLinksForm = () => {
   } = useForm({ resolver: yupResolver(schema) })
 
   const { push } = useRouter()
-
+  const dispatch = useAppDispatch()
+  const propDetails = useAppSelector(state => state.prop.propDetails)
   const { setIsTracker } = useContext(TrackerContext) as TrackerContextProps
 
   useEffect(() => {
     setIsTracker(5)
   }, [setIsTracker])
 
-  const onSubmitSignup = (data: any) => {
+  const onSubmitSignup = async (data: any) => {
     console.log("data", data)
-    push("/")
+    try {
+      dispatch(addSocialLinks({ socialLinks: data }))
+      await dispatch(addPlace())
+    } catch (error) {
+      console.log(error)
+    }
+    // push("/")
   }
 
   const handleBack = () => {
-    push("/");
-  };
+    push("/add-place/upload-images")
+  }
 
   return (
     <>
       <form className="py-8" onSubmit={handleSubmit(onSubmitSignup)}>
         <InputTextSocialLinks
-          name="facebook"
+          name="fb"
           type="text"
           placeholder="Facebook"
           register={register}
-          icon="facebook"
+          icon="fb"
           required={false}
-          error={errors.facebook?.message}
+          error={errors.fb?.message}
+          defaultValue={propDetails?.socialLinks?.fb}
         />
         <InputTextSocialLinks
           name="instagram"
@@ -78,6 +89,7 @@ const SocialLinksForm = () => {
           icon="instagram"
           required={false}
           error={errors.instagram?.message}
+          defaultValue={propDetails?.socialLinks?.instagram}
         />
         <InputTextSocialLinks
           name="youtube"
@@ -87,6 +99,7 @@ const SocialLinksForm = () => {
           icon="youtube"
           required={false}
           error={errors.youtube?.message}
+          defaultValue={propDetails?.socialLinks?.youtube}
         />
         <InputTextSocialLinks
           name="twitter"
@@ -96,8 +109,17 @@ const SocialLinksForm = () => {
           icon="twitter"
           required={false}
           error={errors.twitter?.message}
+          defaultValue={propDetails?.socialLinks?.twitter}
         />
         <div className="flex gap-4">
+          <button
+            type="button"
+            className="w-fit flex items-center gap-2 bg-background text-primary mt-8 p-4 rounded-md border-2 border-primary text-2xl font-bold"
+            onClick={handleBack}
+          >
+            <FaArrowLeftLong />
+            Back
+          </button>
           <RegistrationButton text="Save" />
         </div>
       </form>

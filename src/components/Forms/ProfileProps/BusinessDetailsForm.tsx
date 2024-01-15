@@ -7,6 +7,10 @@ import InputText from "../../Inputs/InputText"
 import { useRouter } from "next/navigation"
 import InputTextarea from "@/components/Inputs/InputTextarea"
 import InputFile from "@/components/Inputs/InputFile"
+import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
+import { base64ToFile, filetoBase64 } from "@/services/Utilities/base64/base64.services"
+import { useState } from "react"
+import RegistrationButton from "@/components/Buttons/RegistrationButton"
 
 const schema = yup
   .object({
@@ -64,10 +68,35 @@ const BusinessDetailsForm = () => {
   } = useForm({ resolver: yupResolver(schema) })
 
   const { push } = useRouter()
+  const dispatch = useAppDispatch()
+  const propDetails = useAppSelector(state => state.prop.propDetails)
 
-  const onSubmitSignup = (data: any) => {
+  const gstin = propDetails ? base64ToFile(propDetails?.gstin as string, `gstin`) : undefined
+  const pan = propDetails ? base64ToFile(propDetails?.pan as string, `pan`) : undefined
+
+  const [gstinFile, setGstinFile] = useState<File | null>(gstin ? gstin : null)
+  const [panFile, setPanFile] = useState<File | null>(pan ? pan : null)
+
+  const onSubmitSignup = async (data: any) => {
     console.log("data", data)
+    const filePromises = [
+      gstinFile ? filetoBase64(gstinFile) : Promise.resolve(null),
+      panFile ? filetoBase64(panFile) : Promise.resolve(null),
+    ]
+
+    const [gstinFileBase64, panFileBase64] = await Promise.all(filePromises)
+
     push("/add-place/information")
+  }
+
+  const handleGstinFileChange = (file: File | null) => {
+    console.log("GSTIN File Selected:", file?.size)
+    setGstinFile(file)
+  }
+
+  const handlePanFileChange = (file: File | null) => {
+    console.log("PAN File Selected:", file)
+    setPanFile(file)
   }
 
   // const handleBack = () => {
@@ -95,24 +124,26 @@ const BusinessDetailsForm = () => {
             error={errors.address?.message}
           />
         </div>
-        <div className="block sm:flex w-full gap-4">
+        {/* <div className="block sm:flex w-full gap-4">
           <InputFile
             name="gstin"
             label="GSTIN"
             type="file"
             register={register}
-            required
             error={errors.gstin?.message}
+            onFileChange={handleGstinFileChange}
+            required
           />
           <InputFile
             name="pan"
             label="PAN Card"
             type="file"
             register={register}
-            required
             error={errors.pan?.message}
+            onFileChange={handleGstinFileChange}
+            required
           />
-        </div>
+        </div> */}
         <div className="block sm:flex w-full gap-4">
           <InputText
             name="pocPhoneNumber"
@@ -138,6 +169,7 @@ const BusinessDetailsForm = () => {
             required
             error={errors.pocDesignation?.message}
           />
+          <RegistrationButton text="Save" />
         </div>
       </form>
     </>

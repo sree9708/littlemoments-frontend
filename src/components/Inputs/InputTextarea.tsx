@@ -9,8 +9,17 @@ type InputTextareaProps = {
   required: boolean
   disabled?: boolean
   error?: string | undefined
+  defaultValue?: string | number
 }
-const InputTextarea = ({ name, placeholder, register, required, disabled, error }: InputTextareaProps) => {
+const InputTextarea = ({
+  name,
+  placeholder,
+  register,
+  required,
+  disabled,
+  error,
+  defaultValue,
+}: InputTextareaProps) => {
   return (
     <div className="w-full">
       <div className="w-full flex relative">
@@ -23,6 +32,7 @@ const InputTextarea = ({ name, placeholder, register, required, disabled, error 
           disabled={disabled}
           rows={1} // Set the initial number of rows to 1
           style={{ resize: "none" }}
+          defaultValue={defaultValue}
         />
       </div>
       {error && <p className="text-red-600 text-sm">{error}</p>}

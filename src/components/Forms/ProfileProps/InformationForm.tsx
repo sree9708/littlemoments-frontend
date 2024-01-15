@@ -23,7 +23,7 @@ const schema = yup
       .required("Description is required.")
       .min(10, "Description must be at least 10 characters long.")
       .max(1000, "Description can be maximum 250 characters long."),
-    contactnumber: yup
+    phoneNumber: yup
       .string()
       .required("Phone number is required.")
       .matches(/^[0-9]{10}$/, "Phone number must be a 10-digit number without any special characters."),
@@ -82,12 +82,12 @@ const InformationForm = () => {
         </div>
         <div className="block sm:flex items-center w-full gap-4">
           <InputText
-            name="contactnumber"
+            name="phoneNumber"
             type="text"
             placeholder="Contact no."
             register={register}
             required
-            error={errors.contactnumber?.message}
+            error={errors.phoneNumber?.message}
           />
           <InputTextarea
             name="placeDescription"

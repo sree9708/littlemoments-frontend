@@ -1,5 +1,5 @@
 import useClickOutside from "@/hooks/useClickOutside"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { IoMdArrowDropdown } from "react-icons/io"
 
 interface Schedule {
@@ -34,15 +34,19 @@ const timeOptions: string[] = [
   // ... Add more time options as needed
 ]
 
-const InputTime: React.FC<any> = () => {
+const InputTime: React.FC<any> = ({ onTimeChange }: { onTimeChange: (data: any) => void }) => {
   const [dropdown, setDropdown] = useState(false)
   const [schedule, setSchedule] = useState<Schedule>(() => {
     const initialSchedule: Schedule = {}
     ;["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"].forEach(day => {
-      initialSchedule[day] = "closed"
+      initialSchedule[day] = ["closed"]
     })
     return initialSchedule
   })
+
+  useEffect(() => {
+    onTimeChange(schedule)
+  }, [schedule, onTimeChange])
 
   // const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -59,7 +63,7 @@ const InputTime: React.FC<any> = () => {
       setSchedule(prevSchedule => ({ ...prevSchedule, [day]: ["", ""] }))
     } else {
       const { [day]: _, ...rest } = schedule
-      setSchedule({ ...rest, [day]: "closed" })
+      setSchedule({ ...rest, [day]: ["closed"] })
     }
   }
 
@@ -107,11 +111,11 @@ const InputTime: React.FC<any> = () => {
                     name={day}
                     value={day}
                     onChange={handleCheckboxChange(day)}
-                    checked={schedule[day] !== "closed"}
+                    checked={JSON.stringify(schedule[day]) !== JSON.stringify(["closed"])}
                   />
                   <label htmlFor={day}>{day.charAt(0).toUpperCase() + day.slice(1)}</label>
                 </div>
-                {schedule[day] === "closed" ? (
+                {JSON.stringify(schedule[day]) === JSON.stringify(["closed"]) ? (
                   <div className="bg-theme-color-1 text-secondary p-1 px-2 text-sm border-2 border-primary w-fit rounded-full">
                     Closed
                   </div>

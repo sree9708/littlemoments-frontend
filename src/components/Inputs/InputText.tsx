@@ -9,8 +9,18 @@ type InputTextProps = {
   required: boolean
   disabled?: boolean
   error?: string | undefined
+  defaultValue?: string | number
 }
-const InputText = ({ type, name, placeholder, register, required, disabled, error }: InputTextProps) => {
+const InputText = ({
+  type,
+  name,
+  placeholder,
+  register,
+  required,
+  disabled,
+  error,
+  defaultValue,
+}: InputTextProps) => {
   const [password, setPassword] = useState("password")
 
   const toggle = () => {
@@ -24,26 +34,22 @@ const InputText = ({ type, name, placeholder, register, required, disabled, erro
   return (
     <div className="w-full">
       <div className="flex w-full relative">
-        {/* <input
-            type={type !== "password" ? type : password}
-            className={`w-full autofill:bg-yellow-200 bg-transparent rounded-sm py-3 my-3 border-b text-xl border-primary focus:outline-none focus:ring-transparent ${disabled && "disabled:bg-gray-100 disabled:cursor-not-allowed"}`}
-            placeholder={placeholder}
-            {...register(name, { required })}
-            disabled={disabled} 
-        /> */}
         <input
           type={type !== "password" ? type : password}
-          className={`w-full autofill:bg-yellow-200 bg-transparent rounded-lg p-2 my-3 border-2  text-xl border-primary focus:outline-none focus:ring-transparent ${
+          className={`w-full autofill:bg-yellow-200 bg-transparent rounded-lg p-3 ${
+            type === "password" && "pe-10"
+          } my-3 border-2  text-lg border-primary focus:outline-none focus:ring-transparent ${
             disabled && "disabled:bg-gray-100 disabled:cursor-not-allowed"
           }`}
           placeholder={placeholder}
           {...register(name, { required })}
           disabled={disabled}
+          defaultValue={defaultValue}
         />
         {type === "password" && (
           <button
             type="button"
-            className="btn absolute flex right-2 top-2 transform translate-y-5"
+            className="btn absolute flex right-3 top-3 transform translate-y-5"
             onClick={toggle}
           >
             {password === "password" ? (

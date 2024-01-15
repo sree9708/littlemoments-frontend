@@ -12,7 +12,6 @@ type InputAgeProps = {
 
 const InputAge = ({ name, placeholder, register, watch, required, error }: InputAgeProps) => {
   const selectedValue = watch(name, "")
-  console.log(selectedValue)
   return (
     <div className="w-full">
       <div className="flex relative">

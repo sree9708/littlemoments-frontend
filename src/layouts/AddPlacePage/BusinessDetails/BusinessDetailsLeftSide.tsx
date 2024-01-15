@@ -1,6 +1,5 @@
 import React from "react"
 import Title from "@/components/RegistrationPage/Title"
-import AddPlaceForm from "@/components/Forms/AddPlace/AddPlaceForm"
 import Tracker from "../Tracker"
 import BusinessDetailsForm from "@/components/Forms/AddPlace/BusinessDetailsForm"
 

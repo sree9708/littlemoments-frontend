@@ -8,8 +8,15 @@ type InputFileProps = {
   register: UseFormRegister<any>
   required: boolean
   error?: string | undefined
+  // onFileChange: (file: File | null) => void
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
-const InputFile = ({ type, label, name, register, required, error }: InputFileProps) => {
+
+const InputFile = ({ type, label, name, register, required, error, onChange }: InputFileProps) => {
+  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = event.target.files?.[0] || null
+  //   onFileChange(file)
+  // }
   return (
     <div className="w-full">
       <div className="w-full my-3">
@@ -23,6 +30,8 @@ const InputFile = ({ type, label, name, register, required, error }: InputFilePr
             file:bg-theme-color-3 file:text-secondary
             hover:file:bg-primary"
           {...register(name, { required })}
+          // onChange={handleFileChange}
+          onChange={onChange}
         />
       </div>
       {error && <p className="text-red-600 text-sm">{error}</p>}

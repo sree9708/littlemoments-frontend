@@ -26,7 +26,7 @@ const InputFileEdit = ({
   return (
     <div className="w-full flex justify-between items-center">
       <div>{filename}</div>
-      <label className={`${disabled ? "hidden" : "block"} cursor-pointer`} htmlFor={name}>
+      {/* <label className={`${disabled ? "hidden" : "block"} cursor-pointer`} htmlFor={name}>
         <TbUpload />
         <input
           type={type}
@@ -40,7 +40,7 @@ const InputFileEdit = ({
           {...register(name, { required })}
           onChange={onChange}
         />
-      </label>
+      </label> */}
       {error && <p className="text-red-600 text-sm">{error}</p>}
     </div>
   )

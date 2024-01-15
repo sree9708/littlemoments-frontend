@@ -46,9 +46,9 @@ const Hero: React.FC = () => {
     router.push("#listing-videos")
   }
 
-  useEffect(() => {
-    router.push("/places/1")
-  }, [router])
+  // useEffect(() => {
+  //   router.push("/places/1")
+  // }, [router])
 
   return (
     <div className="h-full">

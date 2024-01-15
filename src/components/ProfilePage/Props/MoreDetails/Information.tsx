@@ -1,6 +1,4 @@
 import React, { useState } from "react"
-import { FiEdit } from "react-icons/fi"
-import InformationForm from "@/components/Forms/ProfileProps/InformationForm"
 import InformationDescription from "./InformationDescription"
 import { IoMdCloseCircleOutline } from "react-icons/io"
 

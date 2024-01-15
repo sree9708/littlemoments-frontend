@@ -9,6 +9,9 @@ import RegistrationButton from "../../Buttons/RegistrationButton"
 import OtpInput from "../../Inputs/InputOtp"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { generateOtp, verifyOtpLogin } from "@/services/Redux/reducers/userSlice"
+import { useAppDispatch } from "@/hooks/useStore"
+import axios from "../../../services/Axios/axios"
 
 const schema = yup
   .object({
@@ -29,14 +32,28 @@ const LoginForm = () => {
   const [isOtpInput, setIsOtpInput] = useState<boolean>(false)
 
   const route = useRouter()
+  const dispatch = useAppDispatch()
 
-  const onSubmitLogin = (data: any) => {
-    console.log("data", data)
-    setIsOtpInput(true)
+  const onSubmitLogin = async (data: any) => {
+    console.log("data", data.phoneNumber)
+    const phoneNumber = "+91" + data.phoneNumber
+    try {
+      await dispatch(generateOtp(phoneNumber))
+      setIsOtpInput(true)
+    } catch (err: any) {
+      console.log("form : ", err.message)
+    }
   }
 
-  const onSubmitOtp = (data: any) => {
-    route.push("/")
+  const onSubmitOtp = async (data: any) => {
+    const phoneNumber = "+91" + data.phoneNumber
+    try {
+      await dispatch(verifyOtpLogin({ phoneNumber, otp }))
+      setIsOtpInput(false)
+      route.push("/")
+    } catch (err: any) {
+      console.log("form : ", err.message)
+    }
   }
 
   const changeNumber = () => {

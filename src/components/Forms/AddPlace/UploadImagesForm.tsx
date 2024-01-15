@@ -9,16 +9,27 @@ import { FaArrowLeftLong } from "react-icons/fa6"
 import { TbUpload } from "react-icons/tb"
 import Image from "next/image"
 import { IoCloseCircleOutline } from "react-icons/io5"
+import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
+import { addUploadImages } from "@/services/Redux/reducers/propSlice"
+import { base64ToFile, filetoBase64 } from "@/services/Utilities/base64/base64.services"
+
+interface ExtendedFile extends File {
+  previewUrl?: string
+}
 
 const UploadImagesForm = () => {
   const { push } = useRouter()
   const { setIsTracker } = useContext(TrackerContext) as TrackerContextProps
 
+  const dispatch = useAppDispatch()
+  const displayImages = useAppSelector(state => state.prop.propDetails?.displayImages)
+  const displayImagesFile = displayImages && displayImages.map((image: string) => base64ToFile(image, "file"))
+
   useEffect(() => {
     setIsTracker(4)
   }, [setIsTracker])
 
-  const [selectedImages, setSelectedImages] = useState<File[]>([])
+  const [selectedImages, setSelectedImages] = useState<File[]>(displayImagesFile ? displayImagesFile : [])
   const [error, setError] = useState<string | null>(null)
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,14 +62,44 @@ const UploadImagesForm = () => {
     }
   }
 
-  const onSubmitUploadImages = (event: React.FormEvent) => {
-    event.preventDefault();
-    console.log("musaffar")
-    push("/add-place/social-links");
-  };
+  const onSubmitUploadImages = async (event: React.FormEvent) => {
+    event.preventDefault()
+    if (selectedImages.length <= 0) {
+      setError("Please select any image")
+      console.log("error")
+      return
+    }
+    try {
+      const base64Images = await Promise.all(selectedImages.map(image => filetoBase64(image)))
+      console.log("base64Images", base64Images)
+      dispatch(addUploadImages({ displayImages: base64Images }))
+      push("/add-place/social-links")
+    } catch (error: any) {
+      console.log("Form : ", error.message)
+    }
+  }
 
   const handleBack = () => {
     push("/add-place/information")
+  }
+
+  const createObjectURLSafely = (image: ExtendedFile) => {
+    try {
+      // Check if the URL has already been created
+      if (image.previewUrl) {
+        return image.previewUrl
+      }
+
+      const url = URL.createObjectURL(image)
+
+      // Store the URL in the file object to avoid creating it again
+      image.previewUrl = url
+
+      return url
+    } catch (error) {
+      console.error("Error creating object URL:", error)
+      return ""
+    }
   }
 
   return (
@@ -68,14 +109,16 @@ const UploadImagesForm = () => {
           {selectedImages.map((image, index) => (
             <div className="relative" key={index}>
               <div className="drop-shadow-sm rounded-md">
-                <Image
-                  src={URL.createObjectURL(image)}
-                  alt={`Preview ${index + 1}`}
-                  width={500}
-                  height={500}
-                  objectFit="cover"
-                  className="rounded-md drop-shadow-xl"
-                />
+                {image && ( // Add this conditional check
+                  <Image
+                    src={createObjectURLSafely(image)}
+                    alt={`Preview ${index + 1}`}
+                    width={500}
+                    height={500}
+                    objectFit="cover"
+                    className="rounded-md drop-shadow-xl"
+                  />
+                )}
               </div>
               <div className="absolute cursor-pointer -top-2 -right-2">
                 <div className="border border-secondary rounded-full bg-secondary shadow-md">
@@ -109,19 +152,19 @@ const UploadImagesForm = () => {
             onChange={handleFileChange}
           />
         </label>
-          <form onSubmit={onSubmitUploadImages} >
-        <div className="flex gap-4">
-          <button
-            type="button"
-            className="w-fit flex items-center gap-2 bg-background text-primary mt-8 p-4 rounded-md border-2 border-primary text-2xl font-bold"
-            onClick={handleBack}
-          >
-            <FaArrowLeftLong />
-            Back
-          </button>
-          <RegistrationButton text="Continue" />
-        </div>
-          </form>
+        <form onSubmit={onSubmitUploadImages}>
+          <div className="flex gap-4">
+            <button
+              type="button"
+              className="w-fit flex items-center gap-2 bg-background text-primary mt-8 p-4 rounded-md border-2 border-primary text-2xl font-bold"
+              onClick={handleBack}
+            >
+              <FaArrowLeftLong />
+              Back
+            </button>
+            <RegistrationButton text="Continue" />
+          </div>
+        </form>
       </div>
     </>
   )

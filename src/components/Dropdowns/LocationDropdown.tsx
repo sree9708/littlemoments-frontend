@@ -17,7 +17,8 @@ const Dropdown = () => {
 
   return (
     <div className="relative inline-block text-left">
-      <div ref={clickOutsideRef}
+      <div
+        ref={clickOutsideRef}
         className="flex gap-1 items-center p-1 hover:opacity-80 border-2 rounded-md bg-theme-color-1 border-primary text-secondary cursor-pointer"
         onClick={handleDropdown}
       >

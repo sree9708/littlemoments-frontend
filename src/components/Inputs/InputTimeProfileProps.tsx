@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 // import useClickOutside from 'react-click-outside'
 
 interface Schedule {
@@ -33,7 +33,13 @@ const timeOptions: string[] = [
   // ... Add more time options as needed
 ]
 
-const InputTimeProfileProps: React.FC<any> = ({ isEdit }: { isEdit: false }) => {
+const InputTimeProfileProps: React.FC<any> = ({
+  onTimeChange,
+  isEdit,
+}: {
+  onTimeChange: (data: any) => void
+  isEdit: false
+}) => {
   const [schedule, setSchedule] = useState<Schedule>({
     monday: ["9:00", "5:00"],
     tuesday: ["9:00", "5:00"],
@@ -41,29 +47,19 @@ const InputTimeProfileProps: React.FC<any> = ({ isEdit }: { isEdit: false }) => 
     thursday: ["9:00", "5:00"],
     friday: ["9:00", "5:00"],
     saturday: ["9:00", "5:00"],
-    sunday: "closed",
+    sunday: ["closed"],
   })
-  //   const initialSchedule: Schedule = {};
-  //   [
-  //     "monday",
-  //     "tuesday",
-  //     "wednesday",
-  //     "thursday",
-  //     "friday",
-  //     "saturday",
-  //     "sunday",
-  //   ].forEach((day) => {
-  //     initialSchedule[day] = "closed";
-  //   });
-  //   return initialSchedule;
-  // });
+
+  useEffect(() => {
+    onTimeChange(schedule)
+  }, [schedule, onTimeChange])
 
   const handleCheckboxChange = (day: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
-      setSchedule(prevSchedule => ({ ...prevSchedule, [day]: ["", ""] }))
+      setSchedule(prevSchedule => ({ ...prevSchedule, [day]: ["9:00", "11:30"] }))
     } else {
       const { [day]: _, ...rest } = schedule
-      setSchedule({ ...rest, [day]: "closed" })
+      setSchedule({ ...rest, [day]: ["closed"] })
     }
   }
 
@@ -96,7 +92,7 @@ const InputTimeProfileProps: React.FC<any> = ({ isEdit }: { isEdit: false }) => 
           <div
             key={day}
             className={`my-2  border  p-2 rounded-md drop-shadow-sm grid ${
-              schedule[day] === "closed" ? "grid-cols-2" : "grid-cols-3"
+              JSON.stringify(schedule[day]) === JSON.stringify(["closed"]) ? "grid-cols-2" : "grid-cols-3"
             }`}
           >
             <div className="me-2 flex items-center">
@@ -108,11 +104,11 @@ const InputTimeProfileProps: React.FC<any> = ({ isEdit }: { isEdit: false }) => 
                 value={day}
                 disabled={!isEdit}
                 onChange={handleCheckboxChange(day)}
-                checked={schedule[day] !== "closed"}
+                checked={JSON.stringify(schedule[day]) !== JSON.stringify(["closed"])}
               />
               <label htmlFor={day}>{day.charAt(0).toUpperCase() + day.slice(1)}</label>
             </div>
-            {schedule[day] === "closed" ? (
+            {JSON.stringify(schedule[day]) === JSON.stringify(["closed"]) ? (
               <div className="w-full flex justify-end">
                 <div className="bg-theme-color-1 text-secondary p-1 px-2 text-sm border-2 border-primary w-fit rounded-full">
                   Closed

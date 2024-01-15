@@ -9,6 +9,8 @@ import { useContext, useEffect } from "react"
 import { TrackerContext, TrackerContextProps } from "@/services/Context/TrackerContext"
 import { useRouter } from "next/navigation"
 import { FaArrowLeftLong } from "react-icons/fa6"
+import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
+import { addPlaceOwner } from "@/services/Redux/reducers/propSlice"
 
 const schema = yup
   .object({
@@ -18,11 +20,7 @@ const schema = yup
       .min(3, "Place name must be at least 3 characters.")
       .max(100, "Place name must not exceed 20 characters."),
     email: yup.string().trim().required("Email is required.").email("Invalid email format."),
-    phoneNumber: yup
-      .string()
-      .required("Phone number is required.")
-      .matches(/^[0-9]{10}$/, "Phone number must be a 10-digit number without any special characters."),
-    altranativePhoneNumber: yup
+    displayContactNo: yup
       .string()
       .required("Phone number is required.")
       .matches(/^[0-9]{10}$/, "Phone number must be a 10-digit number without any special characters."),
@@ -37,7 +35,8 @@ const AddPlaceForm = () => {
   } = useForm({ resolver: yupResolver(schema) })
 
   const { push } = useRouter()
-
+  const dispatch = useAppDispatch()
+  const propDetails = useAppSelector(state => state.prop.propDetails)
   const { setIsTracker } = useContext(TrackerContext) as TrackerContextProps
 
   useEffect(() => {
@@ -45,7 +44,7 @@ const AddPlaceForm = () => {
   }, [setIsTracker])
 
   const onSubmitSignup = (data: any) => {
-    console.log("data", data)
+    dispatch(addPlaceOwner(data))
     push("/add-place/business-details")
   }
 
@@ -63,6 +62,7 @@ const AddPlaceForm = () => {
           register={register}
           required
           error={errors.placeName?.message}
+          defaultValue={propDetails?.placeName}
         />
         <InputText
           name="email"
@@ -71,22 +71,16 @@ const AddPlaceForm = () => {
           register={register}
           required
           error={errors.email?.message}
+          defaultValue={propDetails?.email}
         />
         <InputText
-          name="phoneNumber"
+          name="displayContactNo"
           type="text"
           placeholder="Phone number"
           register={register}
           required
-          error={errors.phoneNumber?.message}
-        />
-        <InputText
-          name="altranativePhoneNumber"
-          type="text"
-          placeholder="Altranative phone number"
-          register={register}
-          required
-          error={errors.altranativePhoneNumber?.message}
+          error={errors.displayContactNo?.message}
+          defaultValue={propDetails?.displayContactNo}
         />
         <div className="flex gap-4">
           <button

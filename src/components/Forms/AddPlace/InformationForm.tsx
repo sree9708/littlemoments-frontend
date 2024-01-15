@@ -3,9 +3,8 @@
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import InputText from "../../Inputs/InputText"
 import RegistrationButton from "../../Buttons/RegistrationButton"
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useState } from "react"
 import { TrackerContext, TrackerContextProps } from "@/services/Context/TrackerContext"
 import { useRouter } from "next/navigation"
 import { FaArrowLeftLong } from "react-icons/fa6"
@@ -14,23 +13,22 @@ import InputRateCard from "@/components/Inputs/InputRateCard"
 import InputTime from "@/components/Inputs/InputTime"
 import InputCategory from "@/components/Inputs/InputCategory"
 import InputAge from "@/components/Inputs/InputAge"
+import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
+import { addInformations } from "@/services/Redux/reducers/propSlice"
 
 const schema = yup
   .object({
-    location: yup
-      .string()
-      .required("Place name is required.")
-      .min(3, "Place name must be at least 3 characters.")
-      .max(100, "Place name must not exceed 20 characters."),
+    rateCard: yup.array().of(
+      yup.object().shape({
+        item: yup.string().required("Item is required."),
+        price: yup.string().required("Price is required."),
+      }),
+    ),
     placeDescription: yup
       .string()
       .required("Description is required.")
       .min(10, "Description must be at least 10 characters long.")
       .max(1000, "Description can be maximum 250 characters long."),
-    contactnumber: yup
-      .string()
-      .required("Phone number is required.")
-      .matches(/^[0-9]{10}$/, "Phone number must be a 10-digit number without any special characters."),
     category: yup
       .string()
       .required("Place name is required.")
@@ -67,39 +65,63 @@ const InformationForm = () => {
     register,
     watch,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) })
 
   const { push } = useRouter()
+  const dispatch = useAppDispatch()
+  const propDetails = useAppSelector(state => state.prop.propDetails)
 
   const { setIsTracker } = useContext(TrackerContext) as TrackerContextProps
+
+  const [tableData, setTableData] = useState(Array.from({ length: 0 }, () => ({ item: "", price: "" })))
+  const [error, setError] = useState<string | null>(null)
+  const [timings, setTimings] = useState<any[]>([])
 
   useEffect(() => {
     setIsTracker(3)
   }, [setIsTracker])
 
-  const onSubmitSignup = (data: any) => {
-    console.log("data", data)
+  const onSubmitSignup = async (data: any) => {
+    if (tableData.length <= 0) {
+      setError("Please enter any rate")
+      console.log("error")
+      return
+    }
+
+    setError(null)
+    try {
+      const newData = {
+        ...data,
+        age: [data.startingAge, data.endingAge],
+        rateCard: tableData,
+        timings: timings,
+      }
+      dispatch(addInformations(newData))
+    } catch (error: any) {
+      console.log("Form : ", error.message)
+    }
     push("/add-place/upload-images")
   }
 
   const handleBack = () => {
-    push("/add-place")
+    push("/add-place/business-details")
+  }
+
+  const handleRateCardChange = (data: any[]) => {
+    setTableData(data)
+  }
+
+  const handleTimeChange = (data: any[]) => {
+    setTimings(data)
   }
 
   return (
     <>
       <form className="py-8" onSubmit={handleSubmit(onSubmitSignup)}>
-        <InputRateCard />
-        <InputTime />
-        <InputText
-          name="contactnumber"
-          type="text"
-          placeholder="Contact no."
-          register={register}
-          required
-          error={errors.contactnumber?.message}
-        />
+        <InputRateCard onRateCardChange={handleRateCardChange} error={error} />
+        <InputTime onTimeChange={handleTimeChange} />
         <InputTextarea
           name="placeDescription"
           type="text"
@@ -107,24 +129,29 @@ const InformationForm = () => {
           register={register}
           required
           error={errors.placeDescription?.message}
+          defaultValue={propDetails?.placeDescription}
         />
         <InputCategory
           name="category"
           watch={watch}
+          setValue={setValue}
           category={["a", "b", "c", "d"]}
           placeholder="Category"
           register={register}
           required
           error={errors.category?.message}
+          defaultValue={propDetails?.category}
         />
         <InputCategory
           name="subCategory"
           watch={watch}
+          setValue={setValue}
           category={["a", "b", "c", "d"]}
           placeholder="Sub Category"
           register={register}
           required
           error={errors.subCategory?.message}
+          defaultValue={propDetails?.subCategory}
         />
         <div className="flex gap-4">
           <InputAge

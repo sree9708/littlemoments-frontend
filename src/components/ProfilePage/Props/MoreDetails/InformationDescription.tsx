@@ -9,28 +9,28 @@ import { Tooltip } from "react-tooltip"
 import InputTextareaEdit from "@/components/Inputs/EditProfile/InputTextareaEdit"
 import InputCategoryEdit from "@/components/Inputs/EditProfile/InputCategoryEdit"
 import InputAgeEdit from "@/components/Inputs/EditProfile/InputAgeEdit"
+import { useAppDispatch } from "@/hooks/useStore"
+import RegistrationButton from "@/components/Buttons/RegistrationButton"
+import { updatePropInformations } from "@/services/Redux/reducers/propSlice"
 
 const tableContent = [
-  { item: "Park", prize: "2000" },
-  { item: "Park", prize: "300" },
+  { title: "Park", price: "2000" },
+  { title: "Park", price: "300" },
 ]
 
 const schema = yup
   .object({
-    location: yup
-      .string()
-      .required("Place name is required.")
-      .min(3, "Place name must be at least 3 characters.")
-      .max(100, "Place name must not exceed 20 characters."),
+    rateCard: yup.array().of(
+      yup.object().shape({
+        title: yup.string().required("Title is required."),
+        price: yup.string().required("Price is required."),
+      }),
+    ),
     placeDescription: yup
       .string()
       .required("Description is required.")
       .min(10, "Description must be at least 10 characters long.")
       .max(1000, "Description can be maximum 250 characters long."),
-    contactnumber: yup
-      .string()
-      .required("Phone number is required.")
-      .matches(/^[0-9]{10}$/, "Phone number must be a 10-digit number without any special characters."),
     category: yup
       .string()
       .required("Place name is required.")
@@ -67,14 +67,13 @@ const InformationDescription = ({ isEdit }: { isEdit: boolean }) => {
     register,
     handleSubmit,
     setValue,
-    watch,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) })
 
+  const dispatch = useAppDispatch()
   const [dropdown, setDropdown] = useState(false)
 
   useEffect(() => {
-    setValue("contactnumber", "9562886328")
     setValue(
       "placeDescription",
       "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
@@ -86,6 +85,7 @@ const InformationDescription = ({ isEdit }: { isEdit: boolean }) => {
   }
 
   const [tableData, setTableData] = useState(tableContent)
+  const [timings, setTimings] = useState<any[]>([])
 
   const handleInputChange = (index: number, key: string, value: string) => {
     setTableData(prevData => {
@@ -96,7 +96,7 @@ const InformationDescription = ({ isEdit }: { isEdit: boolean }) => {
   }
 
   const handleAddRow = () => {
-    setTableData(prevData => [...prevData, { item: "", prize: "" }])
+    setTableData(prevData => [...prevData, { title: "", price: "" }])
   }
 
   const handleRemoveRow = (index: number) => {
@@ -107,6 +107,28 @@ const InformationDescription = ({ isEdit }: { isEdit: boolean }) => {
     })
   }
 
+  const onSubmitSignup = async (data: any) => {
+    console.log("data", data)
+    try {
+      await dispatch(
+        updatePropInformations({
+          rateCard: tableData,
+          placeDescription: data.placeDescription,
+          category: data.category,
+          subCategory: data.subCategory,
+          age: [data.startingAge, data.endingAge],
+          timings: timings,
+        }),
+      )
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleTimeChange = (data: any[]) => {
+    setTimings(data)
+  }
+
   return (
     <div className="pt-8">
       <Tooltip className="z-10" anchorSelect=".add-tooltip" place="bottom">
@@ -115,159 +137,157 @@ const InformationDescription = ({ isEdit }: { isEdit: boolean }) => {
       <Tooltip className="z-10" anchorSelect=".remove-tooltip" place="bottom">
         Remove
       </Tooltip>
-      <div className="block sm:flex w-full gap-4 my-4">
-        <div className="w-full flex flex-col gap-4">
-          <div className="w-full h-fit border-2 border-primary p-2 rounded-lg">
-            <div className="flex justify-between items-center">
-              <div className="font-semibold">Rate Card :</div>
-              {isEdit && (
-                <div className="add-tooltip cursor-pointer text-xl" onClick={handleAddRow}>
-                  <IoMdAddCircleOutline />
-                </div>
-              )}
+      <form onSubmit={handleSubmit(onSubmitSignup)}>
+        <div className="block md:flex w-full gap-4 my-4">
+          <div className="w-full flex flex-col gap-4">
+            <div className="w-full h-fit border-2 border-primary p-2 rounded-lg">
+              <div className="flex justify-between items-center">
+                <div className="font-semibold">Rate Card :</div>
+                {isEdit && (
+                  <div className="add-tooltip cursor-pointer text-xl" onClick={handleAddRow}>
+                    <IoMdAddCircleOutline />
+                  </div>
+                )}
+              </div>
+              <div className="opacity-70 mt-2 w-full">
+                <table className="w-full">
+                  <tbody>
+                    {tableData.map((row, index) => (
+                      <tr key={index}>
+                        <td>
+                          <input
+                            className={`w-full autofill:bg-yellow-200 bg-transparent rounded-lg p-2 border-2  text-lg border-primary focus:outline-none focus:ring-transparent `}
+                            placeholder="Item"
+                            type="text"
+                            value={row.title}
+                            disabled={!isEdit}
+                            onChange={e => handleInputChange(index, "title", e.target.value)}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            className={`w-full autofill:bg-yellow-200 bg-transparent rounded-lg p-2 border-2  text-lg border-primary focus:outline-none focus:ring-transparent `}
+                            placeholder="Price"
+                            type="text"
+                            value={row.price}
+                            disabled={!isEdit}
+                            onChange={e => handleInputChange(index, "price", e.target.value)}
+                          />
+                        </td>
+                        <td className="items-center text-xl">
+                          {isEdit && (
+                            <div
+                              className="remove-tooltip flex justify-end cursor-pointer"
+                              onClick={() => handleRemoveRow(index)}
+                            >
+                              <IoMdRemoveCircleOutline />
+                            </div>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-            <div className="opacity-70 mt-2 w-full">
-              <table className="w-full">
-                <tbody>
-                  {tableData.map((row, index) => (
-                    <tr key={index}>
-                      <td>
-                        <input
-                          className={`w-full autofill:bg-yellow-200 bg-transparent rounded-lg p-2 border-2  text-lg border-primary focus:outline-none focus:ring-transparent `}
-                          placeholder="Item"
-                          type="text"
-                          value={row.item}
-                          disabled={!isEdit}
-                          onChange={e => handleInputChange(index, "item", e.target.value)}
-                        />
-                      </td>
-                      <td>
-                        <input
-                          className={`w-full autofill:bg-yellow-200 bg-transparent rounded-lg p-2 border-2  text-lg border-primary focus:outline-none focus:ring-transparent `}
-                          placeholder="Price"
-                          type="text"
-                          value={row.prize}
-                          disabled={!isEdit}
-                          onChange={e => handleInputChange(index, "prize", e.target.value)}
-                        />
-                      </td>
-                      <td className="items-center text-xl">
-                        {isEdit && (
-                          <div
-                            className="remove-tooltip flex justify-end cursor-pointer"
-                            onClick={() => handleRemoveRow(index)}
-                          >
-                            <IoMdRemoveCircleOutline />
-                          </div>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div className="w-full h-full border-2 border-primary p-2 rounded-lg">
+              <div className="font-semibold">Place Description :</div>
+              <div className="flex-grow opacity-70">
+                <InputTextareaEdit
+                  name="placeDescription"
+                  type="text"
+                  placeholder="Place Description"
+                  register={register}
+                  disabled={!isEdit}
+                  required
+                  error={errors.placeDescription?.message}
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            className="relative w-full h-fit flex flex-wrap justify-center  gap-2 border-2 border-primary p-2 rounded-lg"
+            onClick={handleDropdown}
+          >
+            <div className="font-semibold">Time </div>
+            {/* <IoMdArrowDropdownCircle /> */}
+            <InputTimeProfileProps onTimeChange={handleTimeChange} isEdit={isEdit} />
+          </div>
+        </div>
+        <div className="block sm:flex w-full gap-4 my-4">
+          <div className="w-full flex flex-wrap gap-2 border-2 border-primary p-2 rounded-lg">
+            <div className="block sm:flex w-full gap-4 ">
+              <div className="w-full">
+                <div className="font-semibold">Category : </div>
+                <div className="border-2 border-primary p-2 rounded-lg">
+                  <InputCategoryEdit
+                    name="category"
+                    placeholder="Category"
+                    category={["a", "b", "c", "d"]}
+                    register={register}
+                    setValue={setValue}
+                    disabled={!isEdit}
+                    required
+                    error={errors.category?.message}
+                    defaultValue="a"
+                  />
+                </div>
+              </div>
+              <div className="w-full">
+                <div className="font-semibold">Sub Category : </div>
+                <div className="border-2 border-primary p-2 rounded-lg">
+                  <InputCategoryEdit
+                    name="subCategory"
+                    placeholder="Sub Category"
+                    category={["a", "b", "c", "d"]}
+                    register={register}
+                    setValue={setValue}
+                    disabled={!isEdit}
+                    required
+                    error={errors.subCategory?.message}
+                    defaultValue="b"
+                  />
+                </div>
+              </div>
             </div>
           </div>
           <div className="w-full flex flex-wrap gap-2 border-2 border-primary p-2 rounded-lg">
-            <div className="font-semibold">Contact No. :</div>
-            <div className="flex-grow opacity-70">
-              <InputTextEdit
-                name="contactnumber"
-                type="text"
-                placeholder="Contact Number"
-                register={register}
-                disabled={!isEdit}
-                required
-              />
-            </div>
-          </div>
-          <div className="w-full h-full border-2 border-primary p-2 rounded-lg">
-            <div className="font-semibold">Place Description :</div>
-            <div className="flex-grow opacity-70">
-              <InputTextareaEdit
-                name="placeDescription"
-                type="text"
-                placeholder="Place Description"
-                register={register}
-                disabled={!isEdit}
-                required
-                error={errors.placeDescription?.message}
-              />
-            </div>
-          </div>
-        </div>
-        <div
-          className="relative w-full h-fit flex flex-wrap justify-center  gap-2 border-2 border-primary p-2 rounded-lg"
-          onClick={handleDropdown}
-        >
-          <div className="font-semibold">Time </div>
-          {/* <IoMdArrowDropdownCircle /> */}
-          <InputTimeProfileProps isEdit={isEdit} />
-        </div>
-      </div>
-      <div className="block sm:flex w-full gap-4 my-4">
-        <div className="w-full flex flex-wrap gap-2 border-2 border-primary p-2 rounded-lg">
-          <div className="block sm:flex w-full gap-4 ">
-            <div className="w-full">
-              <div className="font-semibold">Category : </div>
-              <div className="border-2 border-primary p-2 rounded-lg">
-                <InputCategoryEdit
-                  name="category"
-                  placeholder="Category"
-                  category={["a", "b", "c", "d"]}
-                  register={register}
-                  disabled={!isEdit}
-                  required
-                  error={errors.category?.message}
-                />
+            <div className="block sm:flex w-full gap-4 ">
+              <div className="w-full">
+                <div className="font-semibold">Staring Age : </div>
+                <div className="border-2 border-primary p-2 rounded-lg">
+                  <InputAgeEdit
+                    name="startingAge"
+                    placeholder="Starting Age"
+                    register={register}
+                    setValue={setValue}
+                    disabled={!isEdit}
+                    required
+                    error={errors.startingAge?.message}
+                    defaultValue="1"
+                  />
+                </div>
               </div>
-            </div>
-            <div className="w-full">
-              <div className="font-semibold">Sub Category : </div>
-              <div className="border-2 border-primary p-2 rounded-lg">
-                <InputCategoryEdit
-                  name="subCategory"
-                  placeholder="Sub Category"
-                  category={["a", "b", "c", "d"]}
-                  register={register}
-                  disabled={!isEdit}
-                  required
-                  error={errors.subCategory?.message}
-                />
+              <div className="w-full">
+                <div className="font-semibold">Ending Age : </div>
+                <div className="border-2 border-primary p-2 rounded-lg">
+                  <InputAgeEdit
+                    name="endingAge"
+                    placeholder="Ending Age"
+                    register={register}
+                    setValue={setValue}
+                    disabled={!isEdit}
+                    required
+                    error={errors.endingAge?.message}
+                    defaultValue="2"
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="w-full flex flex-wrap gap-2 border-2 border-primary p-2 rounded-lg">
-          <div className="block sm:flex w-full gap-4 ">
-            <div className="w-full">
-              <div className="font-semibold">Staring Age : </div>
-              <div className="border-2 border-primary p-2 rounded-lg">
-                <InputAgeEdit
-                  name="startingAge"
-                  placeholder="Starting Age"
-                  register={register}
-                  disabled={!isEdit}
-                  required
-                  error={errors.startingAge?.message}
-                />
-              </div>
-            </div>
-            <div className="w-full">
-              <div className="font-semibold">Ending Age : </div>
-              <div className="border-2 border-primary p-2 rounded-lg">
-                <InputAgeEdit
-                  name="endingAge"
-                  placeholder="Ending Age"
-                  register={register}
-                  disabled={!isEdit}
-                  required
-                  error={errors.endingAge?.message}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        {isEdit && <RegistrationButton text="Save" />}
+      </form>
     </div>
   )
 }

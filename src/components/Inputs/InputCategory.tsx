@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import { UseFormRegister, UseFormWatch } from "react-hook-form"
+import { UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form"
 
 type InputCategoryProps = {
   name: string
@@ -7,8 +7,10 @@ type InputCategoryProps = {
   placeholder: string
   register: UseFormRegister<any>
   watch: UseFormWatch<any>
+  setValue: UseFormSetValue<any>
   required: boolean
   error?: string | undefined
+  defaultValue?: string
 }
 
 const InputCategory = ({
@@ -17,10 +19,15 @@ const InputCategory = ({
   placeholder,
   register,
   watch,
+  setValue,
   required,
   error,
+  defaultValue,
 }: InputCategoryProps) => {
   const selectedValue = watch(name, "")
+  useEffect(() => {
+    setValue(name, defaultValue)
+  }, [name, defaultValue, setValue])
   return (
     <div className="w-full">
       <div className="flex relative">

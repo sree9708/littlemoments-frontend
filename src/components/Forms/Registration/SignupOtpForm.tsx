@@ -9,6 +9,9 @@ import RegistrationButton from "../../Buttons/RegistrationButton"
 import OtpInput from "../../Inputs/InputOtp"
 import Link from "next/link"
 import { SignupContext, SignupContextProps } from "@/services/Context/SignupContext"
+import { addphoneNumber, createUser, generateOtp, verifyOtpSignup } from "@/services/Redux/reducers/userSlice"
+import { useAppDispatch } from "@/hooks/useStore"
+import { useRouter } from "next/navigation"
 
 const schema = yup
   .object({
@@ -25,19 +28,39 @@ const SignupOtpForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) })
+
+  const route = useRouter()
+  const dispatch = useAppDispatch()
+
   const [otp, setOtp] = useState("")
   const [isOtpInput, setIsOtpInput] = useState<boolean>(false)
 
   const { setIsSignup } = useContext(SignupContext) as SignupContextProps
 
-  const onSubmitLogin = (data: any) => {
+  const onSubmitLogin = async (data: any) => {
     console.log("data", data)
-    setIsOtpInput(true)
+    const phoneNumber = "+91" + data.phoneNumber
+    try {
+      dispatch(addphoneNumber(phoneNumber))
+      await dispatch(generateOtp(phoneNumber))
+      await dispatch(createUser())
+      setIsOtpInput(true)
+    } catch (err: any) {
+      setIsSignup(true)
+      console.log("form : ", err.message)
+    }
   }
 
-  const onSubmitOtp = (data: any) => {
+  const onSubmitOtp = async (data: any) => {
     console.log(data)
-    setIsSignup(false)
+    const phoneNumber = "+91" + data.phoneNumber
+    try {
+      await dispatch(verifyOtpSignup({ phoneNumber, otp }))
+      setIsOtpInput(false)
+      route.push("/")
+    } catch (err: any) {
+      console.log("form : ", err.message)
+    }
   }
 
   const changeNumber = () => {

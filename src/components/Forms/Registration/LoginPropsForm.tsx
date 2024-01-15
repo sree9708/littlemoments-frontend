@@ -8,6 +8,9 @@ import * as yup from "yup"
 import InputText from "../../Inputs/InputText"
 import RegistrationButton from "../../Buttons/RegistrationButton"
 import Link from "next/link"
+import { loginProp } from "@/services/Redux/reducers/propSlice"
+import { useRouter } from "next/navigation"
+import { useAppDispatch } from "@/hooks/useStore"
 
 const schema = yup
   .object({
@@ -30,8 +33,16 @@ const LoginPropsForm = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) })
 
-  const onSubmitLogin = (data: any) => {
-    console.log("data", data)
+  const router = useRouter()
+  const dispatch = useAppDispatch()
+
+  const onSubmitLogin = async (data: any) => {
+    try {
+      await dispatch(loginProp({ email: data.email, password: data.password }))
+      router.push("/")
+    } catch (err: any) {
+      console.log("form : ", err.message)
+    }
   }
 
   return (

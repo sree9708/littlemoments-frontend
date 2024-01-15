@@ -22,9 +22,14 @@ const InputTextareaProfileEdit = ({
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (!e.target) return
     e.target.style.height = "inherit"
     e.target.style.height = `${e.target.scrollHeight}px`
   }
+
+  useEffect(() => {
+    handleInput({ target: textareaRef.current } as React.ChangeEvent<HTMLTextAreaElement>)
+  }, [])
 
   useEffect(() => {
     const textarea = textareaRef.current
@@ -43,8 +48,8 @@ const InputTextareaProfileEdit = ({
           placeholder={placeholder}
           {...register(name, { required })}
           disabled={disabled}
-          rows={1}
-          // style={{ resize: "" }}
+          rows={6}
+          style={{ resize: "none" }}
           onInput={handleInput}
         />
       </div>

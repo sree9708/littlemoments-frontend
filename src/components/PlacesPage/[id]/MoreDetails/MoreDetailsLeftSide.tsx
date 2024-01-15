@@ -27,24 +27,12 @@ export const MoreDetailsLeftSide = () => {
 
   const handleOverview = () => {
     setOverview(!overview)
-    // if(!overview){
-    //     setFeatures(false)
-    //     setMoreVideos(false)
-    // }
   }
   const handleFeatures = () => {
     setFeatures(!features)
-    // if(!features){
-    //     setOverview(false)
-    //     setMoreVideos(false)
-    // }
   }
   const handleVideo = () => {
     setMoreVideos(!moreVideos)
-    // if(!moreVideos){
-    //     setOverview(false)
-    //     setFeatures(false)
-    // }
   }
 
   return (
@@ -102,11 +90,11 @@ export const MoreDetailsLeftSide = () => {
           }`}
         >
           <div className="my-2">
-            <div className="grid grid-cols-4 sm:grid-cols-6 gap-4">
+            <div className="grid grid-cols-4 lg:grid-cols-6 gap-4">
               {Object.keys(images).map((key: any, index) => (
                 <div
                   key={key}
-                  className="cursor-pointer rounded-lg overflow-hidden w-full h-32"
+                  className="cursor-pointer rounded-lg overflow-hidden w-full aspect-[1/1] sm:aspect-[4/3]"
                   onClick={() => handleSelectedImage(index)}
                 >
                   <Image

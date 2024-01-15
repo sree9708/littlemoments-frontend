@@ -55,8 +55,8 @@ const OtpInput = (props: Props) => {
   }
 
   return (
-    <div className="flex flex-wrap justify-center mt-10 mb-6">
-      <div className="flex sm:flex-wrap justify-center gap-2 ">
+    <div className="flex flex-wrap justify-center mt-8 mb-4">
+      <div className="flex justify-center gap-2 ">
         {arr.map((_, index) => {
           return (
             <input
@@ -64,9 +64,9 @@ const OtpInput = (props: Props) => {
               {...restProps}
               className={
                 className ||
-                `input input-bordered p-1 md:p-0
-                  w-12 h-16 sm:w-16 sm:h:16 md:w-16 md:h-16 lg:w-16 lg:h-16
-                  text-2xl md:text-3xl text-center border-2 border-primary text-gray-900 rounded-lg`
+                `input input-bordered
+                  w-12 h-12 sm:w-14 sm:h:14 md:w-14 md:h-14
+                  text-lg md:text-xl text-center border-2 border-primary text-gray-900 rounded-lg`
               }
               type="text"
               inputMode="numeric"
