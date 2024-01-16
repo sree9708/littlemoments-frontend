@@ -1,23 +1,21 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
 import axios from "../../Axios/axios"
 import { RootState } from "../store"
+import { IUser } from "@/services/Utilities/interfaces/user.interface"
 
 interface UserState {
   isLoading: boolean
-  userDetails: {
-    username?: string
-    email?: string
-    currentCity?: string
-    // age?: string;
-    gender?: string
-    phoneNumber?: string
-  } | null
+  id: string | null
+  userDetailsForm: IUser | null
+  userInformations: IUser | null
   error: string | null | undefined
 }
 
 const initialState: UserState = {
   isLoading: false,
-  userDetails: null,
+  id: null,
+  userDetailsForm: null,
+  userInformations: null,
   error: null,
 }
 
@@ -68,8 +66,8 @@ export const verifyOtpSignup = createAsyncThunk(
 
 export const createUser = createAsyncThunk("user/createUser", async (_, { getState }) => {
   try {
-    const userDetails: UserState["userDetails"] = (getState() as RootState).user.userDetails
-    const response = await axios.post(`/users`, userDetails)
+    const userDetailsForm: UserState["userDetailsForm"] = (getState() as RootState).user.userDetailsForm
+    const response = await axios.post(`/users`, userDetailsForm)
     return response.data
   } catch (err: any) {
     console.log(err)
@@ -82,19 +80,46 @@ export const createUser = createAsyncThunk("user/createUser", async (_, { getSta
   }
 })
 
+export const review = createAsyncThunk(
+  "user/review",
+  async (params: { title: string; review: string; rating: number }) => {
+    try {
+      const response = await axios.post(`/props/review/id`, params, {
+        headers: {
+          accessTokenUser: "YOUR_ACCESS_TOKEN",
+        },
+      })
+      return response.data
+    } catch (err: any) {
+      console.log(err)
+      if (err.response && err.response.data && err.response.data.error) {
+        throw Error(err.response.data.error)
+      } else {
+        throw Error(err.message)
+      }
+    }
+  },
+)
+
 export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    addUserDetails: (state, action: PayloadAction<UserState["userDetails"]>) => {
-      state.userDetails = action.payload
+    setUserId: (state, action: PayloadAction<string | null>) => {
+      state.id = action.payload
+    },
+    adduserDetailsForm: (state, action: PayloadAction<UserState["userDetailsForm"]>) => {
+      state.userDetailsForm = action.payload
     },
     addphoneNumber: (state, action: PayloadAction<string>) => {
-      state.userDetails = {
-        ...state.userDetails,
+      state.userDetailsForm = {
+        ...state.userDetailsForm,
         phoneNumber: action.payload,
       }
-      console.log(state.userDetails)
+      console.log(state.userDetailsForm)
+    },
+    logoutUser: state => {
+      state = initialState
     },
   },
   extraReducers: builder => {
@@ -113,15 +138,17 @@ export const userSlice = createSlice({
       .addCase(verifyOtpLogin.pending, state => {
         state.isLoading = true
       })
-      .addCase(
-        verifyOtpLogin.fulfilled,
-        (state, action: PayloadAction<{ tokens: { accessToken: string; refreshToken: string } }>) => {
-          state.isLoading = false
-          console.log(action.payload)
-          window.localStorage.setItem("accessTokenUser", JSON.stringify(action.payload.tokens.accessToken))
-          window.localStorage.setItem("refreshTokenUser", JSON.stringify(action.payload.tokens.refreshToken))
-        },
-      )
+      .addCase(verifyOtpLogin.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.id = action.payload.user._id
+        state.userInformations = {
+          username: action.payload.user.username,
+          email: action.payload.user.email,
+          currentCity: action.payload.user.currentCity,
+          gender: action.payload.user.gender,
+          phoneNumber: action.payload.user.phoneNumber,
+        }
+      })
       .addCase(verifyOtpLogin.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.error.message
@@ -130,13 +157,9 @@ export const userSlice = createSlice({
       .addCase(verifyOtpSignup.pending, state => {
         state.isLoading = true
       })
-      .addCase(
-        verifyOtpSignup.fulfilled,
-        (state, action: PayloadAction<{ tokens: { accessToken: string; refreshToken: string } }>) => {
-          state.isLoading = false
-          console.log(action.payload)
-        },
-      )
+      .addCase(verifyOtpSignup.fulfilled, (state, action) => {
+        state.isLoading = false
+      })
       .addCase(verifyOtpSignup.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.error.message
@@ -149,7 +172,6 @@ export const userSlice = createSlice({
         createUser.fulfilled,
         (state, action: PayloadAction<{ tokens: { accessToken: string; refreshToken: string } }>) => {
           state.isLoading = false
-          console.log(action.payload)
         },
       )
       .addCase(createUser.rejected, (state, action) => {
@@ -160,5 +182,5 @@ export const userSlice = createSlice({
   },
 })
 
-export const { addUserDetails, addphoneNumber } = userSlice.actions
+export const { setUserId, adduserDetailsForm, addphoneNumber, logoutUser } = userSlice.actions
 export default userSlice.reducer

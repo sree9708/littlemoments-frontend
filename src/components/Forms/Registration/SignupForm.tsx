@@ -9,7 +9,7 @@ import RegistrationButton from "../../Buttons/RegistrationButton"
 import Link from "next/link"
 import { SignupContext, SignupContextProps } from "@/services/Context/SignupContext"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
-import { addUserDetails } from "@/services/Redux/reducers/userSlice"
+import { adduserDetailsForm } from "@/services/Redux/reducers/userSlice"
 
 const schema = yup
   .object({
@@ -51,16 +51,16 @@ const SignupForm = () => {
 
   const { setIsSignup } = useContext(SignupContext) as SignupContextProps
   const dispatch = useAppDispatch()
-  const userDetails = useAppSelector(state => state.user.userDetails)
+  const userDetailsForm = useAppSelector(state => state.user.userDetailsForm)
 
   const onSubmitSignup = (data: any) => {
     console.log("data", data)
-    dispatch(addUserDetails(data))
+    dispatch(adduserDetailsForm(data))
     setIsSignup(false)
   }
 
   const isGenderSelected = watch("gender") || ""
-  const defaultGender = userDetails?.gender || ""
+  const defaultGender = userDetailsForm?.gender || ""
   useEffect(() => {
     setValue("gender", defaultGender) // Set default value using setValue
   }, [defaultGender, setValue])
@@ -75,7 +75,7 @@ const SignupForm = () => {
           register={register}
           required
           error={errors.username?.message}
-          defaultValue={userDetails?.username}
+          defaultValue={userDetailsForm?.username}
         />
         <InputText
           name="email"
@@ -84,7 +84,7 @@ const SignupForm = () => {
           register={register}
           required
           error={errors.email?.message}
-          defaultValue={userDetails?.email}
+          defaultValue={userDetailsForm?.email}
         />
         <InputText
           name="currentCity"
@@ -93,7 +93,7 @@ const SignupForm = () => {
           register={register}
           required
           error={errors.currentCity?.message}
-          defaultValue={userDetails?.currentCity}
+          defaultValue={userDetailsForm?.currentCity}
         />
         {/* <InputText
           name="age"
@@ -102,7 +102,7 @@ const SignupForm = () => {
           register={register}
           required
           error={errors.age?.message}
-          defaultValue={userDetails?.age}
+          defaultValue={userDetailsForm?.age}
         /> */}
         {/* <InputText name="gender" type="text" placeholder='Gender' register={register} required error={errors.gender?.message} /> */}
         <select

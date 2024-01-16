@@ -1,14 +1,12 @@
 "use client"
 
 import Image from "next/image"
-import React, { useEffect } from "react"
+import React from "react"
 import { FaStar } from "react-icons/fa"
 import { HiMapPin } from "react-icons/hi2"
-import { IoMdCall } from "react-icons/io"
 import { useRouter } from "next/navigation"
 import { StaticImport } from "next/dist/shared/lib/get-img-props"
-import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
-import { getPlaceBySkipAndLimit } from "@/services/Redux/reducers/placeSlice"
+import { useAppSelector } from "@/hooks/useStore"
 
 interface CardProps {
   // popular: boolean

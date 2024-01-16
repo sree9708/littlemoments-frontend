@@ -11,30 +11,34 @@ import RelatedActivities from "@/layouts/PlacesPage/[id]/RelatedActivities"
 import { Reviews } from "@/layouts/PlacesPage/[id]/Reviews"
 import DetailPageProvider from "@/services/Context/DetailPageContext"
 import { getPlaceById } from "@/services/Redux/reducers/placeSlice"
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter } from "next/navigation"
 import { useEffect } from "react"
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
 
 export default function Home() {
   const { push } = useRouter()
-  const params = useParams();
-  const id: string = params?.id as string;
+  const params = useParams()
+  const id: string = params?.id as string
 
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     if (id) {
       console.log("getPlaceById")
-      try{
-        const fetchData = async () => {
+      const fetchData = async () => {
+        try {
           await dispatch(getPlaceById(id))
+        } catch (error: any) {
+          console.log(error.message)
         }
-  
-        fetchData();
-      }catch(error){
-        console.log(error)
       }
+      fetchData()
+    } else {
+      push("/")
     }
   }, [])
+
   return (
     <DetailPageProvider>
       <div>

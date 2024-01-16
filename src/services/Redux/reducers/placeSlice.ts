@@ -7,17 +7,13 @@ interface PlaceState {
   isLoading: boolean
   places: IProp[]
   placeDetails: IProp | null
-  // skip: number
-  // limit: number
   error: string | null | undefined
 }
 
 const initialState: PlaceState = {
   isLoading: false,
   places: [],
-  placeDetails: null,               
-  // skip: 0,
-  // limit: 12,
+  placeDetails: null,
   error: null,
 }
 
@@ -38,22 +34,19 @@ export const getPlaceBySkipAndLimit = createAsyncThunk(
   },
 )
 
-export const getPlaceById = createAsyncThunk(
-  "place/getPlaceById",
-  async (id: string) => {
-    try {
-      const response = await axios.get(`/props/get-place/${id}`)
-      return response.data
-    } catch (err: any) {
-      console.log(err)
-      if (err.response && err.response.data && err.response.data.error) {
-        throw Error(err.response.data.error)
-      } else {
-        throw Error(err.message)
-      }
+export const getPlaceById = createAsyncThunk("place/getPlaceById", async (id: string) => {
+  try {
+    const response = await axios.get(`/props/${id}`)
+    return response.data
+  } catch (err: any) {
+    console.log(err)
+    if (err.response && err.response.data && err.response.data.error) {
+      throw Error(err.response.data.error)
+    } else {
+      throw Error(err.message)
     }
-  },
-)
+  }
+})
 
 export const placeSlice = createSlice({
   name: "place",
@@ -67,7 +60,6 @@ export const placeSlice = createSlice({
       .addCase(getPlaceBySkipAndLimit.fulfilled, (state, action) => {
         state.isLoading = false
         state.places = [...state.places, ...action.payload.props]
-        // state.places = action.payload.props
         console.log(action.payload)
       })
       .addCase(getPlaceBySkipAndLimit.rejected, (state, action) => {
@@ -79,8 +71,7 @@ export const placeSlice = createSlice({
       })
       .addCase(getPlaceById.fulfilled, (state, action) => {
         state.isLoading = false
-        state.places = [...state.places, ...action.payload.props]
-        // state.places = action.payload.props
+        state.placeDetails = action.payload.prop
         console.log(action.payload)
       })
       .addCase(getPlaceById.rejected, (state, action) => {

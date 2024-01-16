@@ -39,10 +39,9 @@ const SignupOtpForm = () => {
 
   const onSubmitLogin = async (data: any) => {
     console.log("data", data)
-    const phoneNumber = "+91" + data.phoneNumber
     try {
-      dispatch(addphoneNumber(phoneNumber))
-      await dispatch(generateOtp(phoneNumber))
+      dispatch(addphoneNumber(data.phoneNumber))
+      await dispatch(generateOtp(data.phoneNumber))
       await dispatch(createUser())
       setIsOtpInput(true)
     } catch (err: any) {
@@ -53,9 +52,8 @@ const SignupOtpForm = () => {
 
   const onSubmitOtp = async (data: any) => {
     console.log(data)
-    const phoneNumber = "+91" + data.phoneNumber
     try {
-      await dispatch(verifyOtpSignup({ phoneNumber, otp }))
+      await dispatch(verifyOtpSignup({ phoneNumber: data.phoneNumber, otp }))
       setIsOtpInput(false)
       route.push("/")
     } catch (err: any) {

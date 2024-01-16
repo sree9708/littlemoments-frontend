@@ -6,11 +6,13 @@ import { base64ToFile } from "@/services/Utilities/base64/base64.services"
 
 interface PropState {
   isLoading: boolean
+  id: string | null
   propDetails: IProp | null
 }
 
 const initialValue: PropState = {
   isLoading: false,
+  id: null,
   propDetails: null,
 }
 
@@ -241,7 +243,7 @@ export const propSlice = createSlice({
       })
       .addCase(loginProp.fulfilled, (state, action) => {
         state.isLoading = false
-        console.log(action.payload)
+        state.id = action.payload.id
       })
       .addCase(loginProp.rejected, (state, action) => {
         state.isLoading = false

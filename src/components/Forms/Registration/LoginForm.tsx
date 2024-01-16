@@ -36,9 +36,8 @@ const LoginForm = () => {
 
   const onSubmitLogin = async (data: any) => {
     console.log("data", data.phoneNumber)
-    const phoneNumber = "+91" + data.phoneNumber
     try {
-      await dispatch(generateOtp(phoneNumber))
+      await dispatch(generateOtp(data.phoneNumber))
       setIsOtpInput(true)
     } catch (err: any) {
       console.log("form : ", err.message)
@@ -46,9 +45,8 @@ const LoginForm = () => {
   }
 
   const onSubmitOtp = async (data: any) => {
-    const phoneNumber = "+91" + data.phoneNumber
     try {
-      await dispatch(verifyOtpLogin({ phoneNumber, otp }))
+      await dispatch(verifyOtpLogin({ phoneNumber: data.phoneNumber, otp }))
       setIsOtpInput(false)
       route.push("/")
     } catch (err: any) {

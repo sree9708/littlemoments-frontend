@@ -22,7 +22,7 @@ const LocationDropdownFull = () => {
         className="flex items-center gap-2 py-4 px-2 sm:px-4 md:px-8 lg:px-12 bg-theme-color-1 text-background cursor-pointer hover:opacity-80"
         onClick={handleDropdown}
       >
-        <div>Mumbai</div>
+        <div>Hyderabad</div>
         <div>
           <IoMdArrowDropdown />
         </div>

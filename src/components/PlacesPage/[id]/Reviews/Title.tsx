@@ -10,14 +10,20 @@ import { FaArrowRightLong } from "react-icons/fa6"
 import { IoMdCloseCircleOutline } from "react-icons/io"
 import Modal from "react-modal"
 import RegistrationButton from "@/components/Buttons/RegistrationButton"
+import InputText from "@/components/Inputs/InputText"
 
 const schema = yup
   .object({
+    title: yup
+      .string()
+      .required("Title is required.")
+      .min(3, "Title must be at least 3 characters.")
+      .max(100, "Title must not exceed 100 characters."),
     review: yup
       .string()
       .required("Review is required.")
       .min(3, "Review must be at least 3 characters.")
-      .max(1000, "Review must not exceed 100 characters."),
+      .max(1000, "Review must not exceed 1000 characters."),
     rating: yup.number().required("Rating is required"),
   })
   .required()
@@ -114,6 +120,14 @@ export const Title = () => {
               })}
             </div>
             {errors.rating && <p className="text-red-500 text-sm">{errors.rating?.message}</p>}
+            <InputText
+              name="title"
+              placeholder="Title"
+              type="text"
+              register={register}
+              required
+              error={errors.title?.message}
+            />
             <InputTextarea
               name="review"
               placeholder="Write your thoughts here..."

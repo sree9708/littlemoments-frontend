@@ -10,16 +10,16 @@ import { IProp } from "@/services/Utilities/interfaces/prop.interface"
 
 const Cards: React.FC = () => {
   const [skip, setSkip] = useState(0)
-  const [photos, setPhotos] = useState<any>([])
+  const [hasError, setHasError] = useState(false)
+
   const dispatch = useAppDispatch()
+  const isLoading = useAppSelector(state => state.place.isLoading)
+
   const places = useAppSelector(state => state.place.places)
 
   useEffect(() => {
-    // Fetch initial set of photos
     fetchPhotos()
   }, [])
-
-  const [hasError, setHasError] = useState(false)
 
   const fetchPhotos = async () => {
     try {
@@ -35,11 +35,16 @@ const Cards: React.FC = () => {
     <div className="w-full">
       <InfiniteScroll
         style={{ overflow: "visible" }}
-        dataLength={photos.length}
+        dataLength={places.length}
         next={fetchPhotos}
         hasMore={!hasError}
         loader={
           <div className="w-full flex justify-center">
+            {/* <div className="w-full grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-8 md:gap-12 my-12">
+            {Array.from({ length: 4 }).map((_, index) => (
+              <CardLazy key={index} />
+            ))}
+            </div> */}
             <div
               className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
               role="status"
@@ -69,7 +74,7 @@ const Cards: React.FC = () => {
       </InfiniteScroll>
       {hasError && (
         <div className="w-full flex justify-center">
-          <p>All places have been fetched or an error occurred.</p>
+          {/* <p>All places have been fetched or an error occurred.</p> */}
         </div>
       )}
     </div>
