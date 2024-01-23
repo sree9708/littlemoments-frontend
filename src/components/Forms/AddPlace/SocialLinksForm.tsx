@@ -46,7 +46,7 @@ const SocialLinksForm = () => {
 
   const { push } = useRouter()
   const dispatch = useAppDispatch()
-  const propDetails = useAppSelector(state => state.prop.propDetails)
+  const propDetailsForm = useAppSelector(state => state.prop?.propDetailsForm)
   const { setIsTracker } = useContext(TrackerContext) as TrackerContextProps
 
   useEffect(() => {
@@ -79,7 +79,7 @@ const SocialLinksForm = () => {
           icon="fb"
           required={false}
           error={errors.fb?.message}
-          defaultValue={propDetails?.socialLinks?.fb}
+          defaultValue={propDetailsForm?.socialLinks?.fb}
         />
         <InputTextSocialLinks
           name="instagram"
@@ -89,7 +89,7 @@ const SocialLinksForm = () => {
           icon="instagram"
           required={false}
           error={errors.instagram?.message}
-          defaultValue={propDetails?.socialLinks?.instagram}
+          defaultValue={propDetailsForm?.socialLinks?.instagram}
         />
         <InputTextSocialLinks
           name="youtube"
@@ -99,7 +99,7 @@ const SocialLinksForm = () => {
           icon="youtube"
           required={false}
           error={errors.youtube?.message}
-          defaultValue={propDetails?.socialLinks?.youtube}
+          defaultValue={propDetailsForm?.socialLinks?.youtube}
         />
         <InputTextSocialLinks
           name="twitter"
@@ -109,7 +109,7 @@ const SocialLinksForm = () => {
           icon="twitter"
           required={false}
           error={errors.twitter?.message}
-          defaultValue={propDetails?.socialLinks?.twitter}
+          defaultValue={propDetailsForm?.socialLinks?.twitter}
         />
         <div className="flex gap-4">
           <button

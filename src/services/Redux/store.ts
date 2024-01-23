@@ -1,14 +1,13 @@
-import { configureStore } from "@reduxjs/toolkit"
+import { configureStore, combineReducers } from "@reduxjs/toolkit"
 import { persistStore, persistReducer } from "redux-persist"
 import storage from "redux-persist/lib/storage"
 import { rootReducer } from "./rootReducers"
 
+
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["user", "prop"],
-  blacklist: ["place"],
-  expires: 7 * 24 * 60 * 60,
+  expires: 30 * 24 * 60 * 60,
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

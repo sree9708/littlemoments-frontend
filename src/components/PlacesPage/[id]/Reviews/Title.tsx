@@ -11,6 +11,9 @@ import { IoMdCloseCircleOutline } from "react-icons/io"
 import Modal from "react-modal"
 import RegistrationButton from "@/components/Buttons/RegistrationButton"
 import InputText from "@/components/Inputs/InputText"
+import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
+import { createReview, getReviewsByPropId } from "@/services/Redux/reducers/reviewSlice"
+import { useParams } from "next/navigation"
 
 const schema = yup
   .object({
@@ -35,6 +38,11 @@ export const Title = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) })
 
+  const params = useParams()
+  const propId: string = params?.id as string
+
+  const dispatch = useAppDispatch()
+  const userId = useAppSelector(state => state.user?.id)
   const stars = Array(5).fill(null)
 
   const [isModal, setisModal] = useState<boolean>(false)
@@ -42,10 +50,22 @@ export const Title = () => {
   const [hover, setHover] = useState(0)
 
   const handleModal = () => {
-    setisModal(!isModal)
+    if (!userId) {
+      alert("You must be logged in to write a review.")
+      return
+    } else {
+      setisModal(!isModal)
+    }
   }
 
-  const onSubmit = (data: any) => {}
+  const onSubmit = async (data: any) => {
+    console.log(data)
+    try {
+      await dispatch(createReview({ userId, propId, ...data }))
+      await dispatch(getReviewsByPropId(propId))
+      setisModal(false)
+    } catch (error) {}
+  }
 
   return (
     <div>
@@ -85,10 +105,11 @@ export const Title = () => {
         style={{
           overlay: {
             backgroundColor: "#00000080",
+            zIndex: 55,
           },
         }}
       >
-        <div className="relative">
+        <div className="relative z-50">
           <div className="font-title text-title-sm">Review</div>
           <button onClick={handleModal} className="absolute top-0 right-0">
             <IoMdCloseCircleOutline />
@@ -109,7 +130,7 @@ export const Title = () => {
                       className="hidden"
                     />
                     <FaStar
-                      className="cursor-pointer"
+                      className="cursor-pointer drop-shadow-sm"
                       color={ratingValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
                       size={30}
                       onMouseEnter={() => setHover(ratingValue)}

@@ -1,43 +1,108 @@
 "use client"
 
+import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
+import { addPropDisplayImages, removePropDisplayImages } from "@/services/Redux/reducers/propSlice"
 import Image from "next/image"
-import React from "react"
-
-const images: {
-  [key: number]: string
-} = {
-  0: "https://images.pexels.com/photos/2412603/pexels-photo-2412603.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  1: "https://images.pexels.com/photos/2845890/pexels-photo-2845890.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-  2: "https://images.pexels.com/photos/3603453/pexels-photo-3603453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-  3: "https://images.pexels.com/photos/18781943/pexels-photo-18781943/free-photo-of-footbridge-over-shantang-river-in-suzhou-at-night.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-}
+import React, { useState } from "react"
+import { IoCloseCircleOutline } from "react-icons/io5"
+import Swal from "sweetalert2"
 
 const UploadImagesForm = () => {
-  //   const handleButtonClick = () => {
-  //     const fileInput = document.getElementById("upload-images");
-  //     if (fileInput) {
-  //       fileInput.click();
-  //     }
-  //   };
+  const dispatch = useAppDispatch()
+  const propInformation = useAppSelector(state => state.prop?.propInformations)
+
+  const [uploadImage, setUploadImage] = useState<boolean>(false)
+  const images = propInformation?.displayImages
+
+  const handleCloseClick = (image: string | undefined) => {
+    if (image) {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then(result => {
+        if (result.isConfirmed) {
+          const imageUrls = [image]
+          console.log("page :", imageUrls)
+          dispatch(removePropDisplayImages({ id: propInformation?._id, imageUrls }))
+          Swal.fire("Deleted!", "Your file has been deleted.", "success")
+        }
+      })
+    }
+  }
+
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files
+    if (files) {
+      setUploadImage(true)
+      try {
+        await dispatch(addPropDisplayImages({ id: propInformation?._id, file: files[0] }))
+        setUploadImage(false)
+        // window.location.reload()
+      } catch (err) {
+        console.log(err)
+      }
+    }
+  }
 
   return (
     <>
       <div className="py-8">
         <div className="flex flex-wrap gap-4">
-          {Object.keys(images).map((key: any, index) => (
-            <div key={index} className="rounded-lg">
-              <div className="h-28 w-28 sm:h-48 sm:w-48 rounded-lg ">
-                <Image
-                  src={images[key]}
-                  alt={`image${index + 1}`}
-                  width={500}
-                  height={500}
-                  objectFit="cover"
-                  className="w-full rounded-lg h-full transition-transform duration-300 ease-linear hover:scale-105 object-cover drop-shadow-lg"
-                />
+          {Object.keys(images || {}).map((key: any, index) => (
+            <div key={index} className="rounded-lg relative">
+              {images ? (
+                <div className="h-28 w-28 sm:h-48 sm:w-48 rounded-lg ">
+                  <Image
+                    src={images?.[key] ?? ""}
+                    alt={`${propInformation?.placeName}${index}` ?? `littlemoments${index}`}
+                    width={500}
+                    height={500}
+                    objectFit="cover"
+                    className="w-full rounded-lg h-full transition-transform duration-300 ease-linear hover:scale-105 object-cover drop-shadow-lg"
+                  />
+                </div>
+              ) : (
+                <div className="h-28 w-28 sm:h-48 sm:w-48 rounded-lg animate-pulse">
+                  <div className="flex items-center justify-center w-full h-full bg-gray-300">
+                    <svg
+                      className="w-10 h-10 text-gray-200 dark:text-gray-600"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 20 18"
+                    >
+                      <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z" />
+                    </svg>
+                  </div>
+                </div>
+              )}
+              <div className="absolute cursor-pointer -top-2 -right-2">
+                <div className="border text-2xl border-secondary rounded-full bg-secondary shadow-md">
+                  <IoCloseCircleOutline onClick={() => handleCloseClick(images?.[key])} />
+                </div>
               </div>
             </div>
           ))}
+          {uploadImage && (
+            <div className="h-28 w-28 sm:h-48 sm:w-48 rounded-lg animate-pulse">
+              <div className="flex items-center justify-center w-full h-full bg-gray-300 rounded-lg">
+                <svg
+                  className="w-10 h-10 text-gray-200 dark:text-gray-600"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 20 18"
+                >
+                  <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z" />
+                </svg>
+              </div>
+            </div>
+          )}
           <div className="h-28 w-28 sm:h-48 sm:w-48 rounded-lg border-2 border-dashed border-primary group">
             <div className="flex items-center justify-center w-full h-full">
               <label
@@ -62,7 +127,7 @@ const UploadImagesForm = () => {
                   </svg>
                 </div>
                 <div>Add new images</div>
-                <input id="dropzone-file" type="file" className="hidden" />
+                <input id="dropzone-file" type="file" className="hidden" onChange={handleFileChange} />
               </label>
             </div>
           </div>

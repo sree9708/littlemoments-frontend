@@ -3,10 +3,6 @@
 import { InformationsLeftSide } from "@/components/PlacesPage/[id]/Informations/InformationsLeftSide"
 import { InformationsRightSide } from "@/components/PlacesPage/[id]/Informations/InformationsRightSide"
 import React from "react"
-import { FaStar, FaRegHeart } from "react-icons/fa"
-import { HiMapPin } from "react-icons/hi2"
-import { IoMdCall } from "react-icons/io"
-import { IoShareSocialOutline } from "react-icons/io5"
 
 const Informations: React.FC = () => {
   return (

@@ -69,10 +69,10 @@ const BusinessDetailsForm = () => {
 
   const { push } = useRouter()
   const dispatch = useAppDispatch()
-  const propDetails = useAppSelector(state => state.prop.propDetails)
+  const propDetailsForm = useAppSelector(state => state.prop?.propDetailsForm)
 
-  const gstin = propDetails ? base64ToFile(propDetails?.gstin as string, `gstin`) : undefined
-  const pan = propDetails ? base64ToFile(propDetails?.pan as string, `pan`) : undefined
+  const gstin = propDetailsForm ? base64ToFile(propDetailsForm?.gstin as string, `gstin`) : undefined
+  const pan = propDetailsForm ? base64ToFile(propDetailsForm?.pan as string, `pan`) : undefined
 
   const [gstinFile, setGstinFile] = useState<File | null>(gstin ? gstin : null)
   const [panFile, setPanFile] = useState<File | null>(pan ? pan : null)
@@ -124,26 +124,6 @@ const BusinessDetailsForm = () => {
             error={errors.address?.message}
           />
         </div>
-        {/* <div className="block sm:flex w-full gap-4">
-          <InputFile
-            name="gstin"
-            label="GSTIN"
-            type="file"
-            register={register}
-            error={errors.gstin?.message}
-            onFileChange={handleGstinFileChange}
-            required
-          />
-          <InputFile
-            name="pan"
-            label="PAN Card"
-            type="file"
-            register={register}
-            error={errors.pan?.message}
-            onFileChange={handleGstinFileChange}
-            required
-          />
-        </div> */}
         <div className="block sm:flex w-full gap-4">
           <InputText
             name="pocPhoneNumber"

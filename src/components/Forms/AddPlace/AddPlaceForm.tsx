@@ -36,7 +36,7 @@ const AddPlaceForm = () => {
 
   const { push } = useRouter()
   const dispatch = useAppDispatch()
-  const propDetails = useAppSelector(state => state.prop.propDetails)
+  const propDetailsForm = useAppSelector(state => state.prop?.propDetailsForm)
   const { setIsTracker } = useContext(TrackerContext) as TrackerContextProps
 
   useEffect(() => {
@@ -62,7 +62,7 @@ const AddPlaceForm = () => {
           register={register}
           required
           error={errors.placeName?.message}
-          defaultValue={propDetails?.placeName}
+          defaultValue={propDetailsForm?.placeName}
         />
         <InputText
           name="email"
@@ -71,7 +71,7 @@ const AddPlaceForm = () => {
           register={register}
           required
           error={errors.email?.message}
-          defaultValue={propDetails?.email}
+          defaultValue={propDetailsForm?.email}
         />
         <InputText
           name="displayContactNo"
@@ -80,7 +80,7 @@ const AddPlaceForm = () => {
           register={register}
           required
           error={errors.displayContactNo?.message}
-          defaultValue={propDetails?.displayContactNo}
+          defaultValue={propDetailsForm?.displayContactNo}
         />
         <div className="flex gap-4">
           <button

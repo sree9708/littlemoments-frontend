@@ -72,17 +72,14 @@ export const addPlace = createAsyncThunk("prop/addPlace", async (_, { getState }
     const gstinFile = (getState() as RootState).prop.propDetailsForm?.gstin as string
     const panFile = (getState() as RootState).prop.propDetailsForm?.pan as string
     const displayImages = (getState() as RootState).prop.propDetailsForm?.displayImages as string[]
-    const propDetailsForm = (getState() as RootState).prop.propDetailsForm
-    formData.append("propDetails", JSON.stringify(propDetailsForm))
+    const propDetailsForm: PropState["propDetailsForm"] = (getState() as RootState).prop.propDetailsForm
 
     const gstin = base64ToFile(gstinFile as string, `gstin`)
     const pan = base64ToFile(panFile as string, `pan`)
-    console.log("propDetailsForm :", propDetailsForm)
+    formData.append("propDetailsForm", JSON.stringify(propDetailsForm))
     formData.append("gstin", gstin)
     formData.append("pan", pan)
 
-    console.log("displayImages :", displayImages)
-    console.log("formData :", formData)
     Array.from(displayImages ?? []).forEach((image: unknown) => {
       const file = base64ToFile(image as string, `image`)
       formData.append("displayImages", file)

@@ -34,12 +34,7 @@ export interface IProp {
   age?: [number]
   displayImages?: string[]
   socialLinks?: ISocialLinks
-  reviews?: IReview[]
-}
-
-export interface IReview {
-  rating: number
-  review: string
+  isProfileAdded?: boolean
 }
 
 export interface ISocialLinks {

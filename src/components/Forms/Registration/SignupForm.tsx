@@ -51,7 +51,7 @@ const SignupForm = () => {
 
   const { setIsSignup } = useContext(SignupContext) as SignupContextProps
   const dispatch = useAppDispatch()
-  const userDetailsForm = useAppSelector(state => state.user.userDetailsForm)
+  const userDetailsForm = useAppSelector(state => state.user?.userDetailsForm)
 
   const onSubmitSignup = (data: any) => {
     console.log("data", data)

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 import CompanyName from "../Texts/CompanyName"
 import SearchNavbar from "../Inputs/SearchNavbar"
 
-const LeftSide: React.FC = () => {
+const LeftSide = ({ searchBar }: { searchBar: boolean }) => {
   const [showTitle, setShowTitle] = useState(false)
   const [showSearch, setShowSearch] = useState(false)
 
@@ -38,7 +38,7 @@ const LeftSide: React.FC = () => {
       <div className="hidden md:block">
         <LocationDropdownFull />
       </div>
-      {showSearch && <SearchNavbar />}
+      {searchBar && showSearch && <SearchNavbar />}
     </div>
   )
 }

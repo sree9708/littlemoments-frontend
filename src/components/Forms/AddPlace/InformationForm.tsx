@@ -71,7 +71,7 @@ const InformationForm = () => {
 
   const { push } = useRouter()
   const dispatch = useAppDispatch()
-  const propDetails = useAppSelector(state => state.prop.propDetails)
+  const propDetailsForm = useAppSelector(state => state.prop?.propDetailsForm)
 
   const { setIsTracker } = useContext(TrackerContext) as TrackerContextProps
 
@@ -129,7 +129,7 @@ const InformationForm = () => {
           register={register}
           required
           error={errors.placeDescription?.message}
-          defaultValue={propDetails?.placeDescription}
+          defaultValue={propDetailsForm?.placeDescription}
         />
         <InputCategory
           name="category"
@@ -140,7 +140,7 @@ const InformationForm = () => {
           register={register}
           required
           error={errors.category?.message}
-          defaultValue={propDetails?.category}
+          defaultValue={propDetailsForm?.category}
         />
         <InputCategory
           name="subCategory"
@@ -151,7 +151,7 @@ const InformationForm = () => {
           register={register}
           required
           error={errors.subCategory?.message}
-          defaultValue={propDetails?.subCategory}
+          defaultValue={propDetailsForm?.subCategory}
         />
         <div className="flex gap-4">
           <InputAge

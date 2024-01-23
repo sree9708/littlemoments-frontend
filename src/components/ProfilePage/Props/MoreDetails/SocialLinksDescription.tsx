@@ -1,6 +1,6 @@
 import RegistrationButton from "@/components/Buttons/RegistrationButton"
 import InputTextSocialLinksEdit from "@/components/Inputs/EditProfile/InputTextSocialLinksEdit"
-import { useAppDispatch } from "@/hooks/useStore"
+import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { updatePropSocialLinks } from "@/services/Redux/reducers/propSlice"
 import { yupResolver } from "@hookform/resolvers/yup"
 import React, { useEffect } from "react"
@@ -12,22 +12,22 @@ const schema = yup
     fb: yup
       .string()
       .url("Please enter a valid URL")
-      .min(3, "Facebook must be at least 3 characters.")
+      .min(10, "Facebook must be at least 10 characters.")
       .max(100, "Facebook must not exceed 20 characters."),
     instagram: yup
       .string()
       .url("Please enter a valid URL")
-      .min(3, "Instagram must be at least 3 characters.")
+      .min(10, "Instagram must be at least 10 characters.")
       .max(100, "Instagram must not exceed 20 characters."),
     youtube: yup
       .string()
       .url("Please enter a valid URL")
-      .min(3, "Youtube must be at least 3 characters.")
+      .min(10, "Youtube must be at least 10 characters.")
       .max(100, "Youtube must not exceed 20 characters."),
     twitter: yup
       .string()
       .url("Please enter a valid URL")
-      .min(3, "Twitter must be at least 3 characters.")
+      .min(10, "Twitter must be at least 10 characters.")
       .max(100, "Twitter must not exceed 20 characters."),
   })
   .required()
@@ -41,17 +41,23 @@ const SocialLinksDescription = ({ isEdit }: { isEdit: boolean }) => {
   } = useForm({ resolver: yupResolver(schema) })
 
   const dispatch = useAppDispatch()
+  const propInformation = useAppSelector(state => state.prop?.propInformations)
 
   useEffect(() => {
-    setValue("fb", "http://www.musaffar.com")
-    setValue("instagram", "http://www.musaffar.com")
-    setValue("youtube", "http://www.musaffar.com")
-    setValue("twitter", "http://www.musaffar.com")
+    setValue("fb", propInformation?.socialLinks?.fb || "")
+    setValue("instagram", propInformation?.socialLinks?.instagram || "")
+    setValue("youtube", propInformation?.socialLinks?.youtube || "")
+    setValue("twitter", propInformation?.socialLinks?.twitter || "")
   }, [setValue])
 
   const onSubmitSignup = async (data: any) => {
     console.log("data", data)
-    dispatch(updatePropSocialLinks(data))
+    await dispatch(
+      updatePropSocialLinks({
+        id: propInformation?._id,
+        data,
+      }),
+    )
     try {
     } catch (error) {
       console.log(error)

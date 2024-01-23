@@ -1,25 +1,49 @@
+"use client"
+
+import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import Footer from "@/layouts/CommonLayouts/Footer"
 import Marquee from "@/layouts/CommonLayouts/Marquee"
 import Navbar from "@/layouts/CommonLayouts/Navbar"
-import Informations from "@/layouts/PlacesPage/[id]/Informations"
-import RelatedActivities from "@/layouts/PlacesPage/[id]/RelatedActivities"
-import { Reviews } from "@/layouts/PlacesPage/[id]/Reviews"
 import Hero from "@/layouts/ProfilePage/Hero"
 import { MoreDetails } from "@/layouts/ProfilePage/MoreDetails"
+import HeroLazy from "@/layouts/ProfilePage/HeroLazy"
 import DetailPageProvider from "@/services/Context/DetailPageContext"
+import { useEffect, useState } from "react"
+import { get } from "http"
+import { getReviewsByUserId } from "@/services/Redux/reducers/reviewSlice"
 
 export default function Home() {
+  const userInformations = useAppSelector(state => state.user?.userInformations)
+
+  const [isClient, setIsClient] = useState(false)
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    setIsClient(true)
+    async function getReviews() {
+      try {
+        console.log("reviews fetched", userInformations?._id)
+        await dispatch(getReviewsByUserId(userInformations?._id || ""))
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    getReviews()
+  }, [])
+
   return (
     <DetailPageProvider>
-      <div>
-        <Navbar />
-        <div className="padding">
-          <Hero />
-          <MoreDetails />
+      {isClient && (
+        <div>
+          <Navbar searchBar={false} />
+          <div className="padding">
+            {userInformations ? <Hero /> : <HeroLazy />}
+            <MoreDetails />
+          </div>
+          <Marquee />
+          <Footer />
         </div>
-        <Marquee />
-        <Footer />
-      </div>
+      )}
     </DetailPageProvider>
   )
 }

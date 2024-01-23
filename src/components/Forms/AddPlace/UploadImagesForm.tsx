@@ -22,7 +22,7 @@ const UploadImagesForm = () => {
   const { setIsTracker } = useContext(TrackerContext) as TrackerContextProps
 
   const dispatch = useAppDispatch()
-  const displayImages = useAppSelector(state => state.prop.propDetails?.displayImages)
+  const displayImages = useAppSelector(state => state.prop?.propDetailsForm?.displayImages)
   const displayImagesFile = displayImages && displayImages.map((image: string) => base64ToFile(image, "file"))
 
   useEffect(() => {

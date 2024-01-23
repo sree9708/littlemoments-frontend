@@ -6,10 +6,23 @@ interface SingleReviewProps {
   place: string
   title: string
   date: string
+  rating: number
+  review: string
 }
 
-const SingleReview: React.FC<SingleReviewProps> = ({ name, place, title, date }) => {
-  const stars = Array(5).fill(null)
+const SingleReview: React.FC<SingleReviewProps> = ({ name, place, title, date, rating, review }) => {
+  const stars = Array(rating).fill(null)
+
+  const dateReview = new Date(date)
+
+  const year = dateReview.getFullYear()
+  const month = dateReview.getMonth() + 1 // Months are zero-based in JavaScript
+  const day = dateReview.getDate()
+
+  const formattedDate = `${day < 10 ? "0" + day : day}-${month < 10 ? "0" + month : month}-${year}`
+
+  console.log(formattedDate)
+
   return (
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-12 py-3">
@@ -28,15 +41,10 @@ const SingleReview: React.FC<SingleReviewProps> = ({ name, place, title, date })
             </div>
             <div className="text-xl font-bold">{title}</div>
           </div>
-          <div className="my-4">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsum dignissimos magni fugit laboriosam
-            nesciunt iure in maiores labore dolorem earum tenetur qui veniam, quae eveniet reiciendis
-            accusantium eius suscipit! Dolorem, totam debitis laborum laboriosam et, incidunt reiciendis unde
-            est voluptatibus explicabo magni doloremque quo facilis tempore cumque aperiam rerum. Numquam!
-          </div>
+          <div className="my-4">{review}</div>
         </div>
         <div className="sm:col-span-3 relative">
-          <div className="absolute sm:top-0 sm:right-0 font-semibold">{date}</div>
+          <div className="absolute sm:top-0 sm:right-0 font-semibold">{formattedDate}</div>
         </div>
       </div>
       <div className="w-full border-t border-gray-500 my-4"></div>

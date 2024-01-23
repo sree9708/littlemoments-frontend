@@ -35,10 +35,9 @@ const RegistrationNavbar = ({ props }: RegistrationNavbarProps) => {
       <Tooltip className="z-10" anchorSelect="#home-tooltip" place="bottom">
         Home
       </Tooltip>
-      <div id="home-tooltip" className="absolute top-0 left-2 text-xl cursor-pointer">
+      <div id="home-tooltip" className="absolute top-0 left-2 text-2xl cursor-pointer">
         <Link href="/">
-          {" "}
-          <FaHome />{" "}
+          <FaHome />
         </Link>
       </div>
       <div

@@ -8,22 +8,13 @@ import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6"
 import { IoMdCloseCircleOutline } from "react-icons/io"
 import Slider from "react-slick"
 
-const images: {
-  [key: number]: string
-} = {
-  0: "https://images.pexels.com/photos/2412603/pexels-photo-2412603.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  1: "https://images.pexels.com/photos/2845890/pexels-photo-2845890.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-  2: "https://images.pexels.com/photos/3603453/pexels-photo-3603453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-  3: "https://images.pexels.com/photos/18781943/pexels-photo-18781943/free-photo-of-footbridge-over-shantang-river-in-suzhou-at-night.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-}
-
 export const MoreDetailsLeftSide = () => {
   const [overview, setOverview] = useState<boolean>(false)
   const [features, setFeatures] = useState<boolean>(false)
   const { moreVideos, setMoreVideos } = useContext(DetailPageContext) as DetailPageContextProps
 
   const [selectedImage, setSelectedImage] = useState<number | null>(null)
-  const placeDetails = useAppSelector(state => state.place.placeDetails)
+  const placeDetails = useAppSelector(state => state.place?.placeDetails)
 
   const sliderRef = useRef<Slider>(null)
 

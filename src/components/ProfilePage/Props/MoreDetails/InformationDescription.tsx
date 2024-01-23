@@ -9,21 +9,21 @@ import { Tooltip } from "react-tooltip"
 import InputTextareaEdit from "@/components/Inputs/EditProfile/InputTextareaEdit"
 import InputCategoryEdit from "@/components/Inputs/EditProfile/InputCategoryEdit"
 import InputAgeEdit from "@/components/Inputs/EditProfile/InputAgeEdit"
-import { useAppDispatch } from "@/hooks/useStore"
+import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import RegistrationButton from "@/components/Buttons/RegistrationButton"
 import { updatePropInformations } from "@/services/Redux/reducers/propSlice"
 
-const tableContent = [
-  { title: "Park", price: "2000" },
-  { title: "Park", price: "300" },
-]
+// const tableContent = [
+//   { title: "Park", price: "2000" },
+//   { title: "Park", price: "300" },
+// ]
 
 const schema = yup
   .object({
     rateCard: yup.array().of(
       yup.object().shape({
         title: yup.string().required("Title is required."),
-        price: yup.string().required("Price is required."),
+        price: yup.string().required("Price is required.").matches(/^\d+$/, "Price must be a number."),
       }),
     ),
     placeDescription: yup
@@ -71,26 +71,25 @@ const InformationDescription = ({ isEdit }: { isEdit: boolean }) => {
   } = useForm({ resolver: yupResolver(schema) })
 
   const dispatch = useAppDispatch()
+  const propInformation = useAppSelector(state => state.prop?.propInformations)
+
   const [dropdown, setDropdown] = useState(false)
 
   useEffect(() => {
-    setValue(
-      "placeDescription",
-      "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
-    )
-  }, [setValue])
+    setValue("placeDescription", propInformation?.placeDescription || "")
+  }, [setValue, propInformation])
 
   const handleDropdown = () => {
     setDropdown(!dropdown)
   }
 
-  const [tableData, setTableData] = useState(tableContent)
+  const [tableData, setTableData] = useState<any[]>(propInformation?.rateCard || [])
   const [timings, setTimings] = useState<any[]>([])
 
   const handleInputChange = (index: number, key: string, value: string) => {
     setTableData(prevData => {
-      const newData: any = [...prevData]
-      newData[index][key] = value
+      const newData = [...prevData]
+      newData[index] = { ...newData[index], [key]: value }
       return newData
     })
   }
@@ -108,16 +107,19 @@ const InformationDescription = ({ isEdit }: { isEdit: boolean }) => {
   }
 
   const onSubmitSignup = async (data: any) => {
-    console.log("data", data)
+    console.log("asdfds")
     try {
       await dispatch(
         updatePropInformations({
-          rateCard: tableData,
-          placeDescription: data.placeDescription,
-          category: data.category,
-          subCategory: data.subCategory,
-          age: [data.startingAge, data.endingAge],
-          timings: timings,
+          id: propInformation?._id,
+          data: {
+            rateCard: tableData,
+            placeDescription: data.placeDescription,
+            category: data.category,
+            subCategory: data.subCategory,
+            age: [data.startingAge, data.endingAge],
+            timings: timings,
+          },
         }),
       )
     } catch (error) {
@@ -210,7 +212,6 @@ const InformationDescription = ({ isEdit }: { isEdit: boolean }) => {
             onClick={handleDropdown}
           >
             <div className="font-semibold">Time </div>
-            {/* <IoMdArrowDropdownCircle /> */}
             <InputTimeProfileProps onTimeChange={handleTimeChange} isEdit={isEdit} />
           </div>
         </div>
@@ -223,13 +224,13 @@ const InformationDescription = ({ isEdit }: { isEdit: boolean }) => {
                   <InputCategoryEdit
                     name="category"
                     placeholder="Category"
-                    category={["a", "b", "c", "d"]}
+                    category={[]}
                     register={register}
                     setValue={setValue}
                     disabled={!isEdit}
                     required
                     error={errors.category?.message}
-                    defaultValue="a"
+                    defaultValue={propInformation?.category || "littlemoments"}
                   />
                 </div>
               </div>
@@ -239,13 +240,13 @@ const InformationDescription = ({ isEdit }: { isEdit: boolean }) => {
                   <InputCategoryEdit
                     name="subCategory"
                     placeholder="Sub Category"
-                    category={["a", "b", "c", "d"]}
+                    category={[]}
                     register={register}
                     setValue={setValue}
                     disabled={!isEdit}
                     required
                     error={errors.subCategory?.message}
-                    defaultValue="b"
+                    defaultValue={propInformation?.subCategory || "littlemoments"}
                   />
                 </div>
               </div>
@@ -264,7 +265,7 @@ const InformationDescription = ({ isEdit }: { isEdit: boolean }) => {
                     disabled={!isEdit}
                     required
                     error={errors.startingAge?.message}
-                    defaultValue="1"
+                    defaultValue={propInformation?.age[0] || "1"}
                   />
                 </div>
               </div>
@@ -279,7 +280,7 @@ const InformationDescription = ({ isEdit }: { isEdit: boolean }) => {
                     disabled={!isEdit}
                     required
                     error={errors.endingAge?.message}
-                    defaultValue="2"
+                    defaultValue={propInformation?.age[1] || "100"}
                   />
                 </div>
               </div>

@@ -1,3 +1,4 @@
+import { useAppSelector } from "@/hooks/useStore"
 import React, { useEffect, useState } from "react"
 // import useClickOutside from 'react-click-outside'
 
@@ -40,15 +41,19 @@ const InputTimeProfileProps: React.FC<any> = ({
   onTimeChange: (data: any) => void
   isEdit: false
 }) => {
-  const [schedule, setSchedule] = useState<Schedule>({
-    monday: ["9:00", "5:00"],
-    tuesday: ["9:00", "5:00"],
-    wednesday: ["9:00", "5:00"],
-    thursday: ["9:00", "5:00"],
-    friday: ["9:00", "5:00"],
-    saturday: ["9:00", "5:00"],
-    sunday: ["closed"],
-  })
+  const propInformation = useAppSelector(state => state.prop?.propInformations)
+
+  const [schedule, setSchedule] = useState<Schedule>(
+    propInformation?.timings || {
+      monday: ["closed"],
+      tuesday: ["closed"],
+      wednesday: ["closed"],
+      thursday: ["closed"],
+      friday: ["closed"],
+      saturday: ["closed"],
+      sunday: ["closed"],
+    },
+  )
 
   useEffect(() => {
     onTimeChange(schedule)

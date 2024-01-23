@@ -28,7 +28,7 @@ const Cards = () => {
             </div>
           </div>
         </div>
-        <div className="col-span-12 lg:col-span-4 flex lg:flex-wrap justify-center items-center rounded-md p-12 hover:scale-95 transition-transform duration-300  border border-primary bg-theme-color-3 drop-shadow-[10px_10px_0_rgba(0,0,0,1)]">
+        <div className="col-span-12 lg:col-span-4 flex flex-wrap justify-center items-center rounded-md p-12 hover:scale-95 transition-transform duration-300  border border-primary bg-theme-color-3 drop-shadow-[10px_10px_0_rgba(0,0,0,1)]">
           <div>
             <div className="flex justify-center">
               <Image src={webpage} alt="webpage" width={100} height={100} />
@@ -41,7 +41,7 @@ const Cards = () => {
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil, ratione!
           </div>
         </div>
-        <div className="col-span-12 lg:col-span-4 flex lg:flex-wrap justify-center items-center rounded-md p-12  hover:scale-95 transition-transform duration-300 border border-primary bg-theme-color-4 drop-shadow-[10px_10px_0_rgba(0,0,0,1)]">
+        <div className="col-span-12 lg:col-span-4 flex flex-wrap justify-center items-center rounded-md p-12  hover:scale-95 transition-transform duration-300 border border-primary bg-theme-color-4 drop-shadow-[10px_10px_0_rgba(0,0,0,1)]">
           <div>
             <div className="flex justify-center">
               <Image src={webpage} alt="webpage" width={100} height={100} />
@@ -54,7 +54,7 @@ const Cards = () => {
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil, ratione!
           </div>
         </div>
-        <div className="col-span-12 lg:col-span-4 flex lg:flex-wrap justify-center items-center rounded-md p-12 hover:scale-95 transition-transform duration-300  border border-primary bg-theme-color-1 drop-shadow-[10px_10px_0_rgba(0,0,0,1)]">
+        <div className="col-span-12 lg:col-span-4 flex flex-wrap justify-center items-center rounded-md p-12 hover:scale-95 transition-transform duration-300  border border-primary bg-theme-color-1 drop-shadow-[10px_10px_0_rgba(0,0,0,1)]">
           <div>
             <div className="flex justify-center">
               <Image src={webpage} alt="webpage" width={100} height={100} />

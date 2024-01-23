@@ -20,6 +20,7 @@ const schema = yup
   .object({
     location: yup
       .string()
+      .url("Please enter a valid URL")
       .required("Place name is required.")
       .min(3, "Place name must be at least 3 characters.")
       .max(100, "Place name must not exceed 20 characters."),
@@ -69,10 +70,12 @@ const BusinessDetailsForm = () => {
 
   const { push } = useRouter()
   const dispatch = useAppDispatch()
-  const propDetails = useAppSelector(state => state.prop.propDetails)
+  const propDetailsForm = useAppSelector(state => state.prop?.propDetailsForm)
 
-  const gstin = propDetails ? base64ToFile(propDetails?.gstin as string, `gstin`) : null
-  const pan = propDetails ? base64ToFile(propDetails?.pan as string, `pan`) : null
+  const gstin =
+    propDetailsForm && propDetailsForm?.gstin ? base64ToFile(propDetailsForm?.gstin as string, `gstin`) : null
+  const pan =
+    propDetailsForm && propDetailsForm?.pan ? base64ToFile(propDetailsForm?.pan as string, `pan`) : null
   const { setIsTracker } = useContext(TrackerContext) as TrackerContextProps
 
   const [gstinFile, setGstinFile] = useState<File | null>(gstin ? gstin : null)
@@ -136,7 +139,7 @@ const BusinessDetailsForm = () => {
             register={register}
             required
             error={errors.location?.message}
-            defaultValue={propDetails?.location}
+            defaultValue={propDetailsForm?.location}
           />
           <InputTextarea
             name="address"
@@ -145,7 +148,7 @@ const BusinessDetailsForm = () => {
             register={register}
             required
             error={errors.address?.message}
-            defaultValue={propDetails?.address}
+            defaultValue={propDetailsForm?.address}
           />
           {gstinFile ? (
             <div className="w-full my-3">
@@ -206,7 +209,7 @@ const BusinessDetailsForm = () => {
             register={register}
             required
             error={errors.pocContactNo?.message}
-            defaultValue={propDetails?.pocContactNo}
+            defaultValue={propDetailsForm?.pocContactNo}
           />
           <InputText
             name="pocName"
@@ -215,7 +218,7 @@ const BusinessDetailsForm = () => {
             register={register}
             required
             error={errors.pocName?.message}
-            defaultValue={propDetails?.pocName}
+            defaultValue={propDetailsForm?.pocName}
           />
           <InputText
             name="pocDesignation"
@@ -224,7 +227,7 @@ const BusinessDetailsForm = () => {
             register={register}
             required
             error={errors.pocDesignation?.message}
-            defaultValue={propDetails?.pocDesignation}
+            defaultValue={propDetailsForm?.pocDesignation}
           />
           <div className="flex gap-4">
             <button

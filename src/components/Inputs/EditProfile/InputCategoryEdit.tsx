@@ -36,6 +36,7 @@ const InputCategoryEdit = ({
           disabled={disabled}
         >
           <option value="">{placeholder}</option>
+          <option value={defaultValue}>{defaultValue}</option>
           {category.map((item, index) => (
             <option key={index} value={item}>
               {item}

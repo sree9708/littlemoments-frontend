@@ -3,7 +3,6 @@
 import Card from "@/components/Cards/PopularPlace/Card"
 import React, { useEffect, useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
-import axios from "axios"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { getPlaceBySkipAndLimit } from "@/services/Redux/reducers/placeSlice"
 import { IProp } from "@/services/Utilities/interfaces/prop.interface"
@@ -13,9 +12,9 @@ const Cards: React.FC = () => {
   const [hasError, setHasError] = useState(false)
 
   const dispatch = useAppDispatch()
-  const isLoading = useAppSelector(state => state.place.isLoading)
+  const isLoading = useAppSelector(state => state.place?.isLoading)
 
-  const places = useAppSelector(state => state.place.places)
+  const places = useAppSelector(state => state.place?.places)
 
   useEffect(() => {
     fetchPhotos()
@@ -37,14 +36,9 @@ const Cards: React.FC = () => {
         style={{ overflow: "visible" }}
         dataLength={places.length}
         next={fetchPhotos}
-        hasMore={!hasError}
+        hasMore={isLoading}
         loader={
           <div className="w-full flex justify-center">
-            {/* <div className="w-full grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-8 md:gap-12 my-12">
-            {Array.from({ length: 4 }).map((_, index) => (
-              <CardLazy key={index} />
-            ))}
-            </div> */}
             <div
               className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
               role="status"

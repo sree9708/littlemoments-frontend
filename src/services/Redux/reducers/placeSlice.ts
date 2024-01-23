@@ -1,7 +1,7 @@
+import { RootState } from "../store"
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "../../Axios/axios"
 import { IProp } from "@/services/Utilities/interfaces/prop.interface"
-import { RootState } from "../store"
 
 interface PlaceState {
   isLoading: boolean

@@ -25,7 +25,7 @@ select:-webkit-autofill:focus {
 
 .slider {
   position: relative;
-  height: 1px;
+  height: 2px;
   background-color: #ccc;
   border-radius: 3px;
 }
