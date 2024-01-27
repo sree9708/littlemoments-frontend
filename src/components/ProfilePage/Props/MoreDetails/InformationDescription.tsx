@@ -18,12 +18,13 @@ const schema = yup
       yup.object().shape({
         title: yup.string().required("Title is required."),
         // price: yup.string().required("Price is required.").matches(/^\d+$/, "Price must be a number."),
-        price: yup.number()
+        price: yup
+          .number()
           .typeError("Price must be a number.")
           .required("Price is required.")
-          .positive("Price must be a positive number.").integer("Price must be an integer.")
-
-      })
+          .positive("Price must be a positive number.")
+          .integer("Price must be an integer."),
+      }),
     ),
     placeDescription: yup
       .string()
@@ -62,20 +63,23 @@ const schema = yup
   .required()
 
 const InformationDescription = ({ isEdit }: { isEdit: boolean }) => {
-  
-    const dispatch = useAppDispatch()
-    const propInformation = useAppSelector(state => state.prop?.propInformations)
+
+  const dispatch = useAppDispatch()
+  const propInformation = useAppSelector(state => state.prop?.propInformations)
+
   const {
     register,
     control,
     handleSubmit,
     setValue,
+    reset, // add this
+    getValues,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema, { abortEarly: false }),
-    defaultValues: {
-      rateCard: propInformation?.rateCard?.map(card => ({ ...card })) || [],
-    },
+    resolver: yupResolver(schema),
+    // defaultValues: {
+    //   rateCard: propInformation?.rateCard?.map(card => ({ ...card })) || [],
+    // },
   })
 
   const { fields, append, remove } = useFieldArray({
@@ -87,38 +91,27 @@ const InformationDescription = ({ isEdit }: { isEdit: boolean }) => {
 
   useEffect(() => {
     setValue("placeDescription", propInformation?.placeDescription || "")
-  }, [setValue, propInformation])
+    // if (propInformation?.rateCard && fields.length === 0) {
+    //   fields.forEach((_, index) => remove(index));
 
-  useEffect(()=>{
-    console.log("errors", errors) 
-  })
+    //   propInformation.rateCard.forEach((card) => {
+    //     append({ title: card.title, price: card.price });
+    //   });
+    // }
+     if (propInformation?.rateCard) {
+      reset({
+        ...getValues(), // preserve other field values
+        rateCard: propInformation.rateCard // set rateCard array
+      });
+    }
+    console.log("propInformation : ", propInformation)
+  }, [setValue, propInformation])
 
   const handleDropdown = () => {
     setDropdown(!dropdown)
   }
 
-  // const [rateCard, setRateCard] = useState<any[]>(propInformation?.rateCard || [])
   const [timings, setTimings] = useState<any[]>([])
-
-  // const handleInputChange = (index: number, key: string, value: string) => {
-  //   setRateCard(prevData => {
-  //     const newData = [...prevData]
-  //     newData[index] = { ...newData[index], [key]: value }
-  //     return newData
-  //   })
-  // }
-
-  // const handleAddRow = () => {
-  //   setRateCard(prevData => [...prevData, { title: "", price: "" }])
-  // }
-
-  // const handleRemoveRow = (index: number) => {
-  //   setRateCard(prevData => {
-  //     const newData = [...prevData]
-  //     newData.splice(index, 1)
-  //     return newData
-  //   })
-  // }
 
   const handleAddRow = () => {
     append({ title: "", price: 0 })
@@ -131,19 +124,19 @@ const InformationDescription = ({ isEdit }: { isEdit: boolean }) => {
   const onSubmitSignup = async (data: any) => {
     console.log("asdfds", data)
     try {
-      // await dispatch(
-      //   updatePropInformations({
-      //     id: propInformation?._id,
-      //     data: {
-      //       rateCard: data.rateCard,
-      //       placeDescription: data.placeDescription,
-      //       category: data.category,
-      //       subCategory: data.subCategory,
-      //       age: [data.startingAge, data.endingAge],
-      //       timings: timings,
-      //     },
-      //   })
-      // )
+      await dispatch(
+        updatePropInformations({
+          id: propInformation?._id,
+          data: {
+            rateCard: data.rateCard,
+            placeDescription: data.placeDescription,
+            category: data.category,
+            subCategory: data.subCategory,
+            age: [data.startingAge, data.endingAge],
+            timings: timings,
+          },
+        }),
+      )
     } catch (error) {
       console.log(error)
     }
@@ -175,65 +168,41 @@ const InformationDescription = ({ isEdit }: { isEdit: boolean }) => {
               </div>
               <div className="opacity-70 mt-2 w-full">
                 <div className="w-full">
-                  {/* {rateCard.map((row, index) => (
-                    <div key={index} className="flex">
-                      <div className="w-full">
-                        <input
-                          className={`w-full autofill:bg-yellow-200 bg-transparent rounded-lg p-2 border-2  text-lg border-primary focus:outline-none focus:ring-transparent `}
-                          placeholder="Item"
-                          type="text"
-                          value={row.title}
-                          disabled={!isEdit}
-                          onChange={e => handleInputChange(index, "title", e.target.value)}
-                        />
-                      </div>
-                      <div className="w-full">
-                        <input
-                          className={`w-full autofill:bg-yellow-200 bg-transparent rounded-lg p-2 border-2  text-lg border-primary focus:outline-none focus:ring-transparent `}
-                          placeholder="Price"
-                          type="text"
-                          value={row.price}
-                          disabled={!isEdit}
-                          onChange={e => handleInputChange(index, "price", e.target.value)}
-                        />
-                      </div>
-                      <div className="items-center text-xl">
-                        {isEdit && (
-                          <div
-                            className="remove-tooltip flex justify-end cursor-pointer"
-                            onClick={() => handleRemoveRow(index)}
-                          >
-                            <IoMdRemoveCircleOutline />
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  ))} */}
                   {fields.map((field, index) => (
                     <div className="flex gap-2 my-2" key={field.id}>
                       <div className="w-full">
                         <Controller
-                          render={({ field }) => <input {...field} className="w-full autofill:bg-yellow-200 bg-transparent rounded-lg p-2 border-2  text-lg border-primary focus:outline-none focus:ring-transparent "/>}
+                          render={({ field }) => (
+                            <input
+                              {...field}
+                              className="w-full autofill:bg-yellow-200 bg-transparent rounded-lg p-2 border-2  text-lg border-primary focus:outline-none focus:ring-transparent "
+                            />
+                          )}
                           name={`rateCard.${index}.title`}
                           control={control}
                           disabled={!isEdit}
                           defaultValue={field.title}
                         />
-                            {errors.rateCard && errors.rateCard[index]?.title && (
-                            <p className="text-red-600 text-sm">{errors.rateCard[index]?.title?.message}</p>
-                          )}
+                        {errors.rateCard && errors.rateCard[index]?.title && (
+                          <p className="text-red-600 text-sm">{errors.rateCard[index]?.title?.message}</p>
+                        )}
                       </div>
                       <div className="w-full">
                         <Controller
-                          render={({ field }) => <input {...field} className="w-full autofill:bg-yellow-200 bg-transparent rounded-lg p-2 border-2  text-lg border-primary focus:outline-none focus:ring-transparent "/>}
+                          render={({ field }) => (
+                            <input
+                              {...field}
+                              className="w-full autofill:bg-yellow-200 bg-transparent rounded-lg p-2 border-2  text-lg border-primary focus:outline-none focus:ring-transparent "
+                            />
+                          )}
                           name={`rateCard.${index}.price`}
                           control={control}
                           disabled={!isEdit}
                           defaultValue={field.price}
                         />
-                            {errors.rateCard && errors.rateCard[index]?.price && (
-                            <p className="text-red-600 text-sm">{errors.rateCard[index]?.price?.message}</p>
-                          )}
+                        {errors.rateCard && errors.rateCard[index]?.price && (
+                          <p className="text-red-600 text-sm">{errors.rateCard[index]?.price?.message}</p>
+                        )}
                       </div>
                       {isEdit && (
                         <div

@@ -31,6 +31,25 @@ export const verifyPropId = createAsyncThunk("prop/verifyPropId", async (id: str
   }
 })
 
+
+export const getPropById = createAsyncThunk(
+  "place/getPropById", async (_,{getState}) => {
+    try {
+      const propId = (getState() as RootState).prop.id as string
+      const response = await axios.get(`/props/${propId}`)
+      return response.data
+    } catch (err: any) {
+      console.log(err)
+      if (err.response && err.response.data && err.response.data.error) {
+        throw Error(err.response.data.error)
+      } else {
+        throw Error(err.message)
+      }
+    }
+  },
+)
+
+
 export const createProp = createAsyncThunk("prop/createProp", async ({ email, password }: IPropCreate) => {
   try {
     const response = await axios.post(`/props`, { email, password })
@@ -61,12 +80,6 @@ export const loginProp = createAsyncThunk("prop/loginProp", async ({ email, pass
 
 export const addPlace = createAsyncThunk("prop/addPlace", async (_, { getState }) => {
   try {
-    interface PropState {
-      isLoading: boolean
-      propDetailsForm: IProp | null
-      displayImages: unknown[]
-    }
-
     const formData = new FormData()
     const propId = (getState() as RootState).prop.id as string
     const gstinFile = (getState() as RootState).prop.propDetailsForm?.gstin as string
@@ -286,6 +299,19 @@ export const propSlice = createSlice({
         state.propInformations = action.payload.prop
       })
       .addCase(verifyPropId.rejected, (state, action) => {
+        state.isLoading = false
+        state.id = null
+        throw Error(action.error.message)
+      })
+      .addCase(getPropById.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(getPropById.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.id = action.payload.prop._id
+        state.propInformations = action.payload.prop
+      })
+      .addCase(getPropById.rejected, (state, action) => {
         state.isLoading = false
         state.id = null
         throw Error(action.error.message)
