@@ -40,7 +40,6 @@ const SignupPropsForm = () => {
   const dispatch = useAppDispatch()
 
   const onSubmitLogin = async (data: any) => {
-    console.log("data", data)
     try {
       await dispatch(createProp({ email: data.email, password: data.password }))
       router.push("/")

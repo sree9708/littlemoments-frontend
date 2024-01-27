@@ -69,7 +69,6 @@ const InformationForm = () => {
   const { push } = useRouter()
 
   const onSubmitSignup = (data: any) => {
-    console.log("data", data)
     push("/add-place/information")
   }
 

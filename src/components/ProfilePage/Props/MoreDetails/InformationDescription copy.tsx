@@ -1,9 +1,10 @@
+import InputTextEdit from "@/components/Inputs/EditProfile/InputTextEdit"
 import * as yup from "yup"
 import InputTimeProfileProps from "@/components/Inputs/InputTimeProfileProps"
 import { yupResolver } from "@hookform/resolvers/yup"
 import React, { useEffect, useState } from "react"
-import { useForm } from "react-hook-form"
-import { IoMdAddCircleOutline, IoMdRemoveCircleOutline } from "react-icons/io"
+import { useForm, Controller } from "react-hook-form"
+import { IoMdAddCircleOutline, IoMdArrowDropdownCircle, IoMdRemoveCircleOutline } from "react-icons/io"
 import { Tooltip } from "react-tooltip"
 import InputTextareaEdit from "@/components/Inputs/EditProfile/InputTextareaEdit"
 import InputCategoryEdit from "@/components/Inputs/EditProfile/InputCategoryEdit"
@@ -14,12 +15,22 @@ import { updatePropInformations } from "@/services/Redux/reducers/propSlice"
 
 const schema = yup
   .object({
-    rateCard: yup.array().of(
-      yup.object().shape({
-        title: yup.string().required("Title is required."),
-        price: yup.string().required("Price is required.").matches(/^\d+$/, "Price must be a number."),
-      })
-    ),
+    // rateCard: yup.array().of(
+    //   yup.object().shape({
+    //     title: yup.string().required("Title is required."),
+    //     price: yup.string().required("Price is required.").matches(/^\d+$/, "Price must be a number."),
+    //   }),
+    // ),
+    rateCard: yup
+      .array()
+      .of(
+        yup.object().shape({
+          title: yup.string().required("Title is required"),
+          price: yup.string().required("Price is required").matches(/^\d+$/, "Price must be a number."),
+        }),
+      )
+      .required("At least one rate card is required")
+      .min(1, "At least one rate card is required"),
     placeDescription: yup
       .string()
       .required("Description is required.")
@@ -61,13 +72,16 @@ const InformationDescription = ({ isEdit }: { isEdit: boolean }) => {
     register,
     handleSubmit,
     setValue,
+    control,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) })
-
-  const dispatch = useAppDispatch()
-  const propInformation = useAppSelector(state => state.prop?.propInformations)
+  } = useForm({
+    resolver: yupResolver(schema),
+  })
 
   const [dropdown, setDropdown] = useState(false)
+  const dispatch = useAppDispatch()
+  const propInformation = useAppSelector(state => state.prop?.propInformations)
+  const [rateCard, setRateCard] = useState<any[]>(propInformation?.rateCard || [])
 
   useEffect(() => {
     setValue("placeDescription", propInformation?.placeDescription || "")
@@ -77,45 +91,38 @@ const InformationDescription = ({ isEdit }: { isEdit: boolean }) => {
     setDropdown(!dropdown)
   }
 
-  const [rateCard, setCard] = useState<any[]>(propInformation?.rateCard || [])
   const [timings, setTimings] = useState<any[]>([])
 
-  const handleInputChange = (index: number, key: string, value: string) => {
-    setCard(prevData => {
-      const newData = [...prevData]
-      newData[index] = { ...newData[index], [key]: value }
-      return newData
-    })
-  }
-
   const handleAddRow = () => {
-    setCard(prevData => [...prevData, { title: "", price: "" }])
+    setRateCard(prevData => [...prevData, { title: "", price: "" }])
   }
 
   const handleRemoveRow = (index: number) => {
-    setCard(prevData => {
+    setRateCard(prevData => {
       const newData = [...prevData]
+      console.log("newData", newData)
+      console.log("index", index)
       newData.splice(index, 1)
       return newData
     })
   }
 
   const onSubmitSignup = async (data: any) => {
-    console.log("asdfds")
+    console.log("asdfds", data)
     try {
-      await dispatch(
-        updatePropInformations({
-          id: propInformation?._id,
-          data: {
-            rateCard: rateCard,
-            placeDescription: data.placeDescription,
-            category: data.category,
-            subCategory: data.subCategory,
-            age: [data.startingAge, data.endingAge],
-            timings: timings,
-          },
-        })
-      )
+      // await dispatch(
+      //   updatePropInformations({
+      //     id: propInformation?._id,
+      //     data: {
+      //       rateCard: rateCard,
+      //       placeDescription: data.placeDescription,
+      //       category: data.category,
+      //       subCategory: data.subCategory,
+      //       age: [data.startingAge, data.endingAge],
+      //       timings: timings,
+      //     },
+      //   }),
+      // )
     } catch (error) {
       console.log(error)
     }
@@ -147,29 +154,66 @@ const InformationDescription = ({ isEdit }: { isEdit: boolean }) => {
               </div>
               <div className="opacity-70 mt-2 w-full">
                 <div className="w-full">
-                  {rateCard.map((row, index) => (
-                    <div key={index} className="flex">
+                  {rateCard.map((cardData, index) => (
+                    <div className="flex gap-2 my-2" key={index}>
                       <div className="w-full">
-                        <input
-                          className={`w-full autofill:bg-yellow-200 bg-transparent rounded-lg p-2 border-2  text-lg border-primary focus:outline-none focus:ring-transparent `}
-                          placeholder="Item"
-                          type="text"
-                          value={row.title}
-                          disabled={!isEdit}
-                          onChange={e => handleInputChange(index, "title", e.target.value)}
+                        {/* <input
+                            className={`w-full autofill:bg-yellow-200 bg-transparent rounded-lg p-2 border-2  text-lg border-primary focus:outline-none focus:ring-transparent `}
+                            placeholder="Item"
+                            type="text"
+                            value={row.title}
+                            disabled={!isEdit}
+                            onChange={e => handleInputChange(index, "title", e.target.value)}
+                          /> */}
+                        <Controller
+                          control={control}
+                          name={`rateCard[${index}].title` as any}
+                          defaultValue={rateCard[index]?.title || ""}
+                          render={({ field }) => (
+                            <input
+                              {...field}
+                              className={`w-full autofill:bg-yellow-200 bg-transparent rounded-lg p-2 border-2  text-lg border-primary focus:outline-none focus:ring-transparent `}
+                              placeholder="Item"
+                              type="text"
+                              // value={cardData.title}
+                              disabled={!isEdit}
+                            />
+                          )}
                         />
+
+                        {errors.rateCard && errors.rateCard[index]?.title && (
+                          <p>{errors.rateCard[index]?.title?.message}</p>
+                        )}
                       </div>
                       <div className="w-full">
-                        <input
-                          className={`w-full autofill:bg-yellow-200 bg-transparent rounded-lg p-2 border-2  text-lg border-primary focus:outline-none focus:ring-transparent `}
-                          placeholder="Price"
-                          type="text"
-                          value={row.price}
-                          disabled={!isEdit}
-                          onChange={e => handleInputChange(index, "price", e.target.value)}
+                        {/* <input
+                            className={`w-full autofill:bg-yellow-200 bg-transparent rounded-lg p-2 border-2  text-lg border-primary focus:outline-none focus:ring-transparent `}
+                            placeholder="Price"
+                            type="text"
+                            value={row.price}
+                            disabled={!isEdit}
+                            onChange={e => handleInputChange(index, "price", e.target.value)}
+                          /> */}
+                        <Controller
+                          control={control}
+                          name={`rateCard[${index}].price` as any}
+                          defaultValue={rateCard[index]?.price || ""}
+                          render={({ field }) => (
+                            <input
+                              {...field}
+                              className={`w-full autofill:bg-yellow-200 bg-transparent rounded-lg p-2 border-2  text-lg border-primary focus:outline-none focus:ring-transparent `}
+                              placeholder="Price"
+                              type="text"
+                              // value={cardData.price}
+                              disabled={!isEdit}
+                            />
+                          )}
                         />
+                        {errors.rateCard && errors.rateCard[index]?.price && (
+                          <p>{errors.rateCard[index]?.price?.message}</p>
+                        )}
                       </div>
-                      <div className="items-center text-xl">
+                      <div className=" flex items-center text-xl">
                         {isEdit && (
                           <div
                             className="remove-tooltip flex justify-end cursor-pointer"

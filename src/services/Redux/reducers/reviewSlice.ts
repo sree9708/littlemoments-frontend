@@ -2,6 +2,7 @@ import { RootState } from "../store"
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "../../Axios/axios"
 import { IReview } from "@/services/Utilities/interfaces/review.interface"
+import { getPlaceById } from "./placeSlice"
 
 interface ReviewState {
   isLoading: boolean
@@ -65,6 +66,9 @@ export const reviewSlice = createSlice({
   name: "review",
   initialState,
   reducers: {
+    addReviews: (state, action) => {
+      state.reviews = action.payload
+    },
     logoutReview: state => {
       Object.assign(state, initialState)
     },
@@ -77,7 +81,6 @@ export const reviewSlice = createSlice({
       .addCase(getReviewsByPropId.fulfilled, (state, action) => {
         state.isLoading = false
         state.reviews = action.payload.reviews
-        console.log(action.payload)
       })
       .addCase(getReviewsByPropId.rejected, (state, action) => {
         state.isLoading = false
@@ -90,7 +93,6 @@ export const reviewSlice = createSlice({
       .addCase(getReviewsByUserId.fulfilled, (state, action) => {
         state.isLoading = false
         state.reviews = action.payload.reviews
-        console.log(action.payload)
       })
       .addCase(getReviewsByUserId.rejected, (state, action) => {
         state.isLoading = false
@@ -102,16 +104,17 @@ export const reviewSlice = createSlice({
       })
       .addCase(createReview.fulfilled, (state, action) => {
         state.isLoading = false
-        // state.reviews = action.payload.reviews
-        console.log(action.payload)
       })
       .addCase(createReview.rejected, (state, action) => {
         state.isLoading = false
         state.reviews = []
         throw Error(action.error.message)
       })
+      .addCase(getPlaceById.fulfilled, (state, action) => {
+        state.reviews = action.payload.reviews
+      })
   },
 })
 
-export const { logoutReview } = reviewSlice.actions
+export const { addReviews, logoutReview } = reviewSlice.actions
 export default reviewSlice.reducer

@@ -30,7 +30,7 @@ const ClientComponent = ({ children }: { children: any }) => {
         }
       })()
     }
-  }, [])
+  }, [userId, proId, dispatch])
 
   return <div>{children}</div>
 }

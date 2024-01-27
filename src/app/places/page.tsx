@@ -5,12 +5,11 @@ import Hero from "@/layouts/PlacesPage/Hero"
 export default function Home() {
   return (
     <div>
-      <Navbar />
+      <Navbar searchBar={true} />
       <div className="flex justify-between">
         <Filter />
         <Hero />
       </div>
-      {/* <Cards /> */}
     </div>
   )
 }

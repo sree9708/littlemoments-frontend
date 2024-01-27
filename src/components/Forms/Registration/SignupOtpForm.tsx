@@ -38,7 +38,6 @@ const SignupOtpForm = () => {
   const { setIsSignup } = useContext(SignupContext) as SignupContextProps
 
   const onSubmitLogin = async (data: any) => {
-    console.log("data", data)
     try {
       dispatch(addphoneNumber(data.phoneNumber))
       await dispatch(generateOtp(data.phoneNumber))
@@ -51,7 +50,6 @@ const SignupOtpForm = () => {
   }
 
   const onSubmitOtp = async (data: any) => {
-    console.log(data)
     try {
       await dispatch(verifyOtpSignup({ phoneNumber: data.phoneNumber, otp }))
       setIsOtpInput(false)

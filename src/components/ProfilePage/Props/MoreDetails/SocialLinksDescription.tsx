@@ -51,7 +51,6 @@ const SocialLinksDescription = ({ isEdit }: { isEdit: boolean }) => {
   }, [setValue])
 
   const onSubmitSignup = async (data: any) => {
-    console.log("data", data)
     await dispatch(
       updatePropSocialLinks({
         id: propInformation?._id,

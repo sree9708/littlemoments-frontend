@@ -5,7 +5,7 @@ import React from "react"
 const HeroLazy = () => {
   return (
     <div className="h-full animate-pulse">
-      <div className="h-full mt-12 sm:mt-32 grid grid-cols-12 gap-4">
+      <div className="h-full mt-12 grid grid-cols-12 gap-4">
         <div className="h-full col-span-12 md:col-span-7">
           <div className="h-60 sm:h-96 overflow-hidden rounded-lg md:h-full w-full relative">
             <div className="absolute top-0 left-0 w-full h-full after:absolute after:inset-0 after:from-black after:to-transparent after:bg-gradient-to-t after:opacity-50">

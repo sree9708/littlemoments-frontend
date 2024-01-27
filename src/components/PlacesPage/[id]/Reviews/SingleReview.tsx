@@ -21,8 +21,6 @@ const SingleReview: React.FC<SingleReviewProps> = ({ name, place, title, date, r
 
   const formattedDate = `${day < 10 ? "0" + day : day}-${month < 10 ? "0" + month : month}-${year}`
 
-  console.log(formattedDate)
-
   return (
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-12 py-3">

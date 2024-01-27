@@ -89,7 +89,7 @@ const InputTime: React.FC<any> = ({ onTimeChange }: { onTimeChange: (data: any) 
         className="flex justify-between w-full bg-transparent rounded-lg p-3 my-3 border-2  text-xl border-primary focus:outline-none focus:ring-transparent"
         onClick={handleDropdown}
       >
-        <div className="text-gray-400">Time</div>
+        <div className="">Time</div>
         <IoMdArrowDropdown />
       </div>
       {dropdown && (

@@ -6,6 +6,7 @@ import { IoMdCall } from "react-icons/io"
 
 export const InformationsLeftSide = () => {
   const placeDetails = useAppSelector(state => state.place?.placeDetails)
+  const reviews = useAppSelector(state => state.review?.reviews)
 
   return (
     <div className="sm:col-span-10">
@@ -14,7 +15,7 @@ export const InformationsLeftSide = () => {
           <FaStar />
         </div>
         <div>4.9 stars</div>
-        <div className="text-slate-400">( 231 Review )</div>
+        <div className="text-slate-400">( {reviews.length} Reviews )</div>
       </div>
       <div className="font-title text-title-sm my-4">
         {placeDetails ? (

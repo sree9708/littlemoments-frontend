@@ -7,6 +7,10 @@ import React, { useContext, useEffect, useRef, useState } from "react"
 import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6"
 import { IoMdCloseCircleOutline } from "react-icons/io"
 import Slider from "react-slick"
+import TimeOverview from "../Overview/TimeOverview"
+import CategoryOverview from "../Overview/CategoryOverview"
+import AgeOverview from "../Overview/AgeOverview"
+import RateCardFeatures from "../Overview/RateCardFeatures"
 
 export const MoreDetailsLeftSide = () => {
   const [overview, setOverview] = useState<boolean>(false)
@@ -53,20 +57,21 @@ export const MoreDetailsLeftSide = () => {
           }`}
         >
           <div className="my-2">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum ea autem iure, et facere quae quos
-            asperiores non esse corrupti eius praesentium, sunt aspernatur magni? Id, veniam. Nisi minima, qui
-            molestiae impedit placeat maxime quae deleniti harum sequi est porro laudantium et. Dolore quaerat
-            sequi laborum doloribus animi possimus doloremque.
+            <TimeOverview />
+          </div>
+          <div className="my-2">
+            <CategoryOverview />
+          </div>
+          <div>
+            <AgeOverview />
           </div>
         </div>
         <div className="w-full border-t border-gray-500 my-4"></div>
       </div>
       <div>
-        <div className="flex w-full justify-between items-center">
+        <div className="flex w-full justify-between items-center" onClick={handleFeatures}>
           <div className="text-5xl font-title">FEATURES</div>
-          <div className="text-xl cursor-pointer" onClick={handleFeatures}>
-            {features ? <FaCircleMinus /> : <FaCirclePlus />}
-          </div>
+          <div className="text-xl cursor-pointer">{features ? <FaCircleMinus /> : <FaCirclePlus />}</div>
         </div>
         <div
           className={`transition-opacity duration-300 ease-in-out  overflow-hidden ${
@@ -74,20 +79,15 @@ export const MoreDetailsLeftSide = () => {
           }`}
         >
           <div className="my-2">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum ea autem iure, et facere quae quos
-            asperiores non esse corrupti eius praesentium, sunt aspernatur magni? Id, veniam. Nisi minima, qui
-            molestiae impedit placeat maxime quae deleniti harum sequi est porro laudantium et. Dolore quaerat
-            sequi laborum doloribus animi possimus doloremque.
+            <RateCardFeatures />
           </div>
         </div>
         <div className="w-full border-t border-gray-500 my-4"></div>
       </div>
       <div>
-        <div className="flex w-full justify-between items-center">
+        <div className="flex w-full justify-between items-center" onClick={handleVideo}>
           <div className="text-5xl font-title">LISTING VIDEOS</div>
-          <div className="text-xl cursor-pointer" onClick={handleVideo}>
-            {moreVideos ? <FaCircleMinus /> : <FaCirclePlus />}
-          </div>
+          <div className="text-xl cursor-pointer">{moreVideos ? <FaCircleMinus /> : <FaCirclePlus />}</div>
         </div>
         <div
           className={`transition-opacity duration-300 ease-in-out  overflow-hidden ${

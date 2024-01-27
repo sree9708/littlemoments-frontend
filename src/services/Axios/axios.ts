@@ -40,7 +40,6 @@ axiosInstance.interceptors.response.use(
             .get("/props/verify-token")
             .then(response => {
               store.dispatch(setPropId(response.data.id))
-              console.log("response.data", response.data)
             })
             .catch(error => {
               store.dispatch(setPropId(null))

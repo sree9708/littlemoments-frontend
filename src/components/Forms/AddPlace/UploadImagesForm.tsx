@@ -66,12 +66,10 @@ const UploadImagesForm = () => {
     event.preventDefault()
     if (selectedImages.length <= 0) {
       setError("Please select any image")
-      console.log("error")
       return
     }
     try {
       const base64Images = await Promise.all(selectedImages.map(image => filetoBase64(image)))
-      console.log("base64Images", base64Images)
       dispatch(addUploadImages({ displayImages: base64Images }))
       push("/add-place/social-links")
     } catch (error: any) {

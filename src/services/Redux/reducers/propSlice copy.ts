@@ -72,11 +72,11 @@ export const addPlace = createAsyncThunk("prop/addPlace", async (_, { getState }
     const gstinFile = (getState() as RootState).prop.propDetailsForm?.gstin as string
     const panFile = (getState() as RootState).prop.propDetailsForm?.pan as string
     const displayImages = (getState() as RootState).prop.propDetailsForm?.displayImages as string[]
-    const propDetailsForm: PropState["propDetailsForm"] = (getState() as RootState).prop.propDetailsForm
+    const propDetailsForm = (getState() as RootState).prop.propDetailsForm
+    formData.append("propDetails", JSON.stringify(propDetailsForm))
 
     const gstin = base64ToFile(gstinFile as string, `gstin`)
     const pan = base64ToFile(panFile as string, `pan`)
-    formData.append("propDetailsForm", JSON.stringify(propDetailsForm))
     formData.append("gstin", gstin)
     formData.append("pan", pan)
 
@@ -154,7 +154,6 @@ export const updatePropInformations = createAsyncThunk(
   "prop/updatePropInformations",
   async ({ id, data }: { id: string | undefined; data: any }) => {
     try {
-      console.log("data :", data)
       const response = await axios.put(`/props/informations/${id}`, data)
       return response.data
     } catch (err: any) {
@@ -191,7 +190,6 @@ export const removePropDisplayImages = createAsyncThunk(
   "prop/removePropDisplayImages",
   async ({ id, imageUrls }: { id: string | undefined; imageUrls: string[] }) => {
     try {
-      console.log("imageUrls :", imageUrls)
       const response = await axios.put(`/props/remove-dispaly-images/${id}`, { imageUrls })
       return response.data
     } catch (err: any) {

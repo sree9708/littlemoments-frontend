@@ -9,7 +9,7 @@ type InputAgeEditProps = {
   disabled: boolean
   required: boolean
   error: string | undefined
-  defaultValue?: string | undefined
+  defaultValue?: number
 }
 
 const InputAgeEdit = ({

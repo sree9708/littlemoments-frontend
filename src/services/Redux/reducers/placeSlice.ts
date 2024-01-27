@@ -1,4 +1,3 @@
-import { RootState } from "../store"
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "../../Axios/axios"
 import { IProp } from "@/services/Utilities/interfaces/prop.interface"
@@ -17,8 +16,25 @@ const initialState: PlaceState = {
   error: null,
 }
 
-export const getPlaceBySkipAndLimit = createAsyncThunk(
-  "place/getPlaceBySkipAndLimit",
+export const getPlaces = createAsyncThunk(
+  "place/getPlaces",
+  async ({ skip, limit }: { skip: number; limit: number }) => {
+    try {
+      const response = await axios.get(`/props/get-place/${skip}/${limit}`)
+      return response.data
+    } catch (err: any) {
+      console.log(err)
+      if (err.response && err.response.data && err.response.data.error) {
+        throw Error(err.response.data.error)
+      } else {
+        throw Error(err.message)
+      }
+    }
+  },
+)
+
+export const getPlacesBySkipAndLimit = createAsyncThunk(
+  "place/getPlacesBySkipAndLimit",
   async ({ skip, limit }: { skip: number; limit: number }) => {
     try {
       const response = await axios.get(`/props/get-place/${skip}/${limit}`)
@@ -54,15 +70,25 @@ export const placeSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(getPlaceBySkipAndLimit.pending, state => {
+      .addCase(getPlaces.pending, state => {
         state.isLoading = true
       })
-      .addCase(getPlaceBySkipAndLimit.fulfilled, (state, action) => {
+      .addCase(getPlaces.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.places = action.payload.props
+      })
+      .addCase(getPlaces.rejected, (state, action) => {
+        state.isLoading = false
+        throw Error(action.error.message)
+      })
+      .addCase(getPlacesBySkipAndLimit.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(getPlacesBySkipAndLimit.fulfilled, (state, action) => {
         state.isLoading = false
         state.places = [...state.places, ...action.payload.props]
-        console.log(action.payload)
       })
-      .addCase(getPlaceBySkipAndLimit.rejected, (state, action) => {
+      .addCase(getPlacesBySkipAndLimit.rejected, (state, action) => {
         state.isLoading = false
         throw Error(action.error.message)
       })
@@ -72,7 +98,6 @@ export const placeSlice = createSlice({
       .addCase(getPlaceById.fulfilled, (state, action) => {
         state.isLoading = false
         state.placeDetails = action.payload.prop
-        console.log(action.payload)
       })
       .addCase(getPlaceById.rejected, (state, action) => {
         state.isLoading = false

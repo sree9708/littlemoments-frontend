@@ -1,6 +1,6 @@
 "use client"
 
-import { useForm } from "react-hook-form"
+import { set, useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import InputText from "../../Inputs/InputText"
@@ -29,22 +29,14 @@ const schema = yup
       .required("Description is required.")
       .min(10, "Description must be at least 10 characters long.")
       .max(1000, "Description can be maximum 250 characters long."),
-    // gstin: yup
-    //   .mixed<FileList>()
-    //   .test("fileRequired", "GSTIN file is required", value => value && value.length > 0)
-    //   .nullable(),
-    // gstin: yup.string().when('gstinFile', {
-    //   is: (gstinFile: any) => !gstinFile,
-    //   then: (schema) => schema.required("GSTIN is required when GSTIN file is not present."),
-    // }),
-    // gstinFile: yup.mixed().when('gstin', {
-    //   is: (gstin: any) => !gstin,
-    //   then: (schema) => schema.required("GSTIN file is required when GSTIN is not present."),
-    // }),
-    // pan: yup
-    //   .mixed<FileList>()
-    //   .test("fileRequired", "Pan Card file is required", value => value && value.length > 0)
-    //   .nullable(),
+    gstin: yup
+      .mixed<FileList>()
+      .test("fileRequired", "Gstin file is required", value => value && value.length > 0)
+      .nullable(),
+    pan: yup
+      .mixed<FileList>()
+      .test("fileRequired", "Pan Card file is required", value => value && value.length > 0)
+      .nullable(),
     pocContactNo: yup
       .string()
       .required("Phone number is required.")
@@ -65,6 +57,7 @@ const BusinessDetailsForm = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) })
 
@@ -88,18 +81,34 @@ const BusinessDetailsForm = () => {
 
   useEffect(() => {
     setIsTracker(2)
-  }, [setIsTracker])
+    setValue("location", propDetailsForm?.location || "")
+    setValue("address", propDetailsForm?.address || "")
+    setValue("pocContactNo", propDetailsForm?.pocContactNo || "")
+    setValue("pocName", propDetailsForm?.pocName || "")
+    setValue("pocDesignation", propDetailsForm?.pocDesignation || "")
+    let dt1 = new DataTransfer()
+    if (propDetailsForm?.gstin) {
+      let file = base64ToFile(propDetailsForm.gstin as string, "gstin")
+      dt1.items.add(file)
+    }
+    setValue("gstin", dt1.files.length ? dt1.files : undefined)
+    let dt2 = new DataTransfer()
+    if (propDetailsForm?.pan) {
+      let file = base64ToFile(propDetailsForm.pan as string, "pan")
+      dt2.items.add(file)
+    }
+    setValue("pan", dt2.files.length ? dt2.files : undefined)
+    setGstinFile(dt2.files.length ? dt2.files[0] : null)
+    setPanFile(dt2.files.length ? dt2.files[0] : null)
+  }, [setIsTracker, setValue, propDetailsForm])
 
-  // const handleGstinFileChange = (file: File | null) => {
   const handleGstinFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null
-    console.log("GSTIN File Selected:", file?.size)
     setGstinFile(file)
   }
 
   const handlePanFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null
-    console.log("PAN File Selected:", file)
     setPanFile(file)
   }
 
@@ -120,7 +129,6 @@ const BusinessDetailsForm = () => {
         pan: panFileBase64,
       }),
     )
-    console.log("gstinFileBase64", gstinFileBase64)
     push("/add-place/information")
   }
 
@@ -139,7 +147,7 @@ const BusinessDetailsForm = () => {
             register={register}
             required
             error={errors.location?.message}
-            defaultValue={propDetailsForm?.location}
+            // defaultValue={propDetailsForm?.location}
           />
           <InputTextarea
             name="address"
@@ -148,12 +156,12 @@ const BusinessDetailsForm = () => {
             register={register}
             required
             error={errors.address?.message}
-            defaultValue={propDetailsForm?.address}
+            // defaultValue={propDetailsForm?.address}
           />
-          {gstinFile ? (
+          {gstinFile && (
             <div className="w-full my-3">
               <label className="font-semibold text-gray-600">GSTIN</label>
-              <div className="w-full justify-between flex items-center gap-2 border-2 rounded-lg p-3 text-lg border-primary">
+              <div className="w-full justify-between flex items-center gap-2 border-2 rounded-lg p-2 text-md border-primary">
                 <p>{gstinFile?.name}</p>
                 <button
                   type="button"
@@ -163,24 +171,25 @@ const BusinessDetailsForm = () => {
                   <IoCloseSharp />
                 </button>
               </div>
+              {errors.gstin?.message && <p className="text-red-600 text-sm">{errors.gstin?.message}</p>}
             </div>
-          ) : (
+          )}
+          <div className={`${gstinFile ? "hidden" : "flex"}`}>
             <InputFile
               name="gstin"
               label="GSTIN"
               type="file"
               register={register}
               error={errors.gstin?.message}
-              // onFileChange={handleGstinFileChange}
               onChange={handleGstinFileChange}
               required
             />
-          )}
-          {panFile ? (
+          </div>
+          {panFile && (
             <div className="w-full my-3">
               <label className="font-semibold text-gray-600">PAN Card</label>
-              <div className="w-full justify-between flex items-center gap-2 border-2 rounded-lg p-3 border-primary">
-                <p className=" text-lg">{panFile?.name}</p>
+              <div className="w-full justify-between flex items-center gap-2 border-2 rounded-lg p-2 border-primary">
+                <p>{panFile?.name}</p>
                 <button
                   type="button"
                   className="w-fit flex items-center gap-2 bg-background p-1 text-primary rounded-md border-2 border-primary cursor-pointer"
@@ -189,19 +198,20 @@ const BusinessDetailsForm = () => {
                   <IoCloseSharp />
                 </button>
               </div>
+              {errors.pan?.message && <p className="text-red-600 text-sm">{errors.pan?.message}</p>}
             </div>
-          ) : (
+          )}
+          <div className={`${panFile ? "hidden" : "flex"}`}>
             <InputFile
               name="pan"
               label="PAN Card"
               type="file"
               register={register}
               error={errors.pan?.message}
-              // onFileChange={handlePanFileChange}
               onChange={handlePanFileChange}
               required
             />
-          )}
+          </div>
           <InputText
             name="pocContactNo"
             type="text"
@@ -209,7 +219,7 @@ const BusinessDetailsForm = () => {
             register={register}
             required
             error={errors.pocContactNo?.message}
-            defaultValue={propDetailsForm?.pocContactNo}
+            // defaultValue={propDetailsForm?.pocContactNo}
           />
           <InputText
             name="pocName"
@@ -218,7 +228,7 @@ const BusinessDetailsForm = () => {
             register={register}
             required
             error={errors.pocName?.message}
-            defaultValue={propDetailsForm?.pocName}
+            // defaultValue={propDetailsForm?.pocName}
           />
           <InputText
             name="pocDesignation"
@@ -227,7 +237,7 @@ const BusinessDetailsForm = () => {
             register={register}
             required
             error={errors.pocDesignation?.message}
-            defaultValue={propDetailsForm?.pocDesignation}
+            // defaultValue={propDetailsForm?.pocDesignation}
           />
           <div className="flex gap-4">
             <button

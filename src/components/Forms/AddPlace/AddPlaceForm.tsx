@@ -1,6 +1,6 @@
 "use client"
 
-import { useForm } from "react-hook-form"
+import { set, useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import InputText from "../../Inputs/InputText"
@@ -31,17 +31,23 @@ const AddPlaceForm = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) })
 
   const { push } = useRouter()
   const dispatch = useAppDispatch()
+
   const propDetailsForm = useAppSelector(state => state.prop?.propDetailsForm)
+  const propInformation = useAppSelector(state => state.prop?.propInformations)
   const { setIsTracker } = useContext(TrackerContext) as TrackerContextProps
 
   useEffect(() => {
     setIsTracker(1)
-  }, [setIsTracker])
+    setValue("email", propInformation?.email || "")
+    setValue("placeName", propDetailsForm?.placeName || "")
+    setValue("displayContactNo", propDetailsForm?.displayContactNo || "")
+  }, [setIsTracker, setValue, propInformation, propDetailsForm])
 
   const onSubmitSignup = (data: any) => {
     dispatch(addPlaceOwner(data))
@@ -62,7 +68,7 @@ const AddPlaceForm = () => {
           register={register}
           required
           error={errors.placeName?.message}
-          defaultValue={propDetailsForm?.placeName}
+          // defaultValue={propDetailsForm?.placeName}
         />
         <InputText
           name="email"
@@ -71,7 +77,8 @@ const AddPlaceForm = () => {
           register={register}
           required
           error={errors.email?.message}
-          defaultValue={propDetailsForm?.email}
+          disabled={true}
+          // defaultValue={propInformation?.email}
         />
         <InputText
           name="displayContactNo"
@@ -80,7 +87,7 @@ const AddPlaceForm = () => {
           register={register}
           required
           error={errors.displayContactNo?.message}
-          defaultValue={propDetailsForm?.displayContactNo}
+          // defaultValue={propDetailsForm?.displayContactNo}
         />
         <div className="flex gap-4">
           <button

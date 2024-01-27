@@ -77,12 +77,8 @@ export const addPlace = createAsyncThunk("prop/addPlace", async (_, { getState }
 
     const gstin = base64ToFile(gstinFile as string, `gstin`)
     const pan = base64ToFile(panFile as string, `pan`)
-    console.log("propDetailsForm :", propDetailsForm)
     formData.append("gstin", gstin)
     formData.append("pan", pan)
-
-    console.log("displayImages :", displayImages)
-    console.log("formData :", formData)
     Array.from(displayImages ?? []).forEach((image: unknown) => {
       const file = base64ToFile(image as string, `image`)
       formData.append("displayImages", file)
@@ -157,7 +153,6 @@ export const updatePropInformations = createAsyncThunk(
   "prop/updatePropInformations",
   async ({ id, data }: { id: string | undefined; data: any }) => {
     try {
-      console.log("data :", data)
       const response = await axios.put(`/props/informations/${id}`, data)
       return response.data
     } catch (err: any) {
@@ -194,7 +189,6 @@ export const removePropDisplayImages = createAsyncThunk(
   "prop/removePropDisplayImages",
   async ({ id, imageUrls }: { id: string | undefined; imageUrls: string[] }) => {
     try {
-      console.log("imageUrls :", imageUrls)
       const response = await axios.put(`/props/remove-dispaly-images/${id}`, { imageUrls })
       return response.data
     } catch (err: any) {

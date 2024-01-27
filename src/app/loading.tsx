@@ -1,7 +1,11 @@
-import React from "react"
+"use client"
+import NextNProgress from "nextjs-progressbar"
 
-const loading = () => {
-  return <div>loading...</div>
+export default function App({ Component, pageProps }: any) {
+  return (
+    <div>
+      <NextNProgress />
+      {/* <Component {...pageProps} />; */}
+    </div>
+  )
 }
-
-export default loading

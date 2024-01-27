@@ -78,7 +78,6 @@ const BusinessDetailsForm = () => {
   const [panFile, setPanFile] = useState<File | null>(pan ? pan : null)
 
   const onSubmitSignup = async (data: any) => {
-    console.log("data", data)
     const filePromises = [
       gstinFile ? filetoBase64(gstinFile) : Promise.resolve(null),
       panFile ? filetoBase64(panFile) : Promise.resolve(null),
@@ -90,18 +89,16 @@ const BusinessDetailsForm = () => {
   }
 
   const handleGstinFileChange = (file: File | null) => {
-    console.log("GSTIN File Selected:", file?.size)
     setGstinFile(file)
   }
 
   const handlePanFileChange = (file: File | null) => {
-    console.log("PAN File Selected:", file)
     setPanFile(file)
   }
 
-  // const handleBack = () => {
-  //   push("/add-place");
-  // };
+  const handleBack = () => {
+    push("/add-place")
+  }
 
   return (
     <>

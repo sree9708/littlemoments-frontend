@@ -16,7 +16,6 @@ import { useEffect } from "react"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import HeroLazy from "@/layouts/PlacesPage/[id]/HeroLazy"
-import { getReviewsByPropId } from "@/services/Redux/reducers/reviewSlice"
 
 export default function Home() {
   const { push } = useRouter()
@@ -30,7 +29,6 @@ export default function Home() {
       const fetchData = async () => {
         try {
           await dispatch(getPlaceById(propId))
-          await dispatch(getReviewsByPropId(propId))
         } catch (error: any) {
           console.log(error.message)
         }
@@ -52,7 +50,6 @@ export default function Home() {
           <Informations />
           <MoreDetails />
           <Reviews />
-          {/* <RelatedActivities /> */}
         </div>
         <Marquee />
         <Footer />

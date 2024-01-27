@@ -1,4 +1,3 @@
-import ClientComponent from "@/app/ClientComponent"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {

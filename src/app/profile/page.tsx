@@ -22,7 +22,6 @@ export default function Home() {
     setIsClient(true)
     async function getReviews() {
       try {
-        console.log("reviews fetched", userInformations?._id)
         await dispatch(getReviewsByUserId(userInformations?._id || ""))
       } catch (err) {
         console.log(err)

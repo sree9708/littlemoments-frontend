@@ -2,7 +2,7 @@ import RegistrationButton from "@/components/Buttons/RegistrationButton"
 import InputTextEdit from "@/components/Inputs/EditProfile/InputTextEdit"
 import InputTextareaEdit from "@/components/Inputs/EditProfile/InputTextareaEdit"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
-// import { updatePropBusinessDetails, verifyPropId } from "@/services/Redux/reducers/propSlice"
+import { updatePropBusinessDetails } from "@/services/Redux/reducers/propSlice"
 import { yupResolver } from "@hookform/resolvers/yup"
 import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
@@ -71,19 +71,19 @@ const BusinessDetailsDescription = ({ isEdit }: { isEdit: boolean }) => {
   const onSubmitSignup = async (data: any) => {
     console.log("data", data)
     try {
-      // await dispatch(
-      //   updatePropBusinessDetails({
-      //     id: propInformation?._id,
-      //     data: {
-      //       location: data.location,
-      //       address: data.address,
-      //       // city: data.city,
-      //       pocContactNo: data.pocContactNo,
-      //       pocName: data.pocName,
-      //       pocDesignation: data.pocDesignation,
-      //     },
-      //   }),
-      // )
+      await dispatch(
+        updatePropBusinessDetails({
+          id: propInformation?._id,
+          data: {
+            location: data.location,
+            address: data.address,
+            // city: data.city,
+            pocContactNo: data.pocContactNo,
+            pocName: data.pocName,
+            pocDesignation: data.pocDesignation,
+          },
+        }),
+      )
     } catch (error) {
       console.log(error)
     }

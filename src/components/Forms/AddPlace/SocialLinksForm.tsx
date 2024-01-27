@@ -54,7 +54,6 @@ const SocialLinksForm = () => {
   }, [setIsTracker])
 
   const onSubmitSignup = async (data: any) => {
-    console.log("data", data)
     try {
       dispatch(addSocialLinks({ socialLinks: data }))
       await dispatch(addPlace())

@@ -43,6 +43,8 @@ export const Title = () => {
 
   const dispatch = useAppDispatch()
   const userId = useAppSelector(state => state.user?.id)
+  const reviews = useAppSelector(state => state.review?.reviews)
+
   const stars = Array(5).fill(null)
 
   const [isModal, setisModal] = useState<boolean>(false)
@@ -82,7 +84,7 @@ export const Title = () => {
                   </div>
                 ))}
               </div>
-              <div className="text-slate-400 text-xs">1,289 reviews</div>
+              <div className="text-slate-400 text-xs">{reviews.length} reviews</div>
             </div>
           </div>
         </div>

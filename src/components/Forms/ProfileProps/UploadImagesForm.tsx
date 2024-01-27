@@ -27,7 +27,6 @@ const UploadImagesForm = () => {
       }).then(result => {
         if (result.isConfirmed) {
           const imageUrls = [image]
-          console.log("page :", imageUrls)
           dispatch(removePropDisplayImages({ id: propInformation?._id, imageUrls }))
           Swal.fire("Deleted!", "Your file has been deleted.", "success")
         }

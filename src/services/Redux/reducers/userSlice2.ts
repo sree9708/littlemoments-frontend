@@ -132,7 +132,7 @@ export const removeWishlist = createAsyncThunk(
 )
 
 export const userSlice = createSlice({
-  name: "user",
+  name: "prop",
   initialState,
   reducers: {
     setUserId: (state, action: PayloadAction<string | null>) => {
@@ -202,7 +202,6 @@ export const userSlice = createSlice({
       .addCase(verifyUserId.fulfilled, (state, action) => {
         state.isLoading = false
         state.id = action.payload.user._id
-        console.log(action.payload.user)
         state.userInformations = {
           _id: action.payload.user._id,
           username: action.payload.user.username,

@@ -35,7 +35,6 @@ const LoginForm = () => {
   const dispatch = useAppDispatch()
 
   const onSubmitLogin = async (data: any) => {
-    console.log("data", data.phoneNumber)
     try {
       await dispatch(generateOtp(data.phoneNumber))
       setIsOtpInput(true)

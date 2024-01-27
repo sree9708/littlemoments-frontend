@@ -54,7 +54,6 @@ const SignupForm = () => {
   const userDetailsForm = useAppSelector(state => state.user?.userDetailsForm)
 
   const onSubmitSignup = (data: any) => {
-    console.log("data", data)
     dispatch(adduserDetailsForm(data))
     setIsSignup(false)
   }

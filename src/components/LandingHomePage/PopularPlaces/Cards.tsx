@@ -3,7 +3,7 @@
 import Card from "@/components/Cards/PopularPlace/Card"
 import CardLazy from "@/components/Cards/PopularPlace/CardLazy"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
-import { getPlaceBySkipAndLimit } from "@/services/Redux/reducers/placeSlice"
+import { getPlaces, getPlacesBySkipAndLimit } from "@/services/Redux/reducers/placeSlice"
 import React, { useEffect, useState } from "react"
 
 const Cards: React.FC = () => {
@@ -18,13 +18,12 @@ const Cards: React.FC = () => {
     async function fetchData() {
       if (places && places.length === 0) {
         try {
-          await dispatch(getPlaceBySkipAndLimit({ skip: 0, limit: 12 }))
+          await dispatch(getPlaces({ skip: 0, limit: 12 }))
         } catch (error: any) {
           console.log(error.message)
         }
       }
     }
-    console.log("musaffar")
     fetchData()
   }, [])
 
