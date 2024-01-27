@@ -152,6 +152,7 @@ export const updatePropBusinessDetails = createAsyncThunk(
 export const updatePropInformations = createAsyncThunk(
   "prop/updatePropInformations",
   async ({ id, data }: { id: string | undefined; data: any }) => {
+    console.log("data", data)
     try {
       const response = await axios.put(`/props/informations/${id}`, data)
       return response.data
