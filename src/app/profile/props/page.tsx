@@ -13,14 +13,20 @@ import { useEffect, useState } from "react"
 import { getPropById } from "@/services/Redux/reducers/propSlice"
 
 export default function Home() {
-
   const dispatch = useAppDispatch()
   const propInformation = useAppSelector(state => state.prop?.propInformations)
 
   const [isClient, setIsClient] = useState(false)
 
   useEffect(() => {
-    dispatch(getPropById())
+    async function fetchData() {
+      try {
+        await dispatch(getPropById())
+      } catch (error: any) {
+        console.log(error)
+      }
+    }
+    fetchData()
     setIsClient(true)
   }, [])
 

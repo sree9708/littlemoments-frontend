@@ -3,7 +3,6 @@
 import React, { useContext, useState } from "react"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
-import * as yup from "yup"
 import InputText from "../../Inputs/InputText"
 import RegistrationButton from "../../Buttons/RegistrationButton"
 import OtpInput from "../../Inputs/InputOtp"
@@ -12,22 +11,14 @@ import { SignupContext, SignupContextProps } from "@/services/Context/SignupCont
 import { addphoneNumber, createUser, generateOtp, verifyOtpSignup } from "@/services/Redux/reducers/userSlice"
 import { useAppDispatch } from "@/hooks/useStore"
 import { useRouter } from "next/navigation"
-
-const schema = yup
-  .object({
-    phoneNumber: yup
-      .string()
-      .required("Phone number is required.")
-      .matches(/^[0-9]{10}$/, "Phone number must be a 10-digit number without any special characters."),
-  })
-  .required()
+import phoneNumberValidation from "@/services/Validation/phoneNumberValidation"
 
 const SignupOtpForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) })
+  } = useForm({ resolver: yupResolver(phoneNumberValidation) })
 
   const route = useRouter()
   const dispatch = useAppDispatch()

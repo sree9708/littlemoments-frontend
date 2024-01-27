@@ -1,12 +1,6 @@
 "use client"
 
-import BusinessDetailsForm from "@/components/Forms/ProfileProps/BusinessDetailsForm"
-import InformationForm from "@/components/Forms/ProfileProps/InformationForm"
-import SocialLinksForm from "@/components/Forms/ProfileProps/SocialLinksForm"
 import UploadImagesForm from "@/components/Forms/ProfileProps/UploadImagesForm"
-import informationCards from "@/components/ProfilePage/MoreDetails/FavouritesCards"
-import Reviews from "@/components/ProfilePage/MoreDetails/Reviews"
-import Settings from "@/components/ProfilePage/MoreDetails/Settings"
 import BusinessDetails from "@/components/ProfilePage/Props/MoreDetails/BusinessDetails"
 import Information from "@/components/ProfilePage/Props/MoreDetails/Information"
 import SocialLinks from "@/components/ProfilePage/Props/MoreDetails/SocialLinks"

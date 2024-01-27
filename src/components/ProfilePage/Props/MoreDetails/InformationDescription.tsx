@@ -4,66 +4,17 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import React, { useEffect, useState } from "react"
 import { Controller, useFieldArray, useForm } from "react-hook-form"
 import { IoMdAddCircleOutline, IoMdRemoveCircleOutline } from "react-icons/io"
-import { Tooltip } from "react-tooltip"
 import InputTextareaEdit from "@/components/Inputs/EditProfile/InputTextareaEdit"
 import InputCategoryEdit from "@/components/Inputs/EditProfile/InputCategoryEdit"
 import InputAgeEdit from "@/components/Inputs/EditProfile/InputAgeEdit"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import RegistrationButton from "@/components/Buttons/RegistrationButton"
 import { updatePropInformations } from "@/services/Redux/reducers/propSlice"
+import AddAndRemoveTooltip from "@/components/Tooltip/TooltipComponent"
+import InformationValidation from "@/services/Validation/informartionValidation"
 
-const schema = yup
-  .object({
-    rateCard: yup.array().of(
-      yup.object().shape({
-        title: yup.string().required("Title is required."),
-        // price: yup.string().required("Price is required.").matches(/^\d+$/, "Price must be a number."),
-        price: yup
-          .number()
-          .typeError("Price must be a number.")
-          .required("Price is required.")
-          .positive("Price must be a positive number.")
-          .integer("Price must be an integer."),
-      }),
-    ),
-    placeDescription: yup
-      .string()
-      .required("Description is required.")
-      .min(10, "Description must be at least 10 characters long.")
-      .max(1000, "Description can be maximum 250 characters long."),
-    category: yup
-      .string()
-      .required("Place name is required.")
-      .min(1, "Place name must be at least 3 characters.")
-      .max(100, "Place name must not exceed 20 characters."),
-    subCategory: yup
-      .string()
-      .required("Place name is required.")
-      .min(1, "Place name must be at least 3 characters.")
-      .max(100, "Place name must not exceed 20 characters."),
-    startingAge: yup
-      .number()
-      .required("Starting Age is required.")
-      .positive("Starting Age must be a positive number.")
-      .integer("Starting Age must be an integer.")
-      .test("is-less-than-ending-age", "Starting Age must be less than Ending Age", function (value) {
-        const endingAge = this.parent.endingAge
-        return value < endingAge
-      }),
-    endingAge: yup
-      .number()
-      .required("Ending Age is required.")
-      .positive("Ending Age must be a positive number.")
-      .integer("Ending Age must be an integer.")
-      .test("is-greater-than-starting-age", "Ending Age must be greater than Starting Age", function (value) {
-        const startingAge = this.parent.startingAge
-        return value > startingAge
-      }),
-  })
-  .required()
 
 const InformationDescription = ({ isEdit }: { isEdit: boolean }) => {
-
   const dispatch = useAppDispatch()
   const propInformation = useAppSelector(state => state.prop?.propInformations)
 
@@ -72,14 +23,11 @@ const InformationDescription = ({ isEdit }: { isEdit: boolean }) => {
     control,
     handleSubmit,
     setValue,
-    reset, // add this
+    reset,
     getValues,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema),
-    // defaultValues: {
-    //   rateCard: propInformation?.rateCard?.map(card => ({ ...card })) || [],
-    // },
+    resolver: yupResolver(InformationValidation),
   })
 
   const { fields, append, remove } = useFieldArray({
@@ -91,21 +39,13 @@ const InformationDescription = ({ isEdit }: { isEdit: boolean }) => {
 
   useEffect(() => {
     setValue("placeDescription", propInformation?.placeDescription || "")
-    // if (propInformation?.rateCard && fields.length === 0) {
-    //   fields.forEach((_, index) => remove(index));
-
-    //   propInformation.rateCard.forEach((card) => {
-    //     append({ title: card.title, price: card.price });
-    //   });
-    // }
-     if (propInformation?.rateCard) {
+    if (propInformation?.rateCard) {
       reset({
-        ...getValues(), // preserve other field values
-        rateCard: propInformation.rateCard // set rateCard array
-      });
+        ...getValues(),
+        rateCard: propInformation.rateCard,
+      })
     }
-    console.log("propInformation : ", propInformation)
-  }, [setValue, propInformation])
+  }, [setValue, propInformation, reset, getValues])
 
   const handleDropdown = () => {
     setDropdown(!dropdown)
@@ -148,12 +88,7 @@ const InformationDescription = ({ isEdit }: { isEdit: boolean }) => {
 
   return (
     <div className="pt-8">
-      <Tooltip className="z-10" anchorSelect=".add-tooltip" place="bottom">
-        Add
-      </Tooltip>
-      <Tooltip className="z-10" anchorSelect=".remove-tooltip" place="bottom">
-        Remove
-      </Tooltip>
+      <AddAndRemoveTooltip />
       <form onSubmit={handleSubmit(onSubmitSignup)}>
         <div className="block md:flex w-full gap-4 my-4">
           <div className="w-full flex flex-col gap-4">
@@ -215,6 +150,9 @@ const InformationDescription = ({ isEdit }: { isEdit: boolean }) => {
                     </div>
                   ))}
                 </div>
+                {errors.rateCard?.root && (
+                  <p className="text-red-600 text-sm">{errors.rateCard?.root?.message}</p>
+                )}
               </div>
             </div>
             <div className="w-full h-full border-2 border-primary p-2 rounded-lg">

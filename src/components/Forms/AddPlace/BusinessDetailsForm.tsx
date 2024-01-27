@@ -15,43 +15,8 @@ import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { addBusinessDetails } from "@/services/Redux/reducers/propSlice"
 import { base64ToFile, filetoBase64 } from "@/services/Utilities/base64/base64.services"
 import { IoCloseSharp } from "react-icons/io5"
+import BusinessDetailsValidation from "@/services/Validation/businessDetailsValidation"
 
-const schema = yup
-  .object({
-    location: yup
-      .string()
-      .url("Please enter a valid URL")
-      .required("Place name is required.")
-      .min(3, "Place name must be at least 3 characters.")
-      .max(100, "Place name must not exceed 20 characters."),
-    address: yup
-      .string()
-      .required("Description is required.")
-      .min(10, "Description must be at least 10 characters long.")
-      .max(1000, "Description can be maximum 250 characters long."),
-    gstin: yup
-      .mixed<FileList>()
-      .test("fileRequired", "Gstin file is required", value => value && value.length > 0)
-      .nullable(),
-    pan: yup
-      .mixed<FileList>()
-      .test("fileRequired", "Pan Card file is required", value => value && value.length > 0)
-      .nullable(),
-    pocContactNo: yup
-      .string()
-      .required("Phone number is required.")
-      .matches(/^[0-9]{10}$/, "Phone number must be a 10-digit number without any special characters."),
-    pocName: yup
-      .string()
-      .required("POC Name is required.")
-      .max(1000, "POC name can be maximum 250 characters long."),
-    pocDesignation: yup
-      .string()
-      .required("Phone number is required.")
-      .required("POC designation is required.")
-      .max(1000, "POC designation can be maximum 250 characters long."),
-  })
-  .required()
 
 const BusinessDetailsForm = () => {
   const {
@@ -59,7 +24,7 @@ const BusinessDetailsForm = () => {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) })
+  } = useForm({ resolver: yupResolver(BusinessDetailsValidation) })
 
   const { push } = useRouter()
   const dispatch = useAppDispatch()
@@ -83,6 +48,7 @@ const BusinessDetailsForm = () => {
     setIsTracker(2)
     setValue("location", propDetailsForm?.location || "")
     setValue("address", propDetailsForm?.address || "")
+    setValue("city", "hyderabad")
     setValue("pocContactNo", propDetailsForm?.pocContactNo || "")
     setValue("pocName", propDetailsForm?.pocName || "")
     setValue("pocDesignation", propDetailsForm?.pocDesignation || "")

@@ -1,10 +1,10 @@
 "use client"
 
+import TooltipComponent from "@/components/Tooltip/TooltipComponent"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import React, { useState } from "react"
 import { FaHome, FaUser } from "react-icons/fa"
-import { Tooltip } from "react-tooltip"
 
 type RegistrationNavbarProps = {
   props: boolean
@@ -26,15 +26,7 @@ const RegistrationNavbar = ({ props }: RegistrationNavbarProps) => {
 
   return (
     <>
-      <Tooltip className="z-10" anchorSelect="#user-tooltip" place="bottom">
-        User Login
-      </Tooltip>
-      <Tooltip className="z-10" anchorSelect="#props-tooltip" place="bottom">
-        Props Login
-      </Tooltip>
-      <Tooltip className="z-10" anchorSelect="#home-tooltip" place="bottom">
-        Home
-      </Tooltip>
+      <TooltipComponent />
       <div id="home-tooltip" className="absolute top-0 left-2 text-2xl cursor-pointer">
         <Link href="/">
           <FaHome />

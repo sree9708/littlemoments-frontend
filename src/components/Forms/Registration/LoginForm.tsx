@@ -11,23 +11,14 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { generateOtp, verifyOtpLogin } from "@/services/Redux/reducers/userSlice"
 import { useAppDispatch } from "@/hooks/useStore"
-import axios from "../../../services/Axios/axios"
-
-const schema = yup
-  .object({
-    phoneNumber: yup
-      .string()
-      .required("Phone number is required.")
-      .matches(/^[0-9]{10}$/, "Phone number must be a 10-digit number without any special characters."),
-  })
-  .required()
+import loginValidation from "@/services/Validation/phoneNumberValidation"
 
 const LoginForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) })
+  } = useForm({ resolver: yupResolver(loginValidation) })
   const [otp, setOtp] = useState("")
   const [isOtpInput, setIsOtpInput] = useState<boolean>(false)
 

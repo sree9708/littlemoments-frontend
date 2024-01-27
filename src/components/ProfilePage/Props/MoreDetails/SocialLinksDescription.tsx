@@ -2,35 +2,10 @@ import RegistrationButton from "@/components/Buttons/RegistrationButton"
 import InputTextSocialLinksEdit from "@/components/Inputs/EditProfile/InputTextSocialLinksEdit"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { updatePropSocialLinks } from "@/services/Redux/reducers/propSlice"
+import SocialLinksValidation from "@/services/Validation/socialLinksValidation"
 import { yupResolver } from "@hookform/resolvers/yup"
 import React, { useEffect } from "react"
 import { useForm } from "react-hook-form"
-import * as yup from "yup"
-
-const schema = yup
-  .object({
-    fb: yup
-      .string()
-      .url("Please enter a valid URL")
-      .min(10, "Facebook must be at least 10 characters.")
-      .max(100, "Facebook must not exceed 20 characters."),
-    instagram: yup
-      .string()
-      .url("Please enter a valid URL")
-      .min(10, "Instagram must be at least 10 characters.")
-      .max(100, "Instagram must not exceed 20 characters."),
-    youtube: yup
-      .string()
-      .url("Please enter a valid URL")
-      .min(10, "Youtube must be at least 10 characters.")
-      .max(100, "Youtube must not exceed 20 characters."),
-    twitter: yup
-      .string()
-      .url("Please enter a valid URL")
-      .min(10, "Twitter must be at least 10 characters.")
-      .max(100, "Twitter must not exceed 20 characters."),
-  })
-  .required()
 
 const SocialLinksDescription = ({ isEdit }: { isEdit: boolean }) => {
   const {
@@ -38,7 +13,7 @@ const SocialLinksDescription = ({ isEdit }: { isEdit: boolean }) => {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) })
+  } = useForm({ resolver: yupResolver(SocialLinksValidation) })
 
   const dispatch = useAppDispatch()
   const propInformation = useAppSelector(state => state.prop?.propInformations)

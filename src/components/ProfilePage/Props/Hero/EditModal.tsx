@@ -21,11 +21,6 @@ const schema = yup
       .required("Username is required.")
       .min(3, "Username must be at least 5 characters.")
       .max(20, "Username must not exceed 20 characters."),
-    // city: yup
-    //   .string()
-    //   .required("City is required.")
-    //   .min(2, "City must be at least 2 characters.")
-    //   .max(50, "City must not exceed 50 characters."),
   })
   .required()
 

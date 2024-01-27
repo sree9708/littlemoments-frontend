@@ -3,45 +3,11 @@ import InputTextEdit from "@/components/Inputs/EditProfile/InputTextEdit"
 import InputTextareaEdit from "@/components/Inputs/EditProfile/InputTextareaEdit"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { updatePropBusinessDetails } from "@/services/Redux/reducers/propSlice"
+import BusinessDetailsValidation from "@/services/Validation/businessDetailsValidation"
 import { yupResolver } from "@hookform/resolvers/yup"
 import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
-import * as yup from "yup"
 
-const schema = yup
-  .object({
-    location: yup
-      .string()
-      .url("Please enter a valid URL")
-      .required("Place name is required.")
-      .min(3, "Place name must be at least 3 characters.")
-      .max(100, "Place name must not exceed 20 characters."),
-    address: yup
-      .string()
-      .required("Description is required.")
-      .min(10, "Description must be at least 10 characters long.")
-      .max(1000, "Description can be maximum 250 characters long."),
-    city: yup
-      .string()
-      .required("Description is required.")
-      .min(5, "Description must be at least 5 characters long.")
-      .max(1000, "Description can be maximum 250 characters long."),
-    pocContactNo: yup
-      .string()
-      .required("Phone number is required.")
-      .matches(/^[0-9]{10}$/, "Phone number must be a 10-digit number without any special characters."),
-    pocName: yup
-      .string()
-      .required("Description is required.")
-      .min(5, "Description must be at least 5 characters long.")
-      .max(1000, "Description can be maximum 250 characters long."),
-    pocDesignation: yup
-      .string()
-      .required("Phone number is required.")
-      .min(5, "Description must be at least 5 characters long.")
-      .max(1000, "Description can be maximum 250 characters long."),
-  })
-  .required()
 
 const BusinessDetailsDescription = ({ isEdit }: { isEdit: boolean }) => {
   const {
@@ -49,7 +15,7 @@ const BusinessDetailsDescription = ({ isEdit }: { isEdit: boolean }) => {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) })
+  } = useForm({ resolver: yupResolver(BusinessDetailsValidation) })
   const [isClient, setIsClient] = useState(false)
 
   const dispatch = useAppDispatch()

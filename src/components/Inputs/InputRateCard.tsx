@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { IoMdAddCircleOutline, IoMdRemoveCircleOutline } from "react-icons/io"
-import { Tooltip } from "react-tooltip"
+import AddAndRemoveTooltip from "../Tooltip/TooltipComponent"
 
 const InputRateCard = ({
   onRateCardChange,
@@ -37,12 +37,7 @@ const InputRateCard = ({
 
   return (
     <div className="w-full">
-      <Tooltip className="z-10" anchorSelect=".add-tooltip" place="bottom">
-        Add
-      </Tooltip>
-      <Tooltip className="z-10" anchorSelect=".remove-tooltip" place="bottom">
-        Remove
-      </Tooltip>
+      <AddAndRemoveTooltip />
       <div
         onClick={handleAddRow}
         className="flex justify-between relative w-full bg-transparent rounded-lg p-3 my-3 border-2  text-xl border-primary focus:outline-none focus:ring-transparent"

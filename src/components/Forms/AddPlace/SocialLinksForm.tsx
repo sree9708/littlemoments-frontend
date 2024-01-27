@@ -11,38 +11,14 @@ import InputTextSocialLinks from "@/components/Inputs/InputTextSocialLinks"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { addPlace, addSocialLinks } from "@/services/Redux/reducers/propSlice"
 import { FaArrowLeftLong } from "react-icons/fa6"
-
-const schema = yup
-  .object({
-    fb: yup
-      .string()
-      .url("Please enter a valid URL")
-      .min(3, "Facebook must be at least 3 characters.")
-      .max(100, "Facebook must not exceed 20 characters."),
-    instagram: yup
-      .string()
-      .url("Please enter a valid URL")
-      .min(3, "Instagram must be at least 3 characters.")
-      .max(100, "Instagram must not exceed 20 characters."),
-    youtube: yup
-      .string()
-      .url("Please enter a valid URL")
-      .min(3, "Youtube must be at least 3 characters.")
-      .max(100, "Youtube must not exceed 20 characters."),
-    twitter: yup
-      .string()
-      .url("Please enter a valid URL")
-      .min(3, "Twitter must be at least 3 characters.")
-      .max(100, "Twitter must not exceed 20 characters."),
-  })
-  .required()
+import SocialLinksValidation from "@/services/Validation/socialLinksValidation"
 
 const SocialLinksForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) })
+  } = useForm({ resolver: yupResolver(SocialLinksValidation) })
 
   const { push } = useRouter()
   const dispatch = useAppDispatch()

@@ -1,7 +1,6 @@
 "use client"
 
 import InputTextarea from "@/components/Inputs/InputTextarea"
-import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 import React, { useState } from "react"
 import { useForm } from "react-hook-form"
@@ -13,30 +12,15 @@ import RegistrationButton from "@/components/Buttons/RegistrationButton"
 import InputText from "@/components/Inputs/InputText"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { createReview, getReviewsByPropId } from "@/services/Redux/reducers/reviewSlice"
-import { useParams } from "next/navigation"
-
-const schema = yup
-  .object({
-    title: yup
-      .string()
-      .required("Title is required.")
-      .min(3, "Title must be at least 3 characters.")
-      .max(100, "Title must not exceed 100 characters."),
-    review: yup
-      .string()
-      .required("Review is required.")
-      .min(3, "Review must be at least 3 characters.")
-      .max(1000, "Review must not exceed 1000 characters."),
-    rating: yup.number().required("Rating is required"),
-  })
-  .required()
+import { useParams } from "next/navigation" 
+import reviewValidation from "@/services/Validation/reviewValidation"
 
 export const Title = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) })
+  } = useForm({ resolver: yupResolver(reviewValidation) })
 
   const params = useParams()
   const propId: string = params?.id as string

@@ -1,3 +1,4 @@
+import AddAndRemoveTooltip from "@/components/Tooltip/TooltipComponent"
 import React, { useEffect, useState } from "react"
 import { IoMdAddCircleOutline, IoMdRemoveCircleOutline } from "react-icons/io"
 import { Tooltip } from "react-tooltip"
@@ -44,12 +45,7 @@ const InputRateCardEdit = ({
 
   return (
     <div className="w-full h-fit border-2 border-primary p-2 rounded-lg">
-      <Tooltip className="z-10" anchorSelect=".add-tooltip" place="bottom">
-        Add
-      </Tooltip>
-      <Tooltip className="z-10" anchorSelect=".remove-tooltip" place="bottom">
-        Remove
-      </Tooltip>
+      <AddAndRemoveTooltip />
       <div className="flex justify-between items-center">
         <div className="font-semibold">Rate Card :</div>
         {isEdit && (
