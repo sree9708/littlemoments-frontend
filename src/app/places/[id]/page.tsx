@@ -10,7 +10,7 @@ import { MoreDetails } from "@/layouts/PlacesPage/[id]/MoreDetails"
 import RelatedActivities from "@/layouts/PlacesPage/[id]/RelatedActivities"
 import { Reviews } from "@/layouts/PlacesPage/[id]/Reviews"
 import DetailPageProvider from "@/services/Context/DetailPageContext"
-import { getPlaceById } from "@/services/Redux/reducers/placeSlice"
+import { getPlaceByIdThunk } from "@/services/Redux/reducers/placeSlice"
 import { useParams, useRouter } from "next/navigation"
 import { useEffect } from "react"
 import "slick-carousel/slick/slick.css"
@@ -28,7 +28,7 @@ export default function Home() {
     if (propId) {
       const fetchData = async () => {
         try {
-          await dispatch(getPlaceById(propId))
+          await dispatch(getPlaceByIdThunk(propId))
         } catch (error: any) {
           console.log(error.message)
         }

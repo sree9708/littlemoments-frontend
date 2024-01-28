@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form"
 import InputText from "@/components/Inputs/InputText"
 import Link from "next/link"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
-import { updatePlaceDetails } from "@/services/Redux/reducers/propSlice"
+import { updatePlaceDetailsThunk } from "@/services/Redux/reducers/propSlice"
 
 const schema = yup
   .object({
@@ -47,7 +47,7 @@ const EditModal = () => {
 
   const onsubmit = async (data: any) => {
     try {
-      await dispatch(updatePlaceDetails({ id: propInformation?._id, placeName: data.placeName }))
+      await dispatch(updatePlaceDetailsThunk({ id: propInformation?._id, placeName: data.placeName }))
       setEditModal(false)
     } catch (err) {
       console.log(err)

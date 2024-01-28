@@ -22,7 +22,8 @@ const storage = typeof window !== "undefined" ? createWebStorage("local") : crea
 const persistConfig = {
   key: "root",
   storage,
-  expires: 30 * 24 * 60 * 60,
+  whitelist: ["user", "prop"],
+  blacklist: ["place", "review"],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

@@ -25,4 +25,4 @@ const signupValidation = yup
   })
   .required()
 
-export default signupValidation;
+export default signupValidation

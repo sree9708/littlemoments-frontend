@@ -18,7 +18,6 @@ import AddAndRemoveTooltip from "@/components/Tooltip/TooltipComponent"
 import { IoMdAddCircleOutline, IoMdRemoveCircleOutline } from "react-icons/io"
 import InformationValidation from "@/services/Validation/informartionValidation"
 
-
 const InformationForm = () => {
   const dispatch = useAppDispatch()
   const propDetailsForm = useAppSelector(state => state.prop?.propDetailsForm)
@@ -145,7 +144,7 @@ const InformationForm = () => {
               </div>
             </div>
           ))}
-        {errors.rateCard?.root && <p className="text-red-600 text-sm">{errors.rateCard?.root?.message}</p>}
+          {errors.rateCard?.root && <p className="text-red-600 text-sm">{errors.rateCard?.root?.message}</p>}
         </div>
       </div>
       <InputTime onTimeChange={handleTimeChange} />

@@ -12,7 +12,7 @@ import RegistrationButton from "@/components/Buttons/RegistrationButton"
 import InputText from "@/components/Inputs/InputText"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { createReview, getReviewsByPropId } from "@/services/Redux/reducers/reviewSlice"
-import { useParams } from "next/navigation" 
+import { useParams } from "next/navigation"
 import reviewValidation from "@/services/Validation/reviewValidation"
 
 export const Title = () => {

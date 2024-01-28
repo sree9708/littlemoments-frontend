@@ -2,12 +2,11 @@ import RegistrationButton from "@/components/Buttons/RegistrationButton"
 import InputTextEdit from "@/components/Inputs/EditProfile/InputTextEdit"
 import InputTextareaEdit from "@/components/Inputs/EditProfile/InputTextareaEdit"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
-import { updatePropBusinessDetails } from "@/services/Redux/reducers/propSlice"
+import { updatePropBusinessDetailsThunk } from "@/services/Redux/reducers/propSlice"
 import BusinessDetailsValidation from "@/services/Validation/businessDetailsValidation"
 import { yupResolver } from "@hookform/resolvers/yup"
 import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
-
 
 const BusinessDetailsDescription = ({ isEdit }: { isEdit: boolean }) => {
   const {
@@ -38,7 +37,7 @@ const BusinessDetailsDescription = ({ isEdit }: { isEdit: boolean }) => {
     console.log("data", data)
     try {
       await dispatch(
-        updatePropBusinessDetails({
+        updatePropBusinessDetailsThunk({
           id: propInformation?._id,
           data: {
             location: data.location,

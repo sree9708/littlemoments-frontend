@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
-import { updateWishlist } from "@/services/Redux/reducers/userSlice"
+import { updateWishlistThunk } from "@/services/Redux/reducers/userSlice"
 import { useRouter } from "next/navigation"
 import React, { useState } from "react"
 import { FaRegHeart } from "react-icons/fa6"
@@ -23,7 +23,7 @@ export const InformationsRightSide = () => {
       if (isFavourite) {
         try {
           setIsLoading(true)
-          await dispatch(updateWishlist({ propId: placeDetails?._id ?? "", wishlist: "remove" }))
+          await dispatch(updateWishlistThunk({ propId: placeDetails?._id ?? "", wishlist: "remove" }))
           setIsFavourite(false)
           setIsLoading(false)
         } catch (error) {
@@ -33,7 +33,7 @@ export const InformationsRightSide = () => {
       } else {
         try {
           setIsLoading(true)
-          await dispatch(updateWishlist({ propId: placeDetails?._id ?? "", wishlist: "add" }))
+          await dispatch(updateWishlistThunk({ propId: placeDetails?._id ?? "", wishlist: "add" }))
           setIsFavourite(true)
           setIsLoading(false)
         } catch (error) {

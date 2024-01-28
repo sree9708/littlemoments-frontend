@@ -12,7 +12,6 @@ import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { addPlaceOwner } from "@/services/Redux/reducers/propSlice"
 import addPlaceValidation from "@/services/Validation/addPlaceValidation"
 
-
 const AddPlaceForm = () => {
   const {
     register,

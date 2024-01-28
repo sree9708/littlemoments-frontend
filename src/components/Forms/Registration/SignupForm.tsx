@@ -11,7 +11,6 @@ import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { adduserDetailsForm } from "@/services/Redux/reducers/userSlice"
 import signupValidation from "@/services/Validation/signupValidation"
 
-
 const SignupForm = () => {
   const {
     register,

@@ -9,7 +9,7 @@ import RegistrationButton from "../../Buttons/RegistrationButton"
 import OtpInput from "../../Inputs/InputOtp"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { generateOtp, verifyOtpLogin } from "@/services/Redux/reducers/userSlice"
+import { generateOtpThunk, verifyOtpLoginThunk } from "@/services/Redux/reducers/userSlice"
 import { useAppDispatch } from "@/hooks/useStore"
 import loginValidation from "@/services/Validation/phoneNumberValidation"
 
@@ -27,7 +27,7 @@ const LoginForm = () => {
 
   const onSubmitLogin = async (data: any) => {
     try {
-      await dispatch(generateOtp(data.phoneNumber))
+      await dispatch(generateOtpThunk(data.phoneNumber))
       setIsOtpInput(true)
     } catch (err: any) {
       console.log("form : ", err.message)
@@ -36,7 +36,7 @@ const LoginForm = () => {
 
   const onSubmitOtp = async (data: any) => {
     try {
-      await dispatch(verifyOtpLogin({ phoneNumber: data.phoneNumber, otp }))
+      await dispatch(verifyOtpLoginThunk({ phoneNumber: data.phoneNumber, otp }))
       setIsOtpInput(false)
       route.push("/")
     } catch (err: any) {

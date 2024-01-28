@@ -4,7 +4,7 @@ import Card from "@/components/Cards/PopularPlace/Card"
 import React, { useEffect, useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
-import { getPlaces, getPlacesBySkipAndLimit } from "@/services/Redux/reducers/placeSlice"
+import { getPlacesBySkipAndLimitThunk, getPlacesThunk } from "@/services/Redux/reducers/placeSlice"
 import { IProp } from "@/services/Utilities/interfaces/prop.interface"
 
 const Cards: React.FC = () => {
@@ -20,7 +20,7 @@ const Cards: React.FC = () => {
     async function fetchData() {
       if (places && places.length === 0) {
         try {
-          await dispatch(getPlaces({ skip, limit: 20 }))
+          await dispatch(getPlacesThunk({ skip, limit: 20 }))
         } catch (error: any) {
           console.log(error.message)
         }
@@ -32,7 +32,7 @@ const Cards: React.FC = () => {
 
   const fetchData = async () => {
     try {
-      await dispatch(getPlacesBySkipAndLimit({ skip, limit: 20 }))
+      await dispatch(getPlacesBySkipAndLimitThunk({ skip, limit: 20 }))
       setSkip(skip + 1)
     } catch (error) {
       console.error("Error fetching photos:", error)

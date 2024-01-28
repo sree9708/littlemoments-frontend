@@ -1,7 +1,7 @@
 "use client"
 
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
-import { addPropDisplayImages, removePropDisplayImages } from "@/services/Redux/reducers/propSlice"
+import { addPropDisplayImagesThunk, removePropDisplayImagesThunk } from "@/services/Redux/reducers/propSlice"
 import Image from "next/image"
 import React, { useState } from "react"
 import { IoCloseCircleOutline } from "react-icons/io5"
@@ -27,7 +27,7 @@ const UploadImagesForm = () => {
       }).then(result => {
         if (result.isConfirmed) {
           const imageUrls = [image]
-          dispatch(removePropDisplayImages({ id: propInformation?._id, imageUrls }))
+          dispatch(removePropDisplayImagesThunk({ id: propInformation?._id, imageUrls }))
           Swal.fire("Deleted!", "Your file has been deleted.", "success")
         }
       })
@@ -39,7 +39,7 @@ const UploadImagesForm = () => {
     if (files) {
       setUploadImage(true)
       try {
-        await dispatch(addPropDisplayImages({ id: propInformation?._id, file: files[0] }))
+        await dispatch(addPropDisplayImagesThunk({ id: propInformation?._id, file: files[0] }))
         setUploadImage(false)
         // window.location.reload()
       } catch (err) {

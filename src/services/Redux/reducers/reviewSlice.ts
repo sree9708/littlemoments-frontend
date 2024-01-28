@@ -1,8 +1,7 @@
-import { RootState } from "../store"
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
-import axios from "../../Axios/axios"
 import { IReview } from "@/services/Utilities/interfaces/review.interface"
-import { getPlaceById } from "./placeSlice"
+import { getPlaceByIdThunk } from "./placeSlice"
+import { createReview, getReviewsByPropId, getReviewsByUserId } from "../thunk/reviewThunk"
 
 interface ReviewState {
   isLoading: boolean
@@ -16,51 +15,9 @@ const initialState: ReviewState = {
   error: null,
 }
 
-export const getReviewsByPropId = createAsyncThunk("review/getReviewsByPropId", async (id: string) => {
-  try {
-    const response = await axios.get(`/reviews/prop-id/${id}`)
-    return response.data
-  } catch (err: any) {
-    console.log(err)
-    if (err.response && err.response.data && err.response.data.error) {
-      throw Error(err.response.data.error)
-    } else {
-      throw Error(err.message)
-    }
-  }
-})
-
-export const getReviewsByUserId = createAsyncThunk("review/getReviewsByUserId", async (id: string) => {
-  try {
-    console.log(id)
-    const response = await axios.get(`/reviews/user-id/${id}`)
-    return response.data
-  } catch (err: any) {
-    console.log(err)
-    if (err.response && err.response.data && err.response.data.error) {
-      throw Error(err.response.data.error)
-    } else {
-      throw Error(err.message)
-    }
-  }
-})
-
-export const createReview = createAsyncThunk(
-  "review/createReview",
-  async ({ userId, propId, title, review, rating }: IReview) => {
-    try {
-      const response = await axios.post(`/users/review/${userId}/${propId}`, { title, review, rating })
-      return response.data
-    } catch (err: any) {
-      console.log(err)
-      if (err.response && err.response.data && err.response.data.error) {
-        throw Error(err.response.data.error)
-      } else {
-        throw Error(err.message)
-      }
-    }
-  },
-)
+export const getReviewsByPropIdThunk = createAsyncThunk("review/getReviewsByPropId", getReviewsByPropId)
+export const getReviewsByUserIdThunk = createAsyncThunk("review/getReviewsByUserId", getReviewsByUserId)
+export const createReviewThunk = createAsyncThunk("review/createReview", createReview)
 
 export const reviewSlice = createSlice({
   name: "review",
@@ -75,42 +32,42 @@ export const reviewSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(getReviewsByPropId.pending, state => {
+      .addCase(getReviewsByPropIdThunk.pending, state => {
         state.isLoading = true
       })
-      .addCase(getReviewsByPropId.fulfilled, (state, action) => {
+      .addCase(getReviewsByPropIdThunk.fulfilled, (state, action) => {
         state.isLoading = false
         state.reviews = action.payload.reviews
       })
-      .addCase(getReviewsByPropId.rejected, (state, action) => {
+      .addCase(getReviewsByPropIdThunk.rejected, (state, action) => {
         state.isLoading = false
         state.reviews = []
         throw Error(action.error.message)
       })
-      .addCase(getReviewsByUserId.pending, state => {
+      .addCase(getReviewsByUserIdThunk.pending, state => {
         state.isLoading = true
       })
-      .addCase(getReviewsByUserId.fulfilled, (state, action) => {
+      .addCase(getReviewsByUserIdThunk.fulfilled, (state, action) => {
         state.isLoading = false
         state.reviews = action.payload.reviews
       })
-      .addCase(getReviewsByUserId.rejected, (state, action) => {
+      .addCase(getReviewsByUserIdThunk.rejected, (state, action) => {
         state.isLoading = false
         state.reviews = []
         throw Error(action.error.message)
       })
-      .addCase(createReview.pending, state => {
+      .addCase(createReviewThunk.pending, state => {
         state.isLoading = true
       })
-      .addCase(createReview.fulfilled, (state, action) => {
+      .addCase(createReviewThunk.fulfilled, (state, action) => {
         state.isLoading = false
       })
-      .addCase(createReview.rejected, (state, action) => {
+      .addCase(createReviewThunk.rejected, (state, action) => {
         state.isLoading = false
         state.reviews = []
         throw Error(action.error.message)
       })
-      .addCase(getPlaceById.fulfilled, (state, action) => {
+      .addCase(getPlaceByIdThunk.fulfilled, (state, action) => {
         state.reviews = action.payload.reviews
       })
   },

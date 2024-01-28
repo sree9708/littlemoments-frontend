@@ -7,7 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import InputText from "../../Inputs/InputText"
 import RegistrationButton from "../../Buttons/RegistrationButton"
 import Link from "next/link"
-import { loginProp } from "@/services/Redux/reducers/propSlice"
+import { loginPropThunk } from "@/services/Redux/reducers/propSlice"
 import { useRouter } from "next/navigation"
 import { useAppDispatch } from "@/hooks/useStore"
 import loginPropValidation from "@/services/Validation/loginPropValidation"
@@ -24,7 +24,7 @@ const LoginPropsForm = () => {
 
   const onSubmitLogin = async (data: any) => {
     try {
-      await dispatch(loginProp({ email: data.email, password: data.password }))
+      await dispatch(loginPropThunk({ email: data.email, password: data.password }))
       router.push("/")
     } catch (err: any) {
       console.log("form : ", err.message)

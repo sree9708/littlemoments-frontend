@@ -9,10 +9,9 @@ import InputCategoryEdit from "@/components/Inputs/EditProfile/InputCategoryEdit
 import InputAgeEdit from "@/components/Inputs/EditProfile/InputAgeEdit"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import RegistrationButton from "@/components/Buttons/RegistrationButton"
-import { updatePropInformations } from "@/services/Redux/reducers/propSlice"
+import { updatePropInformationsThunk } from "@/services/Redux/reducers/propSlice"
 import AddAndRemoveTooltip from "@/components/Tooltip/TooltipComponent"
 import InformationValidation from "@/services/Validation/informartionValidation"
-
 
 const InformationDescription = ({ isEdit }: { isEdit: boolean }) => {
   const dispatch = useAppDispatch()
@@ -65,7 +64,7 @@ const InformationDescription = ({ isEdit }: { isEdit: boolean }) => {
     console.log("asdfds", data)
     try {
       await dispatch(
-        updatePropInformations({
+        updatePropInformationsThunk({
           id: propInformation?._id,
           data: {
             rateCard: data.rateCard,

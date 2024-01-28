@@ -2,14 +2,13 @@
 
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
-import * as yup from "yup"
 import RegistrationButton from "../../Buttons/RegistrationButton"
 import { useContext, useEffect } from "react"
 import { TrackerContext, TrackerContextProps } from "@/services/Context/TrackerContext"
 import { useRouter } from "next/navigation"
 import InputTextSocialLinks from "@/components/Inputs/InputTextSocialLinks"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
-import { addPlace, addSocialLinks } from "@/services/Redux/reducers/propSlice"
+import { addPlaceThunk, addSocialLinks } from "@/services/Redux/reducers/propSlice"
 import { FaArrowLeftLong } from "react-icons/fa6"
 import SocialLinksValidation from "@/services/Validation/socialLinksValidation"
 
@@ -32,11 +31,11 @@ const SocialLinksForm = () => {
   const onSubmitSignup = async (data: any) => {
     try {
       dispatch(addSocialLinks({ socialLinks: data }))
-      await dispatch(addPlace())
+      await dispatch(addPlaceThunk(undefined))
     } catch (error) {
       console.log(error)
     }
-    // push("/")
+    push("/")
   }
 
   const handleBack = () => {

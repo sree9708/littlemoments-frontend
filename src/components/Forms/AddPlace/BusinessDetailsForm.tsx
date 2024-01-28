@@ -17,7 +17,6 @@ import { base64ToFile, filetoBase64 } from "@/services/Utilities/base64/base64.s
 import { IoCloseSharp } from "react-icons/io5"
 import BusinessDetailsValidation from "@/services/Validation/businessDetailsValidation"
 
-
 const BusinessDetailsForm = () => {
   const {
     register,

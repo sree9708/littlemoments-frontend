@@ -1,9 +1,8 @@
-import { RootState } from "../store"
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
-import axios from "../../Axios/axios"
 import { IUser } from "@/services/Utilities/interfaces/user.interface"
+import { createUser, generateOtp, removeWishlist, updateWishlist, verifyOtpLogin, verifyOtpSignup, verifyToken, verifyUserId } from "../thunk/userThunk"
 
-interface UserState {
+export interface UserState {
   isLoading: boolean
   id: string | null
   userDetailsForm: IUser | null
@@ -19,117 +18,14 @@ const initialState: UserState = {
   error: null,
 }
 
-export const generateOtp = createAsyncThunk("user/generateOtp", async (phoneNumber: string) => {
-  try {
-    const response = await axios.get(`/users/generate-otp`, { params: { phoneNumber } })
-    return response.data
-  } catch (err: any) {
-    if (err.response && err.response.data && err.response.data.error) {
-      throw Error(err.response.data.error)
-    } else {
-      throw Error(err.message)
-    }
-  }
-})
-
-export const verifyOtpLogin = createAsyncThunk(
-  "user/verifyOtpLogin",
-  async (params: { phoneNumber: string; otp: string }) => {
-    try {
-      const response = await axios.get(`/users/verify-otp-login`, { params: params })
-      return response.data
-    } catch (err: any) {
-      if (err.response && err.response.data && err.response.data.error) {
-        throw Error(err.response.data.error)
-      } else {
-        throw Error(err.message)
-      }
-    }
-  },
-)
-
-export const verifyOtpSignup = createAsyncThunk(
-  "user/verifyOtpSignup",
-  async (params: { phoneNumber: string; otp: string }) => {
-    try {
-      const response = await axios.get(`/users/verify-otp-signup`, { params: params })
-      return response.data
-    } catch (err: any) {
-      if (err.response && err.response.data && err.response.data.error) {
-        throw Error(err.response.data.error)
-      } else {
-        throw Error(err.message)
-      }
-    }
-  },
-)
-
-export const verifyUserId = createAsyncThunk("user/verifyUserId", async (id: string) => {
-  try {
-    const response = await axios.get(`/users/verify-id/${id}`)
-    return response.data
-  } catch (err: any) {
-    if (err.response && err.response.data && err.response.data.error) {
-      throw Error(err.response.data.error)
-    } else {
-      throw Error(err.message)
-    }
-  }
-})
-
-export const createUser = createAsyncThunk("user/createUser", async (_, { getState }) => {
-  try {
-    const userDetailsForm: UserState["userDetailsForm"] = (getState() as RootState).user.userDetailsForm
-    const response = await axios.post(`/users`, userDetailsForm)
-    return response.data
-  } catch (err: any) {
-    console.log(err)
-    if (err.response && err.response.data && err.response.data.error) {
-      console.log(err.response.data.error)
-      throw Error(err.response.data.error)
-    } else {
-      throw Error(err.message)
-    }
-  }
-})
-
-export const updateWishlist = createAsyncThunk(
-  "user/updateWishlist",
-  async ({ propId, wishlist }: any, { getState }) => {
-    try {
-      const userId: UserState["id"] = (getState() as RootState).user.id
-      const response = await axios.put(`/users/wishlist/${userId}/${propId}/${wishlist}`)
-      return response.data
-    } catch (err: any) {
-      console.log(err)
-      if (err.response && err.response.data && err.response.data.error) {
-        console.log(err.response.data.error)
-        throw Error(err.response.data.error)
-      } else {
-        throw Error(err.message)
-      }
-    }
-  },
-)
-
-export const removeWishlist = createAsyncThunk(
-  "user/removeWishlist",
-  async (propId: string, { getState }) => {
-    try {
-      const userId: UserState["id"] = (getState() as RootState).user.id
-      const response = await axios.post(`/users/wishlist/${userId}/${propId}/remove`)
-      return response.data
-    } catch (err: any) {
-      console.log(err)
-      if (err.response && err.response.data && err.response.data.error) {
-        console.log(err.response.data.error)
-        throw Error(err.response.data.error)
-      } else {
-        throw Error(err.message)
-      }
-    }
-  },
-)
+export const generateOtpThunk = createAsyncThunk("user/generateOtp", generateOtp)
+export const verifyOtpLoginThunk = createAsyncThunk("user/verifyOtpLogin", verifyOtpLogin)
+export const verifyOtpSignupThunk = createAsyncThunk("user/verifyOtpSignup", verifyOtpSignup)
+export const verifyTokenThunk = createAsyncThunk("user/verifyToken", verifyToken)
+export const verifyUserIdThunk = createAsyncThunk("user/verifyUserId", verifyUserId)
+export const createUserThunk = createAsyncThunk("user/createUser", createUser)
+export const updateWishlistThunk = createAsyncThunk("user/updateWishlist", updateWishlist)
+export const removeWishlistThunk = createAsyncThunk("user/removeWishlist", removeWishlist)
 
 export const userSlice = createSlice({
   name: "user",
@@ -153,21 +49,21 @@ export const userSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(generateOtp.pending, state => {
+      .addCase(generateOtpThunk.pending, state => {
         state.isLoading = true
       })
-      .addCase(generateOtp.fulfilled, (state, action) => {
+      .addCase(generateOtpThunk.fulfilled, (state, action) => {
         state.isLoading = false
       })
-      .addCase(generateOtp.rejected, (state, action) => {
+      .addCase(generateOtpThunk.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.error.message
         throw Error(action.error.message)
       })
-      .addCase(verifyOtpLogin.pending, state => {
+      .addCase(verifyOtpLoginThunk.pending, state => {
         state.isLoading = true
       })
-      .addCase(verifyOtpLogin.fulfilled, (state, action) => {
+      .addCase(verifyOtpLoginThunk.fulfilled, (state, action) => {
         state.isLoading = false
         state.id = action.payload.user._id
         state.userInformations = {
@@ -180,26 +76,26 @@ export const userSlice = createSlice({
           wishlists: action.payload.user.wishlists,
         }
       })
-      .addCase(verifyOtpLogin.rejected, (state, action) => {
+      .addCase(verifyOtpLoginThunk.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.error.message
         throw Error(action.error.message)
       })
-      .addCase(verifyOtpSignup.pending, state => {
+      .addCase(verifyOtpSignupThunk.pending, state => {
         state.isLoading = true
       })
-      .addCase(verifyOtpSignup.fulfilled, (state, action) => {
+      .addCase(verifyOtpSignupThunk.fulfilled, (state, action) => {
         state.isLoading = false
       })
-      .addCase(verifyOtpSignup.rejected, (state, action) => {
+      .addCase(verifyOtpSignupThunk.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.error.message
         throw Error(action.error.message)
       })
-      .addCase(verifyUserId.pending, state => {
+      .addCase(verifyUserIdThunk.pending, state => {
         state.isLoading = true
       })
-      .addCase(verifyUserId.fulfilled, (state, action) => {
+      .addCase(verifyUserIdThunk.fulfilled, (state, action) => {
         state.isLoading = false
         state.id = action.payload.user._id
         console.log(action.payload.user)
@@ -213,44 +109,44 @@ export const userSlice = createSlice({
           wishlists: action.payload.user.wishlists,
         }
       })
-      .addCase(verifyUserId.rejected, (state, action) => {
+      .addCase(verifyUserIdThunk.rejected, (state, action) => {
         state.isLoading = false
         state.id = null
         state.error = action.error.message
         throw Error(action.error.message)
       })
-      .addCase(createUser.pending, state => {
+      .addCase(createUserThunk.pending, state => {
         state.isLoading = true
       })
       .addCase(
-        createUser.fulfilled,
+        createUserThunk.fulfilled,
         (state, action: PayloadAction<{ tokens: { accessToken: string; refreshToken: string } }>) => {
           state.isLoading = false
         },
       )
-      .addCase(createUser.rejected, (state, action) => {
+      .addCase(createUserThunk.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.error.message
         throw Error(action.error.message)
       })
-      .addCase(updateWishlist.pending, state => {
+      .addCase(updateWishlistThunk.pending, state => {
         state.isLoading = true
       })
-      .addCase(updateWishlist.fulfilled, (state, action) => {
+      .addCase(updateWishlistThunk.fulfilled, (state, action) => {
         state.isLoading = false
       })
-      .addCase(updateWishlist.rejected, (state, action) => {
+      .addCase(updateWishlistThunk.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.error.message
         throw Error(action.error.message)
       })
-      .addCase(removeWishlist.pending, state => {
+      .addCase(removeWishlistThunk.pending, state => {
         state.isLoading = true
       })
-      .addCase(removeWishlist.fulfilled, (state, action) => {
+      .addCase(removeWishlistThunk.fulfilled, (state, action) => {
         state.isLoading = false
       })
-      .addCase(removeWishlist.rejected, (state, action) => {
+      .addCase(removeWishlistThunk.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.error.message
         throw Error(action.error.message)

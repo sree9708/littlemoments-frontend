@@ -1,7 +1,7 @@
 import RegistrationButton from "@/components/Buttons/RegistrationButton"
 import InputTextSocialLinksEdit from "@/components/Inputs/EditProfile/InputTextSocialLinksEdit"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
-import { updatePropSocialLinks } from "@/services/Redux/reducers/propSlice"
+import { updatePropSocialLinksThunk } from "@/services/Redux/reducers/propSlice"
 import SocialLinksValidation from "@/services/Validation/socialLinksValidation"
 import { yupResolver } from "@hookform/resolvers/yup"
 import React, { useEffect } from "react"
@@ -27,7 +27,7 @@ const SocialLinksDescription = ({ isEdit }: { isEdit: boolean }) => {
 
   const onSubmitSignup = async (data: any) => {
     await dispatch(
-      updatePropSocialLinks({
+      updatePropSocialLinksThunk({
         id: propInformation?._id,
         data,
       }),
