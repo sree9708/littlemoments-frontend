@@ -1,7 +1,6 @@
 "use client"
 
 import RegistrationButton from "@/components/Buttons/RegistrationButton"
-import Image from "next/image"
 import * as yup from "yup"
 import React, { useEffect, useState } from "react"
 import { FiEdit } from "react-icons/fi"
@@ -47,7 +46,7 @@ const EditModal = () => {
 
   const onsubmit = async (data: any) => {
     try {
-      await dispatch(updatePlaceDetailsThunk({ id: propInformation?._id, placeName: data.placeName }))
+      await dispatch(updatePlaceDetailsThunk({ id: propInformation?.id, placeName: data.placeName }))
       setEditModal(false)
     } catch (err) {
       console.log(err)

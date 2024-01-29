@@ -12,10 +12,13 @@ const UploadImagesForm = () => {
   const propInformation = useAppSelector(state => state.prop?.propInformations)
 
   const [uploadImage, setUploadImage] = useState<boolean>(false)
-  const images = propInformation?.displayImages
 
   const handleCloseClick = (image: string | undefined) => {
     if (image) {
+      if (propInformation?.displayImages.length <= 1) {
+        Swal.fire("Error", "You must have at least one image.", "error")
+        return
+      }
       Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -27,7 +30,7 @@ const UploadImagesForm = () => {
       }).then(result => {
         if (result.isConfirmed) {
           const imageUrls = [image]
-          dispatch(removePropDisplayImagesThunk({ id: propInformation?._id, imageUrls }))
+          dispatch(removePropDisplayImagesThunk({ id: propInformation?.id, imageUrls }))
           Swal.fire("Deleted!", "Your file has been deleted.", "success")
         }
       })
@@ -37,13 +40,15 @@ const UploadImagesForm = () => {
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files
     if (files) {
-      setUploadImage(true)
+      if (propInformation?.displayImages.length >= 10) {
+        Swal.fire("Error", "You can only upload a maximum of 10 images.", "error")
+        return
+      }
       try {
-        await dispatch(addPropDisplayImagesThunk({ id: propInformation?._id, file: files[0] }))
+        await dispatch(addPropDisplayImagesThunk({ id: propInformation?.id, file: files[0] }))
         setUploadImage(false)
-        // window.location.reload()
-      } catch (err) {
-        console.log(err)
+      } catch (err: any) {
+        console.log(err.message)
       }
     }
   }
@@ -51,13 +56,14 @@ const UploadImagesForm = () => {
   return (
     <>
       <div className="py-8">
-        <div className="flex flex-wrap gap-4">
-          {Object.keys(images || {}).map((key: any, index) => (
+        {/* <div className="flex flex-wrap gap-4"> */}
+        <div className="grid grid-cols-3 sm:grid-clos-4 md:grid-cols-6 lg:grid-col-8  gap-4">
+          {Object.keys(propInformation?.displayImages || {}).map((key: any, index) => (
             <div key={index} className="rounded-lg relative">
-              {images ? (
-                <div className="h-28 w-28 sm:h-48 sm:w-48 rounded-lg ">
+              {propInformation?.displayImages ? (
+                <div className="aspect-[4/4] rounded-lg ">
                   <Image
-                    src={images?.[key] ?? ""}
+                    src={propInformation?.displayImages?.[key] ?? ""}
                     alt={`${propInformation?.placeName}${index}` ?? `littlemoments${index}`}
                     width={500}
                     height={500}
@@ -66,7 +72,7 @@ const UploadImagesForm = () => {
                   />
                 </div>
               ) : (
-                <div className="h-28 w-28 sm:h-48 sm:w-48 rounded-lg animate-pulse">
+                <div className="aspect-[4/4] rounded-lg animate-pulse">
                   <div className="flex items-center justify-center w-full h-full bg-gray-300">
                     <svg
                       className="w-10 h-10 text-gray-200 dark:text-gray-600"
@@ -81,14 +87,16 @@ const UploadImagesForm = () => {
                 </div>
               )}
               <div className="absolute cursor-pointer -top-2 -right-2">
-                <div className="border text-2xl border-secondary rounded-full bg-secondary shadow-md">
-                  <IoCloseCircleOutline onClick={() => handleCloseClick(images?.[key])} />
+                <div className="border text-xl md:text-2xl border-secondary rounded-full bg-secondary shadow-md">
+                  <IoCloseCircleOutline
+                    onClick={() => handleCloseClick(propInformation?.displayImages?.[key])}
+                  />
                 </div>
               </div>
             </div>
           ))}
           {uploadImage && (
-            <div className="h-28 w-28 sm:h-48 sm:w-48 rounded-lg animate-pulse">
+            <div className="aspect-[4/4] rounded-lg animate-pulse">
               <div className="flex items-center justify-center w-full h-full bg-gray-300 rounded-lg">
                 <svg
                   className="w-10 h-10 text-gray-200 dark:text-gray-600"
@@ -102,7 +110,7 @@ const UploadImagesForm = () => {
               </div>
             </div>
           )}
-          <div className="h-28 w-28 sm:h-48 sm:w-48 rounded-lg border-2 border-dashed border-primary group">
+          <div className="aspect-[4/4] rounded-lg border-2 border-dashed border-primary group">
             <div className="flex items-center justify-center w-full h-full">
               <label
                 htmlFor="dropzone-file"
@@ -125,7 +133,7 @@ const UploadImagesForm = () => {
                     />
                   </svg>
                 </div>
-                <div>Add new images</div>
+                <div className="w-full text-center flex justify-center">Add new images</div>
                 <input id="dropzone-file" type="file" className="hidden" onChange={handleFileChange} />
               </label>
             </div>

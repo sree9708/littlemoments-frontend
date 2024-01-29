@@ -2,7 +2,6 @@
 
 import { Controller, useFieldArray, useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
-import * as yup from "yup"
 import RegistrationButton from "../../Buttons/RegistrationButton"
 import { useContext, useEffect, useState } from "react"
 import { TrackerContext, TrackerContextProps } from "@/services/Context/TrackerContext"

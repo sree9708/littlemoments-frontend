@@ -22,7 +22,7 @@ const Content: React.FC = () => {
       {currentReviews.length !== 0 ? (
         currentReviews?.map(review => (
           <SingleReview
-            key={review._id}
+            key={review.id}
             name={review?.userId?.username || "Anonymous"}
             place={review?.userId?.currentCity || "Unknown"}
             title={review?.title || "No title"}

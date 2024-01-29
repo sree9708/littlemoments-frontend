@@ -1,6 +1,15 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
 import { IUser } from "@/services/Utilities/interfaces/user.interface"
-import { createUser, generateOtp, removeWishlist, updateWishlist, verifyOtpLogin, verifyOtpSignup, verifyToken, verifyUserId } from "../thunk/userThunk"
+import {
+  createUser,
+  generateOtp,
+  removeWishlist,
+  updateWishlist,
+  verifyOtpLogin,
+  verifyOtpSignup,
+  verifyToken,
+  verifyUserId,
+} from "../thunk/userThunk"
 
 export interface UserState {
   isLoading: boolean
@@ -65,9 +74,9 @@ export const userSlice = createSlice({
       })
       .addCase(verifyOtpLoginThunk.fulfilled, (state, action) => {
         state.isLoading = false
-        state.id = action.payload.user._id
+        state.id = action.payload.user.id
         state.userInformations = {
-          _id: action.payload.user._id,
+          id: action.payload.user.id,
           username: action.payload.user.username,
           email: action.payload.user.email,
           currentCity: action.payload.user.currentCity,
@@ -97,10 +106,10 @@ export const userSlice = createSlice({
       })
       .addCase(verifyUserIdThunk.fulfilled, (state, action) => {
         state.isLoading = false
-        state.id = action.payload.user._id
+        state.id = action.payload.user.id
         console.log(action.payload.user)
         state.userInformations = {
-          _id: action.payload.user._id,
+          id: action.payload.user.id,
           username: action.payload.user.username,
           email: action.payload.user.email,
           currentCity: action.payload.user.currentCity,

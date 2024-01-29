@@ -66,8 +66,8 @@ const Cards: React.FC = () => {
               {places &&
                 places.map((place: IProp) => (
                   <Card
-                    key={place._id}
-                    _id={place._id}
+                    key={place.id}
+                    id={place.id}
                     heading={place.category}
                     placeName={place.placeName}
                     city={place.city}

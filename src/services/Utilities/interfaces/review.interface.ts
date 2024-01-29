@@ -1,5 +1,5 @@
 export interface IReview {
-  _id?: string
+  id?: string
   userId: any
   propId: any
   title: string

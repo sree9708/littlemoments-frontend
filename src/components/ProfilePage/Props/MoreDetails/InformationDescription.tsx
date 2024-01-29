@@ -1,4 +1,3 @@
-import * as yup from "yup"
 import InputTimeProfileProps from "@/components/Inputs/InputTimeProfileProps"
 import { yupResolver } from "@hookform/resolvers/yup"
 import React, { useEffect, useState } from "react"
@@ -13,7 +12,12 @@ import { updatePropInformationsThunk } from "@/services/Redux/reducers/propSlice
 import AddAndRemoveTooltip from "@/components/Tooltip/TooltipComponent"
 import InformationValidation from "@/services/Validation/informartionValidation"
 
-const InformationDescription = ({ isEdit }: { isEdit: boolean }) => {
+interface InformationDescriptionProps {
+  isEdit: boolean
+  setIsEdit: (isEdit: boolean) => void
+}
+
+const InformationDescription: React.FC<InformationDescriptionProps> = ({ isEdit, setIsEdit }) => {
   const dispatch = useAppDispatch()
   const propInformation = useAppSelector(state => state.prop?.propInformations)
 
@@ -65,7 +69,7 @@ const InformationDescription = ({ isEdit }: { isEdit: boolean }) => {
     try {
       await dispatch(
         updatePropInformationsThunk({
-          id: propInformation?._id,
+          id: propInformation?.id,
           data: {
             rateCard: data.rateCard,
             placeDescription: data.placeDescription,
@@ -76,8 +80,9 @@ const InformationDescription = ({ isEdit }: { isEdit: boolean }) => {
           },
         }),
       )
-    } catch (error) {
-      console.log(error)
+      setIsEdit(false)
+    } catch (error: any) {
+      console.log("error2", error.message || "error")
     }
   }
 

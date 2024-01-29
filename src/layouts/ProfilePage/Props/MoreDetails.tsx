@@ -79,11 +79,9 @@ export const MoreDetails = () => {
         <div className="w-full border-t border-gray-500 my-4"></div>
       </div>
       <div>
-        <div className="flex w-full justify-between items-center">
+        <div className="flex w-full justify-between items-center" onClick={handleSocialLinks}>
           <div className="text-5xl font-title">SOCIAL LINKS</div>
-          <div className="text-xl cursor-pointer" onClick={handleSocialLinks}>
-            {socialLinks ? <FaCircleMinus /> : <FaCirclePlus />}
-          </div>
+          <div className="text-xl cursor-pointer">{socialLinks ? <FaCircleMinus /> : <FaCirclePlus />}</div>
         </div>
         <div
           className={`transition-opacity duration-300 ease-in-out ${

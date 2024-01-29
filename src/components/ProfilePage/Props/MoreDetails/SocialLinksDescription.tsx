@@ -7,7 +7,12 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import React, { useEffect } from "react"
 import { useForm } from "react-hook-form"
 
-const SocialLinksDescription = ({ isEdit }: { isEdit: boolean }) => {
+interface SocialLinksDescriptionProps {
+  isEdit: boolean
+  setIsEdit: (isEdit: boolean) => void
+}
+
+const SocialLinksDescription: React.FC<SocialLinksDescriptionProps> = ({ isEdit, setIsEdit }) => {
   const {
     register,
     handleSubmit,
@@ -26,13 +31,14 @@ const SocialLinksDescription = ({ isEdit }: { isEdit: boolean }) => {
   }, [setValue])
 
   const onSubmitSignup = async (data: any) => {
-    await dispatch(
-      updatePropSocialLinksThunk({
-        id: propInformation?._id,
-        data,
-      }),
-    )
     try {
+      await dispatch(
+        updatePropSocialLinksThunk({
+          id: propInformation?.id,
+          data,
+        }),
+      )
+      setIsEdit(false)
     } catch (error) {
       console.log(error)
     }

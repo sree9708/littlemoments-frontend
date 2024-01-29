@@ -17,9 +17,11 @@ const initialState: PlaceState = {
 }
 
 export const getPlacesThunk = createAsyncThunk("place/getPlaces", getPlaces)
-export const getPlacesBySkipAndLimitThunk = createAsyncThunk("place/getPlacesBySkipAndLimit", getPlacesBySkipAndLimit)
+export const getPlacesBySkipAndLimitThunk = createAsyncThunk(
+  "place/getPlacesBySkipAndLimit",
+  getPlacesBySkipAndLimit,
+)
 export const getPlaceByIdThunk = createAsyncThunk("place/getPlaceById", getPlaceById)
-
 
 export const placeSlice = createSlice({
   name: "place",
@@ -32,6 +34,7 @@ export const placeSlice = createSlice({
       })
       .addCase(getPlacesThunk.fulfilled, (state, action) => {
         state.isLoading = false
+        console.log(action.payload)
         state.places = action.payload.props
       })
       .addCase(getPlacesThunk.rejected, (state, action) => {

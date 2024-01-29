@@ -2,7 +2,7 @@
 
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { logoutProp, verifyPropIdThunk } from "@/services/Redux/reducers/propSlice"
-import { logoutUser, verifyUserIdThunk } from "@/services/Redux/reducers/userSlice"
+import { logoutUser, verifyTokenThunk, verifyUserIdThunk } from "@/services/Redux/reducers/userSlice"
 import { useEffect } from "react"
 
 const ClientComponent = ({ children }: { children: any }) => {
@@ -27,6 +27,14 @@ const ClientComponent = ({ children }: { children: any }) => {
           dispatch(logoutUser())
         } catch (error: any) {
           dispatch(logoutProp())
+        }
+      })()
+    } else {
+      ;(async () => {
+        try {
+          await dispatch(verifyTokenThunk())
+        } catch (error: any) {
+          console.log(error)
         }
       })()
     }

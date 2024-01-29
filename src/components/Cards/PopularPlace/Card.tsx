@@ -8,7 +8,7 @@ import { StaticImport } from "next/dist/shared/lib/get-img-props"
 
 interface CardProps {
   // popular: boolean
-  _id: string | undefined
+  id: string | undefined
   heading: string | undefined
   // rating: string
   // date: string
@@ -19,11 +19,11 @@ interface CardProps {
   image: string | StaticImport | undefined
 }
 
-const Card: React.FC<CardProps> = ({ _id, heading, placeName, city, image }) => {
+const Card: React.FC<CardProps> = ({ id, heading, placeName, city, image }) => {
   const router = useRouter()
 
   const handleRouting = () => {
-    router.push(`/places/${_id}`)
+    router.push(`/places/${id}`)
   }
 
   return (

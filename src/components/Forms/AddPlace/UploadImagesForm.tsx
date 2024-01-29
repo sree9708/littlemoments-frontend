@@ -55,7 +55,6 @@ const UploadImagesForm = () => {
   }
 
   const handleButtonClick = () => {
-    // Trigger the file input when the button is clicked
     const fileInput = document.getElementById("upload-images")
     if (fileInput) {
       fileInput.click()

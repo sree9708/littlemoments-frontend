@@ -21,7 +21,7 @@ const Reviews = () => {
       {currentReviews.length !== 0 ? (
         currentReviews?.map(review => (
           <SingleReview
-            key={review._id}
+            key={review.id}
             name={review?.propId?.placeName || "Anonymous"}
             place={review?.propId?.city || "Unknown"}
             title={review?.title || "No title"}

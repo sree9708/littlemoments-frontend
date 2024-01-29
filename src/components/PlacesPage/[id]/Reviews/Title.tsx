@@ -11,7 +11,7 @@ import Modal from "react-modal"
 import RegistrationButton from "@/components/Buttons/RegistrationButton"
 import InputText from "@/components/Inputs/InputText"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
-import { createReview, getReviewsByPropId } from "@/services/Redux/reducers/reviewSlice"
+import { createReviewThunk, getReviewsByPropIdThunk } from "@/services/Redux/reducers/reviewSlice"
 import { useParams } from "next/navigation"
 import reviewValidation from "@/services/Validation/reviewValidation"
 
@@ -47,8 +47,8 @@ export const Title = () => {
   const onSubmit = async (data: any) => {
     console.log(data)
     try {
-      await dispatch(createReview({ userId, propId, ...data }))
-      await dispatch(getReviewsByPropId(propId))
+      await dispatch(createReviewThunk({ userId, propId, ...data }))
+      await dispatch(getReviewsByPropIdThunk(propId))
       setisModal(false)
     } catch (error) {}
   }

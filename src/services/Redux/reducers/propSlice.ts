@@ -40,20 +40,20 @@ export const addDispalyImagesThunk = createAsyncThunk("prop/addDispalyImages", a
 export const updatePlaceDetailsThunk = createAsyncThunk("prop/updatePlaceDetails", updatePlaceDetails)
 export const updatePropBusinessDetailsThunk = createAsyncThunk(
   "prop/updatePropBusinessDetails",
-  updatePropBusinessDetails
+  updatePropBusinessDetails,
 )
 export const updatePropInformationsThunk = createAsyncThunk(
   "prop/updatePropInformations",
-  updatePropInformations
+  updatePropInformations,
 )
 export const addPropDisplayImagesThunk = createAsyncThunk("prop/addPropDisplayImages", addPropDisplayImages)
 export const removePropDisplayImagesThunk = createAsyncThunk(
   "prop/removePropDisplayImages",
-  removePropDisplayImages
+  removePropDisplayImages,
 )
 export const updatePropSocialLinksThunk = createAsyncThunk(
   "prop/updatePropSocialLinks",
-  updatePropSocialLinks
+  updatePropSocialLinks,
 )
 
 export const propSlice = createSlice({
@@ -118,7 +118,7 @@ export const propSlice = createSlice({
       })
       .addCase(verifyPropIdThunk.fulfilled, (state, action) => {
         state.isLoading = false
-        state.id = action.payload.prop._id
+        state.id = action.payload.prop.id
         state.propInformations = action.payload.prop
       })
       .addCase(verifyPropIdThunk.rejected, (state, action) => {
@@ -131,7 +131,7 @@ export const propSlice = createSlice({
       })
       .addCase(getPropByIdThunk.fulfilled, (state, action) => {
         state.isLoading = false
-        state.id = action.payload.prop._id
+        state.id = action.payload.prop.id
         state.propInformations = action.payload.prop
       })
       .addCase(getPropByIdThunk.rejected, (state, action) => {
@@ -144,7 +144,7 @@ export const propSlice = createSlice({
       })
       .addCase(createPropThunk.fulfilled, (state, action) => {
         state.isLoading = false
-        state.id = action.payload.prop?._id
+        state.id = action.payload.prop?.id
         state.propInformations = action.payload.prop
       })
       .addCase(createPropThunk.rejected, (state, action) => {
@@ -177,7 +177,7 @@ export const propSlice = createSlice({
       })
       .addCase(updatePlaceDetailsThunk.fulfilled, (state, action) => {
         state.isLoading = false
-        state.propInformations = action.payload.newProp
+        state.propInformations = action.payload.prop
       })
       .addCase(updatePlaceDetailsThunk.rejected, (state, action) => {
         state.isLoading = false
@@ -208,7 +208,7 @@ export const propSlice = createSlice({
       })
       .addCase(addPropDisplayImagesThunk.fulfilled, (state, action) => {
         state.isLoading = false
-        state.propInformations = action.payload.newProp
+        state.propInformations = action.payload.prop
       })
       .addCase(addPropDisplayImagesThunk.rejected, (state, action) => {
         state.isLoading = false
@@ -219,7 +219,7 @@ export const propSlice = createSlice({
       })
       .addCase(removePropDisplayImagesThunk.fulfilled, (state, action) => {
         state.isLoading = false
-        state.propInformations = action.payload.newProp
+        state.propInformations = action.payload.prop
       })
       .addCase(removePropDisplayImagesThunk.rejected, (state, action) => {
         state.isLoading = false

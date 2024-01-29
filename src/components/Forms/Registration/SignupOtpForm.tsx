@@ -8,7 +8,12 @@ import RegistrationButton from "../../Buttons/RegistrationButton"
 import OtpInput from "../../Inputs/InputOtp"
 import Link from "next/link"
 import { SignupContext, SignupContextProps } from "@/services/Context/SignupContext"
-import { addphoneNumber, createUserThunk, generateOtpThunk, verifyOtpSignupThunk } from "@/services/Redux/reducers/userSlice"
+import {
+  addphoneNumber,
+  createUserThunk,
+  generateOtpThunk,
+  verifyOtpSignupThunk,
+} from "@/services/Redux/reducers/userSlice"
 import { useAppDispatch } from "@/hooks/useStore"
 import { useRouter } from "next/navigation"
 import phoneNumberValidation from "@/services/Validation/phoneNumberValidation"

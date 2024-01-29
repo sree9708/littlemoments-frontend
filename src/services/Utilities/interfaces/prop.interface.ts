@@ -1,5 +1,5 @@
 export interface IProp {
-  _id?: string
+  id?: string
   email?: string
   passaword?: string
   placeName?: string

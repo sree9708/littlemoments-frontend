@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client"
 
-import React from "react"
+import React, { useState } from "react"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import InputText from "../../Inputs/InputText"
@@ -19,14 +19,18 @@ const LoginPropsForm = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(loginPropValidation) })
 
+  const [isError, setIsError] = useState<string | null>(null)
+
   const router = useRouter()
   const dispatch = useAppDispatch()
 
   const onSubmitLogin = async (data: any) => {
     try {
       await dispatch(loginPropThunk({ email: data.email, password: data.password }))
+      setIsError(null)
       router.push("/")
     } catch (err: any) {
+      setIsError(err.message)
       console.log("form : ", err.message)
     }
   }
@@ -50,6 +54,7 @@ const LoginPropsForm = () => {
           required
           error={errors.password?.message}
         />
+        {isError && <div className="text-red-500 text-center">{isError}</div>}
         <RegistrationButton text="Login" />
       </form>
       <div className="flex flex-wrap justify-center gap-2 text-xl">

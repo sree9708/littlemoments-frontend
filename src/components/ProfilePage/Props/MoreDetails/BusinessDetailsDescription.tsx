@@ -6,9 +6,14 @@ import { updatePropBusinessDetailsThunk } from "@/services/Redux/reducers/propSl
 import BusinessDetailsValidation from "@/services/Validation/businessDetailsValidation"
 import { yupResolver } from "@hookform/resolvers/yup"
 import React, { useEffect, useState } from "react"
-import { useForm } from "react-hook-form"
+import { set, useForm } from "react-hook-form"
 
-const BusinessDetailsDescription = ({ isEdit }: { isEdit: boolean }) => {
+interface BusinessDetailsDescriptionProps {
+  isEdit: boolean
+  setIsEdit: (isEdit: boolean) => void
+}
+
+const BusinessDetailsDescription: React.FC<BusinessDetailsDescriptionProps> = ({ isEdit, setIsEdit }) => {
   const {
     register,
     handleSubmit,
@@ -38,7 +43,7 @@ const BusinessDetailsDescription = ({ isEdit }: { isEdit: boolean }) => {
     try {
       await dispatch(
         updatePropBusinessDetailsThunk({
-          id: propInformation?._id,
+          id: propInformation?.id,
           data: {
             location: data.location,
             address: data.address,
@@ -49,6 +54,7 @@ const BusinessDetailsDescription = ({ isEdit }: { isEdit: boolean }) => {
           },
         }),
       )
+      setIsEdit(false)
     } catch (error) {
       console.log(error)
     }

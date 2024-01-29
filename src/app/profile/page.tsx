@@ -9,8 +9,7 @@ import { MoreDetails } from "@/layouts/ProfilePage/MoreDetails"
 import HeroLazy from "@/layouts/ProfilePage/HeroLazy"
 import DetailPageProvider from "@/services/Context/DetailPageContext"
 import { useEffect, useState } from "react"
-import { get } from "http"
-import { getReviewsByUserId } from "@/services/Redux/reducers/reviewSlice"
+import { getReviewsByUserIdThunk } from "@/services/Redux/reducers/reviewSlice"
 
 export default function Home() {
   const userInformations = useAppSelector(state => state.user?.userInformations)
@@ -22,7 +21,7 @@ export default function Home() {
     setIsClient(true)
     async function getReviews() {
       try {
-        await dispatch(getReviewsByUserId(userInformations?._id || ""))
+        await dispatch(getReviewsByUserIdThunk(userInformations?.id || ""))
       } catch (err) {
         console.log(err)
       }

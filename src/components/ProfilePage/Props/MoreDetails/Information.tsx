@@ -13,7 +13,7 @@ const Information = () => {
       <div className="absolute top-0 right-0 text-xl cursor-pointer" onClick={handleEdit}>
         {!isEdit ? <div className="text-lg hover:underline">Edit</div> : <IoMdCloseCircleOutline />}
       </div>
-      <InformationDescription isEdit={isEdit} />
+      <InformationDescription isEdit={isEdit} setIsEdit={setIsEdit} />
     </div>
   )
 }

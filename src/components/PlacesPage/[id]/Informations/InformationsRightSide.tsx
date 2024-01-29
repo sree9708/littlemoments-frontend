@@ -13,7 +13,7 @@ export const InformationsRightSide = () => {
   const user = useAppSelector(state => state.user?.userInformations)
   const propId = useAppSelector(state => state.prop?.id)
   const [isFavourite, setIsFavourite] = useState<boolean>(
-    (user && user?.wishlists?.map(id => id.toString()).includes(placeDetails?._id ?? "")) || false,
+    (user && user?.wishlists?.map((id: string) => id.toString()).includes(placeDetails?.id ?? "")) || false,
   )
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const dispatch = useAppDispatch()
@@ -23,7 +23,7 @@ export const InformationsRightSide = () => {
       if (isFavourite) {
         try {
           setIsLoading(true)
-          await dispatch(updateWishlistThunk({ propId: placeDetails?._id ?? "", wishlist: "remove" }))
+          await dispatch(updateWishlistThunk({ propId: placeDetails?.id ?? "", wishlist: "remove" }))
           setIsFavourite(false)
           setIsLoading(false)
         } catch (error) {
@@ -33,7 +33,7 @@ export const InformationsRightSide = () => {
       } else {
         try {
           setIsLoading(true)
-          await dispatch(updateWishlistThunk({ propId: placeDetails?._id ?? "", wishlist: "add" }))
+          await dispatch(updateWishlistThunk({ propId: placeDetails?.id ?? "", wishlist: "add" }))
           setIsFavourite(true)
           setIsLoading(false)
         } catch (error) {
@@ -113,7 +113,6 @@ export const InformationsRightSide = () => {
           <IoShareSocialOutline />
         </div>
       </div>
-      {/* <div className="mt-4 sm:mt-8 flex md:justify-end">October 4, 2021</div> */}
     </div>
   )
 }

@@ -44,7 +44,7 @@ const Cards: React.FC = () => {
                 places.map((place, index) => (
                   <Card
                     key={index}
-                    _id={place._id}
+                    id={place.id}
                     heading={place.category}
                     placeName={place.placeName}
                     city={place.city}
