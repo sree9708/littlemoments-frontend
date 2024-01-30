@@ -17,7 +17,7 @@ export const InformationsLeftSide = () => {
         <div>4.9 stars</div>
         <div className="text-slate-400">( {reviews.length} Reviews )</div>
       </div>
-      <div className="font-title text-title-sm my-4">
+      <div className="font-title text-title-sm my-4 truncate">
         {placeDetails ? (
           placeDetails?.placeName ?? "Place name not available"
         ) : (
@@ -48,7 +48,7 @@ export const InformationsLeftSide = () => {
           </div>
           <a
             href={`tel:+91${placeDetails && (placeDetails?.displayContactNo ?? "+91 000000000")}`}
-            className="hover:underline w-full"
+            className="hover:underline whitespace-nowrap truncate w-full"
           >
             {placeDetails ? (
               `+91 ${placeDetails?.displayContactNo}` ?? "Contact number not available"

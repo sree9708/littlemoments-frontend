@@ -5,6 +5,8 @@ import { setPropId } from "../Redux/reducers/propSlice"
 
 const BASE_URL = "http://localhost:4000/api/v1/"
 
+const axiosTokenInstance = axios.create()
+
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
 })
@@ -25,18 +27,19 @@ axiosInstance.interceptors.response.use(
       prvsRequest.sent = true
       try {
         if (prvsRequest.url?.includes("/users")) {
-          await axiosInstance
+          await axiosTokenInstance
             .get("/users/verify-token")
             .then(response => {
               store.dispatch(setUserId(response.data.id))
             })
             .catch(error => {
               store.dispatch(setUserId(null))
+              console.log("2", error)
               throw Error("Unauthorized")
             })
           return axiosInstance(prvsRequest)
         } else if (prvsRequest.url?.includes("/props")) {
-          await axiosInstance
+          await axiosTokenInstance
             .get("/props/verify-token")
             .then(response => {
               store.dispatch(setPropId(response.data.id))

@@ -2,6 +2,21 @@ import axios from "../../Axios/axios"
 import { UserState } from "../reducers/userSlice"
 import { RootState } from "../store"
 
+export const getUserById = async (_: any, { getState }: { getState: any }) => {
+  try {
+    const userId = (getState() as RootState).user.id as string
+    const response = await axios.get(`/users/${userId}`)
+    return response.data
+  } catch (err: any) {
+    console.log(err)
+    if (err.response && err.response.data && err.response.data.message) {
+      throw Error(err.response.data.message)
+    } else {
+      throw Error(err.message)
+    }
+  }
+}
+
 export const generateOtp = async (phoneNumber: string) => {
   try {
     const response = await axios.get(`/users/generate-otp`, { params: { phoneNumber } })

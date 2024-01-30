@@ -1,26 +1,91 @@
-import React from "react"
-import Iframe from 'react-iframe';
+import React, { useState, useRef, useCallback, useEffect } from "react"
+import { GoogleMap, useLoadScript, Marker, Autocomplete, StandaloneSearchBox } from "@react-google-maps/api"
+import { Library } from "@googlemaps/js-api-loader"
+import axios from "axios"
 
-const MoreDetailsRightSide = () => {
+// type Library = 'places' | 'drawing' | 'geometry' | 'localContext' | 'visualization';
+const libraries: Library[] = ["places"]
+
+const mapContainerStyle = {
+  height: "100%",
+  width: "100%",
+}
+
+const center = {
+  lat: 59.95,
+  lng: 30.33,
+}
+
+interface MarkerType {
+  lat: number
+  lng: number
+}
+
+const MoreDetailsRightSide: React.FC = () => {
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string,
+    libraries,
+  })
+
+  const [marker, setMarker] = useState<MarkerType | null>(center as MarkerType | null)
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const lat = position.coords.latitude
+          const long = position.coords.longitude
+          console.log("Latitude: ", lat, "Longitude: ", long)
+        },
+        error => {
+          console.log("Error: ", error)
+        },
+      )
+    } else {
+      console.log("Geolocation is not supported by this browser.")
+    }
+    console.log("env : ", process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY)
+  }, [])
+
+  const onMapClick = useCallback((event: any) => {
+    setMarker({
+      lat: event.latLng.lat(),
+      lng: event.latLng.lng(),
+    })
+  }, [])
+
+  const mapRef = useRef<any | null>(null)
+  const onMapLoad = useCallback((map: any) => {
+    mapRef.current = map
+  }, [])
+
+  const searchBoxRef = useRef<google.maps.places.SearchBox | null>(null)
+
+  if (loadError) return <div>Error loading maps</div>
+  if (!isLoaded) return <div>Loading Maps</div>
+
   return (
-    <div>
-      <iframe
-        // width="600"
-        // height="450"
-        className="w-full h-96"
-        style={{ border: 0 }}
-        loading="lazy"
-        allowFullScreen
-        src="https://maps.app.goo.gl/YP4GyA1nTpi1US9B6"
-      ></iframe>
-      {/* <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.8354345096036!2d144.95373531531592!3d-37.8172099797517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11fd81%3A0x5045675218ce6e0!2sMelbourne%20VIC%2C%20Australia!5e0!3m2!1sen!2sus!4v1631233126322!5m2!1sen!2sus"
-        width="600"
-        height="450"
-        style={{ border: 0 }}
-        allowFullScreen
-        loading="lazy"
-      ></iframe> */}
+    <div className="sm:col-span-4">
+      <Autocomplete>
+        <input type="text" placeholder="Search " />
+      </Autocomplete>
+      <GoogleMap
+        id="map"
+        mapContainerStyle={mapContainerStyle}
+        zoom={8}
+        center={center}
+        // options={{ disableDefaultUI: true }}
+        onClick={onMapClick}
+        onLoad={onMapLoad}
+      >
+        {marker && (
+          <Marker key={`${marker.lat}-${marker.lng}`} position={{ lat: marker.lat, lng: marker.lng }} />
+        )}
+      </GoogleMap>
+
+      <p>
+        Selected location: {marker?.lat}, {marker?.lng}
+      </p>
     </div>
   )
 }

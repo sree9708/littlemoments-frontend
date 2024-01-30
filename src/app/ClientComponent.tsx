@@ -1,16 +1,30 @@
 "use client"
 
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
-import { logoutProp, verifyPropIdThunk } from "@/services/Redux/reducers/propSlice"
-import { logoutUser, verifyTokenThunk, verifyUserIdThunk } from "@/services/Redux/reducers/userSlice"
-import { useEffect } from "react"
+import { logoutProp, verifyPropIdThunk, verifyPropTokenThunk } from "@/services/Redux/reducers/propSlice"
+import { logoutUser, verifyUserTokenThunk, verifyUserIdThunk } from "@/services/Redux/reducers/userSlice"
+import { useCallback, useEffect } from "react"
 
 const ClientComponent = ({ children }: { children: any }) => {
   const dispatch = useAppDispatch()
   const userId = useAppSelector(state => state.user?.id)
   const proId = useAppSelector(state => state.prop?.id)
 
+  const verifyUser = useCallback(async () => {
+    try {
+      await dispatch(verifyUserTokenThunk())
+    } catch (error: any) {
+      try {
+        await dispatch(verifyPropTokenThunk())
+      } catch (error: any) {
+        dispatch(logoutUser())
+        dispatch(logoutProp())
+      }
+    }
+  }, [dispatch])
+
   useEffect(() => {
+    console.log("1")
     if (userId) {
       ;(async () => {
         try {
@@ -30,15 +44,9 @@ const ClientComponent = ({ children }: { children: any }) => {
         }
       })()
     } else {
-      ;(async () => {
-        try {
-          await dispatch(verifyTokenThunk())
-        } catch (error: any) {
-          console.log(error)
-        }
-      })()
+      verifyUser()
     }
-  }, [userId, proId, dispatch])
+  }, [])
 
   return <div>{children}</div>
 }

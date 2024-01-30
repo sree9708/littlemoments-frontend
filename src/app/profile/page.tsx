@@ -21,6 +21,7 @@ export default function Home() {
     setIsClient(true)
     async function getReviews() {
       try {
+        await dispatch(getUserByIdThunk(undefined))
         await dispatch(getReviewsByUserIdThunk(userInformations?.id || ""))
       } catch (err) {
         console.log(err)

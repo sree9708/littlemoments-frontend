@@ -3,6 +3,7 @@ import { IUser } from "@/services/Utilities/interfaces/user.interface"
 import {
   createUser,
   generateOtp,
+  getUserById,
   removeWishlist,
   updateWishlist,
   verifyOtpLogin,
@@ -27,10 +28,11 @@ const initialState: UserState = {
   error: null,
 }
 
+export const getUserByIdThunk = createAsyncThunk("user/getUserById", getUserById)
 export const generateOtpThunk = createAsyncThunk("user/generateOtp", generateOtp)
 export const verifyOtpLoginThunk = createAsyncThunk("user/verifyOtpLogin", verifyOtpLogin)
 export const verifyOtpSignupThunk = createAsyncThunk("user/verifyOtpSignup", verifyOtpSignup)
-export const verifyTokenThunk = createAsyncThunk("user/verifyToken", verifyToken)
+export const verifyUserTokenThunk = createAsyncThunk("user/verifyToken", verifyToken)
 export const verifyUserIdThunk = createAsyncThunk("user/verifyUserId", verifyUserId)
 export const createUserThunk = createAsyncThunk("user/createUser", createUser)
 export const updateWishlistThunk = createAsyncThunk("user/updateWishlist", updateWishlist)
@@ -58,6 +60,27 @@ export const userSlice = createSlice({
   },
   extraReducers: builder => {
     builder
+      .addCase(getUserByIdThunk.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(getUserByIdThunk.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.id = action.payload.user.id
+        state.userInformations = {
+          id: action.payload.user.id,
+          username: action.payload.user.username,
+          email: action.payload.user.email,
+          currentCity: action.payload.user.currentCity,
+          gender: action.payload.user.gender,
+          phoneNumber: action.payload.user.phoneNumber,
+          wishlists: action.payload.user.wishlists,
+        }
+      })
+      .addCase(getUserByIdThunk.rejected, (state, action) => {
+        state.isLoading = false
+        state.error = action.error.message
+        throw Error(action.error.message)
+      })
       .addCase(generateOtpThunk.pending, state => {
         state.isLoading = true
       })
@@ -74,16 +97,7 @@ export const userSlice = createSlice({
       })
       .addCase(verifyOtpLoginThunk.fulfilled, (state, action) => {
         state.isLoading = false
-        state.id = action.payload.user.id
-        state.userInformations = {
-          id: action.payload.user.id,
-          username: action.payload.user.username,
-          email: action.payload.user.email,
-          currentCity: action.payload.user.currentCity,
-          gender: action.payload.user.gender,
-          phoneNumber: action.payload.user.phoneNumber,
-          wishlists: action.payload.user.wishlists,
-        }
+        state.id = action.payload.id
       })
       .addCase(verifyOtpLoginThunk.rejected, (state, action) => {
         state.isLoading = false
@@ -95,8 +109,21 @@ export const userSlice = createSlice({
       })
       .addCase(verifyOtpSignupThunk.fulfilled, (state, action) => {
         state.isLoading = false
+        state.id = action.payload.id
       })
       .addCase(verifyOtpSignupThunk.rejected, (state, action) => {
+        state.isLoading = false
+        state.error = action.error.message
+        throw Error(action.error.message)
+      })
+      .addCase(verifyUserTokenThunk.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(verifyUserTokenThunk.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.id = action.payload.id
+      })
+      .addCase(verifyUserTokenThunk.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.error.message
         throw Error(action.error.message)
@@ -107,7 +134,6 @@ export const userSlice = createSlice({
       .addCase(verifyUserIdThunk.fulfilled, (state, action) => {
         state.isLoading = false
         state.id = action.payload.user.id
-        console.log(action.payload.user)
         state.userInformations = {
           id: action.payload.user.id,
           username: action.payload.user.username,
@@ -127,12 +153,10 @@ export const userSlice = createSlice({
       .addCase(createUserThunk.pending, state => {
         state.isLoading = true
       })
-      .addCase(
-        createUserThunk.fulfilled,
-        (state, action: PayloadAction<{ tokens: { accessToken: string; refreshToken: string } }>) => {
-          state.isLoading = false
-        },
-      )
+      .addCase(createUserThunk.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.id = action.payload.id
+      })
       .addCase(createUserThunk.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.error.message

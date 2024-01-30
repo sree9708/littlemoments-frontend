@@ -57,7 +57,7 @@ export const Title = () => {
     <div>
       <div className="block sm:flex justify-between">
         <div>
-          <div className="text-title-md font-title font-bold">REVIEWS</div>
+          <div className="text-title-md font-title font-bold truncate">REVIEWS</div>
           <div className="flex gap-4 items-center">
             <div className="text-5xl font-title font-bold">5.0</div>
             <div className="flex-wrap">

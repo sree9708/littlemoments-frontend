@@ -16,6 +16,19 @@ export const verifyPropId = async (id: string) => {
   }
 }
 
+export const verifyPropToken = async () => {
+  try {
+    const response = await axios.get(`/props/verify-token`)
+    return response.data
+  } catch (err: any) {
+    if (err.response && err.response.data && err.response.data.message) {
+      throw Error(err.response.data.message)
+    } else {
+      throw Error(err.message)
+    }
+  }
+}
+
 export const getPropById = async (_: any, { getState }: { getState: any }) => {
   try {
     const propId = (getState() as RootState).prop.id as string

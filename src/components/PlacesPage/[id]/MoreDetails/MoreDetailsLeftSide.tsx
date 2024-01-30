@@ -45,7 +45,7 @@ export const MoreDetailsLeftSide = () => {
   }
 
   return (
-    <div id="listing-videos" className="sm:col-span-8">
+    <div id="listing-videos" className="w-full">
       <div>
         <div className="flex w-full justify-between items-center" onClick={handleOverview}>
           <div className="text-5xl font-title">OVERVIEW</div>

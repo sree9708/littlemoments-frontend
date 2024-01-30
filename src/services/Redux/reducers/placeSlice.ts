@@ -34,7 +34,6 @@ export const placeSlice = createSlice({
       })
       .addCase(getPlacesThunk.fulfilled, (state, action) => {
         state.isLoading = false
-        console.log(action.payload)
         state.places = action.payload.props
       })
       .addCase(getPlacesThunk.rejected, (state, action) => {

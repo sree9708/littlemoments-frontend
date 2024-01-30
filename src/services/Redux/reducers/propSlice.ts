@@ -1,7 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
-import axios from "../../Axios/axios"
-import { IProp, IPropCreate } from "@/services/Utilities/interfaces/prop.interface"
-import { base64ToFile } from "@/services/Utilities/base64/base64.services"
+import { IProp } from "@/services/Utilities/interfaces/prop.interface"
 import {
   addDispalyImages,
   addPlace,
@@ -15,6 +13,7 @@ import {
   updatePropInformations,
   updatePropSocialLinks,
   verifyPropId,
+  verifyPropToken,
 } from "../thunk/propThunk"
 
 interface PropState {
@@ -32,6 +31,7 @@ const initialState: PropState = {
 }
 
 export const verifyPropIdThunk = createAsyncThunk("prop/verifyPropId", verifyPropId)
+export const verifyPropTokenThunk = createAsyncThunk("user/verifyToken", verifyPropToken)
 export const getPropByIdThunk = createAsyncThunk("place/getPropById", getPropById)
 export const createPropThunk = createAsyncThunk("prop/createProp", createProp)
 export const loginPropThunk = createAsyncThunk("prop/loginProp", loginProp)
@@ -124,6 +124,17 @@ export const propSlice = createSlice({
       .addCase(verifyPropIdThunk.rejected, (state, action) => {
         state.isLoading = false
         state.id = null
+        throw Error(action.error.message)
+      })
+      .addCase(verifyPropTokenThunk.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(verifyPropTokenThunk.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.id = action.payload.id
+      })
+      .addCase(verifyPropTokenThunk.rejected, (state, action) => {
+        state.isLoading = false
         throw Error(action.error.message)
       })
       .addCase(getPropByIdThunk.pending, state => {

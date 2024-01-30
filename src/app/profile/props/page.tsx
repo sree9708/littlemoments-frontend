@@ -1,6 +1,5 @@
 "use client"
 
-import ClientComponent from "@/app/ClientComponent"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import Footer from "@/layouts/CommonLayouts/Footer"
 import Marquee from "@/layouts/CommonLayouts/Marquee"

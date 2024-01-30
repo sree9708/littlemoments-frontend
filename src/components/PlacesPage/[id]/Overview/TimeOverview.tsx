@@ -1,12 +1,11 @@
 import { useAppSelector } from "@/hooks/useStore"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 interface Schedule {
   [day: string]: string[] | "closed"
 }
 
 const TimeOverview: React.FC<any> = () => {
   const placeDetails = useAppSelector(state => state.place?.placeDetails)
-
   const [schedule, setSchedule] = useState<Schedule>(
     placeDetails?.timings || {
       monday: ["closed"],
@@ -16,18 +15,21 @@ const TimeOverview: React.FC<any> = () => {
       friday: ["closed"],
       saturday: ["closed"],
       sunday: ["closed"],
-    },
+    }
   )
 
+  useEffect(() => {
+    if (placeDetails?.timings) {
+      setSchedule(placeDetails.timings)
+    }
+  }, [placeDetails?.timings])
+
   return (
-    <div>
+    <div className="my-4">
       <div className="text-xl font-semibold my-2">Timing :</div>
-      <div
-        className="left-0 top-12 p-2 w-full rounded-md border-2 border-primary ring-1 ring-black ring-opacity-5 focus:outline-none"
-        role="menu"
-      >
-        <div className="py-1" role="none">
-          <div className="my-2  border bg-theme-color-1 font-bold text-secondary p-2 rounded-md drop-shadow-sm grid grid-cols-3">
+      <div className="p-2 w-full rounded-md border-2 border-primary">
+        <div className="py-1">
+          <div className="my-2 border bg-theme-color-1 font-bold text-secondary p-2 rounded-md drop-shadow-sm grid grid-cols-3">
             <div className="me-2 flex justify-center items-center">
               <div>Day</div>
             </div>
@@ -37,7 +39,7 @@ const TimeOverview: React.FC<any> = () => {
           {["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"].map(day => (
             <div
               key={day}
-              className={`my-2  border border-primary  p-2 rounded-md drop-shadow-sm grid ${
+              className={`my-2 border border-primary  p-2 rounded-md drop-shadow-sm grid ${
                 JSON.stringify(schedule[day]) === JSON.stringify(["closed"]) ? "grid-cols-3" : "grid-cols-3"
               }`}
             >

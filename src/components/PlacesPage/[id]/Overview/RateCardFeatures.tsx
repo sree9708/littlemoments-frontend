@@ -3,10 +3,8 @@ import React, { useState } from "react"
 
 const RateCardFeatures = () => {
   const placeDetails = useAppSelector(state => state.place?.placeDetails)
-  const [tableData, setTableData] = useState<any[]>(placeDetails?.rateCard || [])
 
   return (
-    <div>
       <div className="w-full h-fit border-2 border-primary p-2 rounded-lg">
         <div className=" mt-2 w-full">
           <div className="w-full">
@@ -16,7 +14,7 @@ const RateCardFeatures = () => {
               </div>
               <div className="w-full flex justify-center px-2">Price</div>
             </div>
-            {tableData.map((row, index) => (
+            {placeDetails?.rateCard?.map((row, index) => (
               <div key={index} className="my-2 grid grid-cols-2 gap-2">
                 <div className=" border border-primary  p-2 rounded-md drop-shadow-sm ">
                   <div>{row.title}</div>
@@ -29,7 +27,6 @@ const RateCardFeatures = () => {
           </div>
         </div>
       </div>
-    </div>
   )
 }
 
