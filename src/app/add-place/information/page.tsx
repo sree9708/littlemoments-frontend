@@ -1,8 +1,11 @@
+"use client"
+
 import React from "react"
 import RightSide from "@/layouts/RegistrationPage/RightSide"
 import InformationLeftSide from "@/layouts/AddPlacePage/Information/InformationLeftSide"
+import AddPlaceProtectRoute from "@/layouts/ProtectRoute/AddPlaceProtectRoute"
 
-const page = () => {
+const Page = () => {
   return (
     <div className="grid grid-cols-12 w-full h-screen">
       <InformationLeftSide />
@@ -11,4 +14,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

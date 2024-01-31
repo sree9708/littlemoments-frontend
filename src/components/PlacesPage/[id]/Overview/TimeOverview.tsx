@@ -15,7 +15,7 @@ const TimeOverview: React.FC<any> = () => {
       friday: ["closed"],
       saturday: ["closed"],
       sunday: ["closed"],
-    }
+    },
   )
 
   useEffect(() => {

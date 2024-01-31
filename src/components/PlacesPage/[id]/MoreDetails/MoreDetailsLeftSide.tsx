@@ -3,7 +3,7 @@
 import { useAppSelector } from "@/hooks/useStore"
 import { DetailPageContext, DetailPageContextProps } from "@/services/Context/DetailPageContext"
 import Image from "next/image"
-import React, { useContext, useEffect, useRef, useState } from "react"
+import React, { useContext, useRef, useState } from "react"
 import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6"
 import { IoMdCloseCircleOutline } from "react-icons/io"
 import Slider from "react-slick"

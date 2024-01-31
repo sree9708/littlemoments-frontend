@@ -10,14 +10,13 @@ import { MoreDetails } from "@/layouts/PlacesPage/[id]/MoreDetails"
 import { Reviews } from "@/layouts/PlacesPage/[id]/Reviews"
 import DetailPageProvider from "@/services/Context/DetailPageContext"
 import { getPlaceByIdThunk } from "@/services/Redux/reducers/placeSlice"
-import { useParams, useRouter } from "next/navigation"
+import { redirect, useParams } from "next/navigation"
 import { useEffect } from "react"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import HeroLazy from "@/layouts/PlacesPage/[id]/HeroLazy"
 
 export default function Home() {
-  const { push } = useRouter()
   const params = useParams()
   const propId: string = params?.id as string
 
@@ -34,7 +33,7 @@ export default function Home() {
       }
       fetchData()
     } else {
-      push("/")
+      redirect("/")
     }
   }, [])
 

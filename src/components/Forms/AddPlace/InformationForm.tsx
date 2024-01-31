@@ -48,6 +48,10 @@ const InformationForm = () => {
   }, [setIsTracker])
 
   useEffect(() => {
+    console.log("error : ", errors)
+  })
+
+  useEffect(() => {
     if (propDetailsForm?.rateCard) {
       reset({
         ...getValues(),
@@ -88,7 +92,7 @@ const InformationForm = () => {
   }
 
   return (
-    <form className="py-8" onSubmit={handleSubmit(onSubmitSignup)}>
+    <form className="py-4" onSubmit={handleSubmit(onSubmitSignup)}>
       <div className="w-full my-3">
         <AddAndRemoveTooltip />
         <div
@@ -143,7 +147,7 @@ const InformationForm = () => {
               </div>
             </div>
           ))}
-          {errors.rateCard?.root && <p className="text-red-600 text-sm">{errors.rateCard?.root?.message}</p>}
+          {errors.rateCard && <p className="text-red-600 text-sm">{errors.rateCard?.message}</p>}
         </div>
       </div>
       <InputTime onTimeChange={handleTimeChange} />

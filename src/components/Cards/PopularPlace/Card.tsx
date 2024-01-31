@@ -3,27 +3,21 @@
 import Image from "next/image"
 import React from "react"
 import { HiMapPin } from "react-icons/hi2"
-import { useRouter } from "next/navigation"
+import { redirect } from "next/navigation"
 import { StaticImport } from "next/dist/shared/lib/get-img-props"
 
 interface CardProps {
-  // popular: boolean
   id: string | undefined
   heading: string | undefined
-  // rating: string
-  // date: string
   placeName: string | undefined
-  // price: string
   city: string | undefined
-  // phone: string
   image: string | StaticImport | undefined
 }
 
 const Card: React.FC<CardProps> = ({ id, heading, placeName, city, image }) => {
-  const router = useRouter()
 
   const handleRouting = () => {
-    router.push(`/places/${id}`)
+    redirect(`/places/${id}`)
   }
 
   return (
