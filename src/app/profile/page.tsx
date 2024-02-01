@@ -10,15 +10,16 @@ import HeroLazy from "@/layouts/ProfilePage/HeroLazy"
 import DetailPageProvider from "@/services/Context/DetailPageContext"
 import { useEffect, useState } from "react"
 import { getReviewsByUserIdThunk } from "@/services/Redux/reducers/reviewSlice"
+import { getUserByIdThunk } from "@/services/Redux/reducers/userSlice"
+import useMounted from "@/hooks/useMounted"
 
 export default function Home() {
   const userInformations = useAppSelector(state => state.user?.userInformations)
 
-  const [isClient, setIsClient] = useState(false)
+  const hasMounted = useMounted()
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    setIsClient(true)
     async function getReviews() {
       try {
         await dispatch(getUserByIdThunk(undefined))
@@ -32,7 +33,7 @@ export default function Home() {
 
   return (
     <DetailPageProvider>
-      {isClient && (
+      {hasMounted && (
         <div>
           <Navbar searchBar={false} />
           <div className="padding">

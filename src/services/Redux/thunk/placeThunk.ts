@@ -2,7 +2,7 @@ import axios from "../../Axios/axios"
 
 export const getPlaces = async ({ skip, limit }: { skip: number; limit: number }) => {
   try {
-    const response = await axios.get(`/props/get-place/${skip}/${limit}`)
+    const response = await axios.get(`/props/get-prop/${skip}/${limit}`)
     return response.data
   } catch (err: any) {
     console.log(err)
@@ -16,7 +16,7 @@ export const getPlaces = async ({ skip, limit }: { skip: number; limit: number }
 
 export const getPlacesBySkipAndLimit = async ({ skip, limit }: { skip: number; limit: number }) => {
   try {
-    const response = await axios.get(`/props/get-place/${skip}/${limit}`)
+    const response = await axios.get(`/props/get-prop/${skip}/${limit}`)
     return response.data
   } catch (err: any) {
     console.log(err)

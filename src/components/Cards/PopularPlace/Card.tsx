@@ -3,7 +3,7 @@
 import Image from "next/image"
 import React from "react"
 import { HiMapPin } from "react-icons/hi2"
-import { redirect } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { StaticImport } from "next/dist/shared/lib/get-img-props"
 
 interface CardProps {
@@ -15,9 +15,9 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({ id, heading, placeName, city, image }) => {
-
+  const { push } = useRouter()
   const handleRouting = () => {
-    redirect(`/places/${id}`)
+    push(`/places/${id}`)
   }
 
   return (

@@ -8,7 +8,7 @@ const RateCardFeatures = () => {
     <div className="w-full h-fit border-2 border-primary p-2 rounded-lg">
       <div className=" mt-2 w-full">
         <div className="w-full">
-          <div className="my-2  border bg-theme-color-1 font-bold text-secondary p-2 rounded-md drop-shadow-sm grid grid-cols-2">
+          <div className="my-2  border bg-theme-1 font-bold text-secondary p-2 rounded-md drop-shadow-sm grid grid-cols-2">
             <div className="me-2 flex justify-center items-center">
               <div>Service</div>
             </div>

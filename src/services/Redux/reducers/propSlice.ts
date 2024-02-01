@@ -7,6 +7,7 @@ import {
   createProp,
   getPropById,
   loginProp,
+  logoutPropBackend,
   removePropDisplayImages,
   updatePlaceDetails,
   updatePropBusinessDetails,
@@ -55,6 +56,7 @@ export const updatePropSocialLinksThunk = createAsyncThunk(
   "prop/updatePropSocialLinks",
   updatePropSocialLinks,
 )
+export const logoutPropThunk = createAsyncThunk("prop/logoutProp", logoutPropBackend)
 
 export const propSlice = createSlice({
   name: "prop",
@@ -243,6 +245,16 @@ export const propSlice = createSlice({
         state.isLoading = false
       })
       .addCase(updatePropSocialLinksThunk.rejected, (state, action) => {
+        state.isLoading = false
+        throw Error(action.error.message)
+      })
+      .addCase(logoutPropThunk.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(logoutPropThunk.fulfilled, (state, action) => {
+        Object.assign(state, initialState)
+      })
+      .addCase(logoutPropThunk.rejected, (state, action) => {
         state.isLoading = false
         throw Error(action.error.message)
       })

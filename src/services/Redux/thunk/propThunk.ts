@@ -18,7 +18,7 @@ export const verifyPropId = async (id: string) => {
 
 export const verifyPropToken = async () => {
   try {
-    const response = await axios.get(`/props/verify-token`)
+    const response = await axios.get(`/props/refresh-token/verify`)
     return response.data
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.message) {
@@ -214,6 +214,19 @@ export const updatePropSocialLinks = async ({ id, data }: { id: string | undefin
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.message) {
       console.log(err.response.data.message)
+      throw Error(err.response.data.message)
+    } else {
+      throw Error(err.message)
+    }
+  }
+}
+
+export const logoutPropBackend = async () => {
+  try {
+    const response = await axios.put(`/props/logout`)
+    return response.data
+  } catch (err: any) {
+    if (err.response && err.response.data && err.response.data.message) {
       throw Error(err.response.data.message)
     } else {
       throw Error(err.message)

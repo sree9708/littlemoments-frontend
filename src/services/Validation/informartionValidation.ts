@@ -34,6 +34,7 @@ const informationValidation = yup
     startingAge: yup
       .number()
       .required("Starting Age is required.")
+      .typeError("Age must be a number.")
       .positive("Starting Age must be a positive number.")
       .integer("Starting Age must be an integer.")
       .test("is-less-than-ending-age", "Starting Age must be less than Ending Age", function (value) {
@@ -43,6 +44,7 @@ const informationValidation = yup
     endingAge: yup
       .number()
       .required("Ending Age is required.")
+      .typeError("Age must be a number.")
       .positive("Ending Age must be a positive number.")
       .integer("Ending Age must be an integer.")
       .test("is-greater-than-starting-age", "Ending Age must be greater than Starting Age", function (value) {

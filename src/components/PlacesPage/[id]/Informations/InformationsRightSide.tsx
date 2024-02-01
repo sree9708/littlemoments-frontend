@@ -83,7 +83,7 @@ export const InformationsRightSide = () => {
             ) : (
               <div
                 className={`p-3 ${
-                  isFavourite ? "bg-theme-color-1" : "bg-background"
+                  isFavourite ? "bg-theme-1" : "bg-background"
                 } cursor-pointer border-2  border-primary rounded-lg drop-shadow-[5px_5px_0_rgba(0,0,0,1)]`}
                 onClick={handleHeart}
               >
@@ -93,7 +93,7 @@ export const InformationsRightSide = () => {
           </div>
         )}
         <div
-          className="p-3 bg-background hover:bg-theme-color-4 cursor-pointer border-2 border-primary rounded-lg drop-shadow-[5px_5px_0_rgba(0,0,0,1)]"
+          className="p-3 bg-background hover:bg-theme-4 cursor-pointer border-2 border-primary rounded-lg drop-shadow-[5px_5px_0_rgba(0,0,0,1)]"
           onClick={async () => {
             if (navigator.share) {
               try {

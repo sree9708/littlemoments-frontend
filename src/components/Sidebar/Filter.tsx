@@ -20,7 +20,7 @@ const Filter = () => {
       <div className="h-full p-4 border-2 border-primary bg-white rounded-md drop-shadow-[10px_10px_0_rgba(0,0,0,1)]">
         <div className=" flex justify-between">
           <div className="text-lg font-bold">Filter</div>
-          <div className="cursor-pointer hover:text-theme-color-3 hover:underline">Clear All</div>
+          <div className="cursor-pointer hover:text-theme-3 hover:underline">Clear All</div>
         </div>
         <div>
           <div className="w-full border my-2 mb-6 border-gray-400"></div>

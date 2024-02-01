@@ -19,7 +19,7 @@ const Hero = ({ placeDetails }: { placeDetails: any }) => {
   }
 
   return (
-    <div className="h-full">
+    <div className="h-full mt-28">
       <div className="h-full mt-12 grid grid-cols-12 gap-4">
         <div className="h-full col-span-12 md:col-span-7">
           <div className="h-60 sm:h-96 overflow-hidden rounded-lg md:h-full w-full relative">
@@ -33,7 +33,7 @@ const Hero = ({ placeDetails }: { placeDetails: any }) => {
                 className="shadow-2xl w-full h-full transition-transform duration-300 ease-linear hover:scale-105 object-cover rounded-lg"
               />
             </div>
-            <div className="absolute top-4 right-4 bg-theme-color-4 p-1 px-3 rounded-full border border-primary font-bold">
+            <div className="absolute top-4 right-4 bg-theme-4 p-1 px-3 rounded-full border border-primary font-bold">
               Popular
             </div>
             <div className="absolute bottom-6 left-6 text-secondary font-title drop-shadow-md text-title-sm">

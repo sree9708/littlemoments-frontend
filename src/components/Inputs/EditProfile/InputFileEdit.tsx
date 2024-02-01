@@ -35,7 +35,7 @@ const InputFileEdit = ({
             // file:mr-4 file:py-2
             // file:rounded-md file:border-0
             // file:text-sm file:font-semibold
-            // file:bg-theme-color-3 file:text-secondary
+            // file:bg-theme-3 file:text-secondary
             // hover:file:bg-primary"
           {...register(name, { required })}
           onChange={onChange}

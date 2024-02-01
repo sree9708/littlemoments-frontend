@@ -63,7 +63,7 @@ export const Title = () => {
             <div className="flex-wrap">
               <div className="flex items-center">
                 {stars.map((_, index) => (
-                  <div key={index} className="text-theme-color-4">
+                  <div key={index} className="text-theme-4">
                     <FaStar />
                   </div>
                 ))}

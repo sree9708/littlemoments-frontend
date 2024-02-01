@@ -29,7 +29,7 @@ const TimeOverview: React.FC<any> = () => {
       <div className="text-xl font-semibold my-2">Timing :</div>
       <div className="p-2 w-full rounded-md border-2 border-primary">
         <div className="py-1">
-          <div className="my-2 border bg-theme-color-1 font-bold text-secondary p-2 rounded-md drop-shadow-sm grid grid-cols-3">
+          <div className="my-2 border bg-theme-1 font-bold text-secondary p-2 rounded-md drop-shadow-sm grid grid-cols-3">
             <div className="me-2 flex justify-center items-center">
               <div>Day</div>
             </div>
@@ -48,7 +48,7 @@ const TimeOverview: React.FC<any> = () => {
               </div>
               {JSON.stringify(schedule[day]) === JSON.stringify(["closed"]) ? (
                 <div className="w-full flex justify-center">
-                  <div className="bg-theme-color-1 text-secondary p-1 px-2 text-sm border-2 border-primary w-fit rounded-full">
+                  <div className="bg-theme-1 text-secondary p-1 px-2 text-sm border-2 border-primary w-fit rounded-full">
                     Closed
                   </div>
                 </div>

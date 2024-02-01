@@ -115,7 +115,7 @@ const InputTimeProfileProps: React.FC<any> = ({
             </div>
             {JSON.stringify(schedule[day]) === JSON.stringify(["closed"]) ? (
               <div className="w-full flex justify-end">
-                <div className="bg-theme-color-1 text-secondary p-1 px-2 text-sm border-2 border-primary w-fit rounded-full">
+                <div className="bg-theme-1 text-secondary p-1 px-2 text-sm border-2 border-primary w-fit rounded-full">
                   Closed
                 </div>
               </div>

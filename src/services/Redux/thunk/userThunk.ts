@@ -58,7 +58,7 @@ export const verifyOtpSignup = async (params: { phoneNumber: string; otp: string
 
 export const verifyToken = async () => {
   try {
-    const response = await axios.get(`/users/verify-token`)
+    const response = await axios.get(`/users/refresh-token/verify`)
     return response.data
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.message) {
@@ -123,6 +123,19 @@ export const removeWishlist = async (propId: string, { getState }: { getState: a
     console.log(err)
     if (err.response && err.response.data && err.response.data.message) {
       console.log(err.response.data.message)
+      throw Error(err.response.data.message)
+    } else {
+      throw Error(err.message)
+    }
+  }
+}
+
+export const logoutUserBackend = async () => {
+  try {
+    const response = await axios.put(`/users/logout`)
+    return response.data
+  } catch (err: any) {
+    if (err.response && err.response.data && err.response.data.message) {
       throw Error(err.response.data.message)
     } else {
       throw Error(err.message)

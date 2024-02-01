@@ -5,7 +5,7 @@ import FastMarquee from "react-fast-marquee"
 
 const Marquee: React.FC = () => {
   return (
-    <div className=" bg-theme-color-1 border-y-2 border-primary py-2 w-full">
+    <div className=" bg-theme-1 border-y-2 border-primary py-2 w-full">
       <FastMarquee>
         <Text1 text="LIKE NEVER BEFORE" />
         <Text2 text="Exclusive offers & deals" />

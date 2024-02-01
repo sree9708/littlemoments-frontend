@@ -1,20 +1,15 @@
-"use client"
-
+import useMounted from "@/hooks/useMounted"
 import { useAppSelector } from "@/hooks/useStore"
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { IoIosMail, IoMdCall } from "react-icons/io"
 
 const ProfileDetails = () => {
   const propInformation = useAppSelector(state => state.prop?.propInformations)
-  const [isClient, setIsClient] = useState(false)
-
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
+  const hasMounted = useMounted()
 
   return (
     <>
-      {isClient && (
+      {hasMounted && (
         <div className="w-fit overflow-hidden truncate">
           <div className="font-title text-title-sm my-4 w-full ">
             {propInformation ? (

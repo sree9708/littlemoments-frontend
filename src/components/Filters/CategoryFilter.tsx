@@ -87,7 +87,7 @@ const CategoryFilter = ({ title }: CategoryFilterProps) => {
           />
           <label htmlFor="sports">Sports</label>
         </div>
-        <div className="text-theme-color-3 underline cursor-pointer" onClick={handleAllCategories}>
+        <div className="text-theme-3 underline cursor-pointer" onClick={handleAllCategories}>
           more+
         </div>
         {allCategories && (

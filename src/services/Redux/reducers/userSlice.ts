@@ -10,6 +10,7 @@ import {
   verifyOtpSignup,
   verifyToken,
   verifyUserId,
+  logoutUserBackend,
 } from "../thunk/userThunk"
 
 export interface UserState {
@@ -37,6 +38,7 @@ export const verifyUserIdThunk = createAsyncThunk("user/verifyUserId", verifyUse
 export const createUserThunk = createAsyncThunk("user/createUser", createUser)
 export const updateWishlistThunk = createAsyncThunk("user/updateWishlist", updateWishlist)
 export const removeWishlistThunk = createAsyncThunk("user/removeWishlist", removeWishlist)
+export const logoutUserThunk = createAsyncThunk("user/logoutUser", logoutUserBackend)
 
 export const userSlice = createSlice({
   name: "user",
@@ -180,6 +182,20 @@ export const userSlice = createSlice({
         state.isLoading = false
       })
       .addCase(removeWishlistThunk.rejected, (state, action) => {
+        state.isLoading = false
+        state.error = action.error.message
+        throw Error(action.error.message)
+      })
+      .addCase(logoutUserThunk.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(logoutUserThunk.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.id = null
+        state.userDetailsForm = null
+        state.userInformations = null
+      })
+      .addCase(logoutUserThunk.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.error.message
         throw Error(action.error.message)

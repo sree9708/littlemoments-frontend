@@ -31,7 +31,7 @@ const LeftSide = ({ searchBar }: { searchBar: boolean }) => {
         <Dropdown />
       </div> */}
       {showTitle && (
-        <div className="transition-transform duration-300 ease-in-out  font-title text-theme-color-1 text-lg sm:text-3xl mx-4 whitespace-nowrap">
+        <div className="transition-transform duration-300 ease-in-out  font-title text-theme-1 text-lg sm:text-3xl mx-4 whitespace-nowrap">
           <CompanyName />
         </div>
       )}

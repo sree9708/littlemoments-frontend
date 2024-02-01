@@ -6,11 +6,13 @@ import InfiniteScroll from "react-infinite-scroll-component"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { getPlacesBySkipAndLimitThunk, getPlacesThunk } from "@/services/Redux/reducers/placeSlice"
 import { IProp } from "@/services/Utilities/interfaces/prop.interface"
+import useMounted from "@/hooks/useMounted"
 
 const Cards: React.FC = () => {
   const [skip, setSkip] = useState(0)
   const [hasError, setHasError] = useState(false)
-  const [isClient, setIsClient] = useState(false)
+
+  const hasMounted = useMounted()
   const dispatch = useAppDispatch()
   const isLoading = useAppSelector(state => state.place?.isLoading)
 
@@ -27,7 +29,6 @@ const Cards: React.FC = () => {
       }
     }
     fetchData()
-    setIsClient(true)
   }, [])
 
   const fetchData = async () => {
@@ -42,7 +43,7 @@ const Cards: React.FC = () => {
 
   return (
     <div className="w-full">
-      {isClient && (
+      {hasMounted && (
         <InfiniteScroll
           style={{ overflow: "visible" }}
           dataLength={places.length}

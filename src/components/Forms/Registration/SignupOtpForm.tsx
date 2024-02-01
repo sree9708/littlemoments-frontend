@@ -91,13 +91,13 @@ const SignupOtpForm = () => {
         )}
         <RegistrationButton text={isOtpInput ? "Verify Otp" : "Sign Up"} />
         <div
-          className="flex justify-center text-theme-color-3 mt-2 underline cursor-pointer"
+          className="flex justify-center text-theme-3 mt-2 underline cursor-pointer"
           onClick={handleSignupBack}
         >
           Back
         </div>
         {isOtpInput && (
-          <div className="flex justify-between text-theme-color-3 mt-2 underline">
+          <div className="flex justify-between text-theme-3 mt-2 underline">
             <button type="button" onClick={changeNumber}>
               Change number
             </button>
@@ -107,7 +107,7 @@ const SignupOtpForm = () => {
       </form>
       <div className="flex flex-wrap justify-center gap-2 text-xl">
         <div>Dont have account ?</div>
-        <Link href="/signup" className="text-theme-color-3 font-bold">
+        <Link href="/signup" className="text-theme-3 font-bold">
           Signup instead
         </Link>
       </div>

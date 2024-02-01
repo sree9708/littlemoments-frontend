@@ -61,7 +61,7 @@ const SignupPropsForm = () => {
       </form>
       <div className="flex flex-wrap justify-center gap-2 text-xl">
         <div>Already have account ?</div>
-        <Link href="/login/props" className="text-theme-color-3 font-bold">
+        <Link href="/login/props" className="text-theme-3 font-bold">
           Login instead
         </Link>
       </div>

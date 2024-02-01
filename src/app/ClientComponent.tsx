@@ -1,8 +1,18 @@
 "use client"
 
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
-import { logoutProp, verifyPropIdThunk, verifyPropTokenThunk } from "@/services/Redux/reducers/propSlice"
-import { logoutUser, verifyUserTokenThunk, verifyUserIdThunk } from "@/services/Redux/reducers/userSlice"
+import {
+  logoutProp,
+  logoutPropThunk,
+  verifyPropIdThunk,
+  verifyPropTokenThunk,
+} from "@/services/Redux/reducers/propSlice"
+import {
+  logoutUser,
+  verifyUserTokenThunk,
+  verifyUserIdThunk,
+  logoutUserThunk,
+} from "@/services/Redux/reducers/userSlice"
 import { useCallback, useEffect } from "react"
 
 const ClientComponent = ({ children }: { children: any }) => {
@@ -17,21 +27,29 @@ const ClientComponent = ({ children }: { children: any }) => {
       try {
         await dispatch(verifyPropTokenThunk())
       } catch (error: any) {
-        dispatch(logoutUser())
-        dispatch(logoutProp())
+        try {
+          await dispatch(logoutUserThunk())
+          await dispatch(logoutPropThunk())
+        } catch (error: any) {
+          console.log(error.message)
+        }
       }
     }
   }, [dispatch])
 
   useEffect(() => {
-    console.log("1")
     if (userId) {
       ;(async () => {
         try {
           await dispatch(verifyUserIdThunk(userId))
           dispatch(logoutProp())
         } catch (error: any) {
-          dispatch(logoutUser())
+          try {
+            await dispatch(logoutUserThunk())
+            dispatch(logoutUser())
+          } catch (error: any) {
+            console.log(error.message)
+          }
         }
       })()
     } else if (proId) {
@@ -40,7 +58,12 @@ const ClientComponent = ({ children }: { children: any }) => {
           await dispatch(verifyPropIdThunk(proId))
           dispatch(logoutUser())
         } catch (error: any) {
-          dispatch(logoutProp())
+          try {
+            await dispatch(logoutPropThunk())
+            dispatch(logoutProp())
+          } catch (error: any) {
+            console.log(error.message)
+          }
         }
       })()
     } else {

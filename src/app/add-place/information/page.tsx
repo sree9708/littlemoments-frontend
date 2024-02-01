@@ -3,7 +3,6 @@
 import React from "react"
 import RightSide from "@/layouts/RegistrationPage/RightSide"
 import InformationLeftSide from "@/layouts/AddPlacePage/Information/InformationLeftSide"
-import AddPlaceProtectRoute from "@/layouts/ProtectRoute/AddPlaceProtectRoute"
 
 const Page = () => {
   return (

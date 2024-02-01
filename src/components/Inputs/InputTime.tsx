@@ -116,7 +116,7 @@ const InputTime: React.FC<any> = ({ onTimeChange }: { onTimeChange: (data: any) 
                   <label htmlFor={day}>{day.charAt(0).toUpperCase() + day.slice(1)}</label>
                 </div>
                 {JSON.stringify(schedule[day]) === JSON.stringify(["closed"]) ? (
-                  <div className="bg-theme-color-1 text-secondary p-1 px-2 text-sm border-2 border-primary w-fit rounded-full">
+                  <div className="bg-theme-1 text-secondary p-1 px-2 text-sm border-2 border-primary w-fit rounded-full">
                     Closed
                   </div>
                 ) : (

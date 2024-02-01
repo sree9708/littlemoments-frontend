@@ -37,7 +37,7 @@ const Content: React.FC = () => {
       <div className="flex gap-2 justify-end">
         {currentPage > 1 && (
           <div
-            className="p-3 border-2 rounded-full border-primary w-fit bg-secondary hover:bg-theme-color-4 cursor-pointer"
+            className="p-3 border-2 rounded-full border-primary w-fit bg-secondary hover:bg-theme-4 cursor-pointer"
             onClick={() => paginate(currentPage - 1)}
           >
             <IoIosArrowBack />
@@ -45,7 +45,7 @@ const Content: React.FC = () => {
         )}
         {currentPage < totalPages && (
           <div
-            className="p-3 border-2 rounded-full border-primary w-fit bg-secondary hover:bg-theme-color-4 cursor-pointer"
+            className="p-3 border-2 rounded-full border-primary w-fit bg-secondary hover:bg-theme-4 cursor-pointer"
             onClick={() => paginate(currentPage + 1)}
           >
             <IoIosArrowForward />

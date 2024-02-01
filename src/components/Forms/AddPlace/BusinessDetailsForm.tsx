@@ -15,6 +15,7 @@ import { addBusinessDetails } from "@/services/Redux/reducers/propSlice"
 import { base64ToFile, filetoBase64 } from "@/services/Utilities/base64/base64.services"
 import { IoCloseSharp } from "react-icons/io5"
 import BusinessDetailsValidation from "@/services/Validation/businessDetailsValidation"
+import useMounted from "@/hooks/useMounted"
 
 const BusinessDetailsForm = () => {
   const {
@@ -24,6 +25,7 @@ const BusinessDetailsForm = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(BusinessDetailsValidation) })
 
+  const hasMounted = useMounted()
   const { push } = useRouter()
   const dispatch = useAppDispatch()
   const propDetailsForm = useAppSelector(state => state.prop?.propDetailsForm)
@@ -36,11 +38,6 @@ const BusinessDetailsForm = () => {
 
   const [gstinFile, setGstinFile] = useState<File | null>(gstin ? gstin : null)
   const [panFile, setPanFile] = useState<File | null>(pan ? pan : null)
-  const [isClient, setIsClient] = useState(false)
-
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
 
   useEffect(() => {
     setIsTracker(2)
@@ -102,7 +99,7 @@ const BusinessDetailsForm = () => {
 
   return (
     <div>
-      {isClient && (
+      {hasMounted && (
         <form className="py-8" onSubmit={handleSubmit(onSubmitSignup)}>
           <InputText
             name="location"

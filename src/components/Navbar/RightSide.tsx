@@ -4,7 +4,7 @@ import useClickOutside from "@/hooks/useClickOutside"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { FaArrowRightLong } from "react-icons/fa6"
 import imageSrc from "../../../public/avatar.jpg"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
@@ -12,19 +12,17 @@ import { logoutUser } from "@/services/Redux/reducers/userSlice"
 import { logoutProp } from "@/services/Redux/reducers/propSlice"
 import { logoutReview } from "@/services/Redux/reducers/reviewSlice"
 import Swal from "sweetalert2"
+import useMounted from "@/hooks/useMounted"
 
 const RightSide: React.FC = () => {
+  const hasMounted = useMounted()
   const dispatch = useAppDispatch()
   const userId = useAppSelector(state => state.user?.id)
   const propId = useAppSelector(state => state.prop?.id)
   const propInformations = useAppSelector(state => state.prop?.propInformations)
 
   const [dropdown, setDropdown] = useState(false)
-  const [isClient, setIsClient] = useState(false)
 
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
   const { push } = useRouter()
   const handleDropdown = () => {
     setDropdown(!dropdown)
@@ -77,7 +75,7 @@ const RightSide: React.FC = () => {
 
   return (
     <>
-      {isClient && (
+      {hasMounted && (
         <div className="flex gap-2 sm:gap-4 md:gap-8 lg:gap-12 xl:gap-16 w-fit justify-end items-center text-center">
           <div className="hidden sm:flex cursor-pointer whitespace-nowrap">
             <Link href={"/"}>Home</Link>
@@ -126,7 +124,7 @@ const RightSide: React.FC = () => {
                 >
                   <div className="py-1" role="none">
                     <div
-                      className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-color-1 transition duration-300 ease-in-out hover:text-secondary cursor-pointer"
+                      className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-1 transition duration-300 ease-in-out hover:text-secondary cursor-pointer"
                       role="menuitem"
                       tabIndex={-1}
                       id="menu-item-0"
@@ -136,7 +134,7 @@ const RightSide: React.FC = () => {
                     </div>
                     {userId && (
                       <div
-                        className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-color-1 transition duration-300 ease-in-out hover:text-secondary cursor-pointer"
+                        className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-1 transition duration-300 ease-in-out hover:text-secondary cursor-pointer"
                         role="menuitem"
                         tabIndex={-1}
                         id="menu-item-1"
@@ -145,7 +143,7 @@ const RightSide: React.FC = () => {
                       </div>
                     )}
                     <div
-                      className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-color-1 transition duration-300 ease-in-out hover:text-secondary cursor-pointer"
+                      className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-1 transition duration-300 ease-in-out hover:text-secondary cursor-pointer"
                       role="menuitem"
                       tabIndex={-1}
                       id="menu-item-2"

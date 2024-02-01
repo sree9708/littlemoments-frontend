@@ -2,7 +2,7 @@ import PlaceOwnerLeftSide from "@/layouts/AddPlacePage/PlaceOwner/PlaceOwnerLeft
 import RightSide from "@/layouts/RegistrationPage/RightSide"
 import React from "react"
 
-const page = () => {
+const Page = () => {
   return (
     <div className="grid grid-cols-12 w-full h-screen">
       <PlaceOwnerLeftSide />
@@ -11,4 +11,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

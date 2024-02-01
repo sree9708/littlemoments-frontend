@@ -11,7 +11,7 @@ export const InformationsLeftSide = () => {
   return (
     <div className="sm:col-span-10">
       <div className="flex gap-3 items-center">
-        <div className="text-theme-color-4">
+        <div className="text-theme-4">
           <FaStar />
         </div>
         <div>4.9 stars</div>

@@ -76,7 +76,7 @@ const CityFilter = () => {
           />
           <label htmlFor="mumbai">Mumbai</label>
         </div>
-        <div className="text-theme-color-3 underline cursor-pointer">more+</div>
+        <div className="text-theme-3 underline cursor-pointer">more+</div>
       </div>
     </>
   )

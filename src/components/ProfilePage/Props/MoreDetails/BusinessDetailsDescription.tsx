@@ -1,12 +1,13 @@
 import RegistrationButton from "@/components/Buttons/RegistrationButton"
 import InputTextEdit from "@/components/Inputs/EditProfile/InputTextEdit"
 import InputTextareaEdit from "@/components/Inputs/EditProfile/InputTextareaEdit"
+import useMounted from "@/hooks/useMounted"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { updatePropBusinessDetailsThunk } from "@/services/Redux/reducers/propSlice"
 import BusinessDetailsValidation from "@/services/Validation/businessDetailsValidation"
 import { yupResolver } from "@hookform/resolvers/yup"
-import React, { useEffect, useState } from "react"
-import { set, useForm } from "react-hook-form"
+import React, { useEffect } from "react"
+import { useForm } from "react-hook-form"
 
 interface BusinessDetailsDescriptionProps {
   isEdit: boolean
@@ -20,7 +21,7 @@ const BusinessDetailsDescription: React.FC<BusinessDetailsDescriptionProps> = ({
     setValue,
     formState: { errors },
   } = useForm({ resolver: yupResolver(BusinessDetailsValidation) })
-  const [isClient, setIsClient] = useState(false)
+  const hasMounted = useMounted()
 
   const dispatch = useAppDispatch()
   const propInformation = useAppSelector(state => state.prop?.propInformations)
@@ -33,10 +34,6 @@ const BusinessDetailsDescription: React.FC<BusinessDetailsDescriptionProps> = ({
     setValue("pocName", propInformation?.pocName || "")
     setValue("pocDesignation", propInformation?.pocDesignation || "")
   }, [setValue, propInformation])
-
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
 
   const onSubmitSignup = async (data: any) => {
     console.log("data", data)
@@ -62,7 +59,7 @@ const BusinessDetailsDescription: React.FC<BusinessDetailsDescriptionProps> = ({
 
   return (
     <>
-      {isClient && (
+      {hasMounted && (
         <div className="pt-6">
           <form onSubmit={handleSubmit(onSubmitSignup)}>
             <div className="block lg:flex w-full gap-4 my-4">

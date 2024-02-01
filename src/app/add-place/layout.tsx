@@ -1,6 +1,7 @@
+"use client"
 import AddPlaceProtectRoute from "@/layouts/ProtectRoute/AddPlaceProtectRoute"
 import TrackerProvider from "@/services/Context/TrackerContext"
-import React from "react"
+import React, { useEffect, useState } from "react"
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
