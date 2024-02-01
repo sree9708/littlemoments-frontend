@@ -5,9 +5,11 @@ import React from "react"
 export const MoreDetails = () => {
   return (
     <div className="my-16">
-      <div className="grid grid-cols-1 sm:grid-cols-12 gap-4">
-        <MoreDetailsLeftSide />
-        <MoreDetailsRightSide />
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+        <div className="sm:col-span-12">
+          <MoreDetailsLeftSide />
+        </div>
+        {/* <MoreDetailsRightSide /> */}
       </div>
     </div>
   )

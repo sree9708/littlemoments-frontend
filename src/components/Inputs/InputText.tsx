@@ -32,13 +32,13 @@ const InputText = ({
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full my-3">
       <div className="flex w-full relative">
         <input
           type={type !== "password" ? type : password}
           className={`w-full autofill:bg-yellow-200 bg-transparent rounded-lg p-2 px-3 ${
             type === "password" && "pe-10"
-          } my-3 border-2  text-lg border-primary focus:outline-none focus:ring-transparent ${
+          } border-2  text-lg border-primary focus:outline-none focus:ring-transparent ${
             disabled && "disabled:bg-gray-100 disabled:cursor-not-allowed"
           }`}
           placeholder={placeholder}

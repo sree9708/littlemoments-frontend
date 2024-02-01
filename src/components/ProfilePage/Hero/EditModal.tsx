@@ -95,7 +95,7 @@ const EditModal = () => {
             <RegistrationButton text="Submit" />
           </form>
           <div className="flex  my-3 flex-wrap justify-center gap-2">
-            <Link href="/change" className="text-theme-color-3">
+            <Link href="/change" className="text-theme-3">
               Change Phone Number
             </Link>
           </div>

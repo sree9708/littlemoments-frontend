@@ -1,192 +1,81 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
-import axios from "../../Axios/axios"
-import { IProp, IPropCreate } from "@/services/Utilities/interfaces/prop.interface"
-import { RootState } from "../store"
-import { base64ToFile } from "@/services/Utilities/base64/base64.services"
+import { IProp } from "@/services/Utilities/interfaces/prop.interface"
+import {
+  addDispalyImages,
+  addPlace,
+  addPropDisplayImages,
+  createProp,
+  getPropById,
+  loginProp,
+  logoutPropBackend,
+  removePropDisplayImages,
+  updatePlaceDetails,
+  updatePropBusinessDetails,
+  updatePropInformations,
+  updatePropSocialLinks,
+  verifyPropId,
+  verifyPropToken,
+} from "../thunk/propThunk"
 
 interface PropState {
   isLoading: boolean
   id: string | null
-  propDetails: IProp | null
+  propDetailsForm: IProp | null
+  propInformations: IProp | null
 }
 
-const initialValue: PropState = {
+const initialState: PropState = {
   isLoading: false,
   id: null,
-  propDetails: null,
+  propDetailsForm: null,
+  propInformations: null,
 }
 
-export const createProp = createAsyncThunk("prop/createUser", async ({ email, password }: IPropCreate) => {
-  try {
-    console.log(email, password)
-    const response = await axios.post(`/props`, { email, password })
-    return response.data
-  } catch (err: any) {
-    console.log(err)
-    if (err.response && err.response.data && err.response.data.error) {
-      console.log(err.response.data.error)
-      throw Error(err.response.data.error)
-    } else {
-      throw Error(err.message)
-    }
-  }
-})
-
-export const loginProp = createAsyncThunk("prop/loginProp", async ({ email, password }: IPropCreate) => {
-  try {
-    console.log(email, password)
-    const response = await axios.post(`/props/login`, { email, password })
-    return response.data
-  } catch (err: any) {
-    console.log(err)
-    if (err.response && err.response.data && err.response.data.error) {
-      console.log(err.response.data.error)
-      throw Error(err.response.data.error)
-    } else {
-      throw Error(err.message)
-    }
-  }
-})
-
-export const addPlace = createAsyncThunk("prop/addPlace", async (_, { getState }) => {
-  try {
-    interface PropState {
-      isLoading: boolean
-      propDetails: IProp | null
-      displayImages: unknown[]
-    }
-
-    const formData = new FormData()
-    const gstinFile = (getState() as RootState).prop.propDetails?.gstin as string
-    const panFile = (getState() as RootState).prop.propDetails?.pan as string
-    const displayImages = (getState() as RootState).prop.propDetails?.displayImages as string[]
-    const propDetails: PropState["propDetails"] = (getState() as RootState).prop.propDetails
-
-    const gstin = base64ToFile(gstinFile as string, `gstin`)
-    const pan = base64ToFile(panFile as string, `pan`)
-    formData.append("propDetails", JSON.stringify(propDetails))
-    formData.append("gstin", gstin)
-    formData.append("pan", pan)
-
-    Array.from(displayImages ?? []).forEach((image: unknown) => {
-      const file = base64ToFile(image as string, `image`)
-      formData.append("displayImages", file)
-    })
-    const response = await axios.put(`/props/add-place/12345`, formData)
-    return response.data
-  } catch (err: any) {
-    console.log(err)
-    if (err.response && err.response.data && err.response.data.error) {
-      console.log(err.response.data.error)
-      throw Error(err.response.data.error)
-    } else {
-      throw Error(err.message)
-    }
-  }
-})
-
-export const addDispalyImages = createAsyncThunk("prop/addDispalyImages", async (_, { getState }) => {
-  try {
-    const displayImages = (getState() as RootState).prop.propDetails?.displayImages as string[]
-    const formData = new FormData()
-    Array.from(displayImages ?? []).forEach((image: unknown) => {
-      const file = base64ToFile(image as string, `file`)
-      console.log("file :", file)
-      formData.append("displayImages", file)
-    })
-    const response = await axios.put(`/props/add-dispaly-images/12345`, formData)
-    return response.data
-  } catch (err: any) {
-    console.log(err)
-    if (err.response && err.response.data && err.response.data.error) {
-      console.log(err.response.data.error)
-      throw Error(err.response.data.error)
-    } else {
-      throw Error(err.message)
-    }
-  }
-})
-
-export const updatePropBusinessDetails = createAsyncThunk(
+export const verifyPropIdThunk = createAsyncThunk("prop/verifyPropId", verifyPropId)
+export const verifyPropTokenThunk = createAsyncThunk("user/verifyToken", verifyPropToken)
+export const getPropByIdThunk = createAsyncThunk("place/getPropById", getPropById)
+export const createPropThunk = createAsyncThunk("prop/createProp", createProp)
+export const loginPropThunk = createAsyncThunk("prop/loginProp", loginProp)
+export const addPlaceThunk = createAsyncThunk("prop/addPlace", addPlace)
+export const addDispalyImagesThunk = createAsyncThunk("prop/addDispalyImages", addDispalyImages)
+export const updatePlaceDetailsThunk = createAsyncThunk("prop/updatePlaceDetails", updatePlaceDetails)
+export const updatePropBusinessDetailsThunk = createAsyncThunk(
   "prop/updatePropBusinessDetails",
-  async (data: any) => {
-    try {
-      console.log(data)
-      const response = await axios.put(`/props/business-details/12345`, data)
-      return response.data
-    } catch (err: any) {
-      console.log(err)
-      if (err.response && err.response.data && err.response.data.error) {
-        console.log(err.response.data.error)
-        throw Error(err.response.data.error)
-      } else {
-        throw Error(err.message)
-      }
-    }
-  },
+  updatePropBusinessDetails,
 )
-
-export const updatePropInformations = createAsyncThunk("prop/updatePropInformations", async (data: any) => {
-  try {
-    const response = await axios.put(`/props/informations/659901a5907c24c5227a59d8`, data)
-    return response.data
-  } catch (err: any) {
-    console.log(err)
-    if (err.response && err.response.data && err.response.data.error) {
-      console.log(err.response.data.error)
-      throw Error(err.response.data.error)
-    } else {
-      throw Error(err.message)
-    }
-  }
-})
-
-export const updatePropSocialLinks = createAsyncThunk("prop/updatePropSocialLinks", async (data: any) => {
-  try {
-    const response = await axios.put(`/props/social-links/659901a5907c24c5227a59d8`, { socialLinks: data })
-    return response.data
-  } catch (err: any) {
-    console.log(err)
-    if (err.response && err.response.data && err.response.data.error) {
-      console.log(err.response.data.error)
-      throw Error(err.response.data.error)
-    } else {
-      throw Error(err.message)
-    }
-  }
-})
-
-export const getProps = createAsyncThunk("prop/updatePropSocialLinks", async (data: any) => {
-  try {
-    console.log("updatePropSocialLinks :", data)
-    const response = await axios.put(`/props/social-links/659901a5907c24c5227a59d8`, { socialLinks: data })
-    return response.data
-  } catch (err: any) {
-    console.log(err)
-    if (err.response && err.response.data && err.response.data.error) {
-      console.log(err.response.data.error)
-      throw Error(err.response.data.error)
-    } else {
-      throw Error(err.message)
-    }
-  }
-})
+export const updatePropInformationsThunk = createAsyncThunk(
+  "prop/updatePropInformations",
+  updatePropInformations,
+)
+export const addPropDisplayImagesThunk = createAsyncThunk("prop/addPropDisplayImages", addPropDisplayImages)
+export const removePropDisplayImagesThunk = createAsyncThunk(
+  "prop/removePropDisplayImages",
+  removePropDisplayImages,
+)
+export const updatePropSocialLinksThunk = createAsyncThunk(
+  "prop/updatePropSocialLinks",
+  updatePropSocialLinks,
+)
+export const logoutPropThunk = createAsyncThunk("prop/logoutProp", logoutPropBackend)
 
 export const propSlice = createSlice({
   name: "prop",
-  initialState: initialValue,
+  initialState,
   reducers: {
+    setPropId: (state, action: PayloadAction<string | null>) => {
+      state.id = action.payload
+    },
     addPlaceOwner: (state, action: PayloadAction<IProp>) => {
-      state.propDetails = {
-        ...state.propDetails,
+      state.propDetailsForm = {
+        ...state.propDetailsForm,
         placeName: action.payload.placeName,
         email: action.payload.email,
         displayContactNo: action.payload.displayContactNo,
       }
     },
     addBusinessDetails: (state, action: PayloadAction<IProp>) => {
-      state.propDetails = {
-        ...state.propDetails,
+      state.propDetailsForm = {
+        ...state.propDetailsForm,
         location: action.payload.location,
         address: action.payload.address,
         city: "hyderabad",
@@ -196,11 +85,10 @@ export const propSlice = createSlice({
         pocContactNo: action.payload.pocContactNo,
         pocDesignation: action.payload.pocDesignation,
       }
-      console.log("State : ", state.propDetails)
     },
     addInformations: (state, action: PayloadAction<IProp>) => {
-      state.propDetails = {
-        ...state.propDetails,
+      state.propDetailsForm = {
+        ...state.propDetailsForm,
         rateCard: action.payload.rateCard,
         timings: action.payload.timings,
         placeDescription: action.payload.placeDescription,
@@ -208,94 +96,178 @@ export const propSlice = createSlice({
         subCategory: action.payload.subCategory,
         age: action.payload.age,
       }
-      console.log("State : ", state.propDetails)
     },
     addUploadImages: (state, action: PayloadAction<IProp>) => {
-      console.log("upload images", action.payload.displayImages)
-      state.propDetails = {
-        ...state.propDetails,
+      state.propDetailsForm = {
+        ...state.propDetailsForm,
         displayImages: action.payload.displayImages,
       }
     },
     addSocialLinks: (state, action: PayloadAction<IProp>) => {
-      console.log("redux", action.payload)
-      state.propDetails = {
-        ...state.propDetails,
+      state.propDetailsForm = {
+        ...state.propDetailsForm,
         socialLinks: action.payload.socialLinks,
       }
+    },
+    logoutProp: state => {
+      Object.assign(state, initialState)
     },
   },
   extraReducers: builder => {
     builder
-      .addCase(createProp.pending, state => {
+      .addCase(verifyPropIdThunk.pending, state => {
         state.isLoading = true
       })
-      .addCase(createProp.fulfilled, (state, action) => {
+      .addCase(verifyPropIdThunk.fulfilled, (state, action) => {
         state.isLoading = false
-        console.log(action.payload)
+        state.id = action.payload.prop.id
+        state.propInformations = action.payload.prop
       })
-      .addCase(createProp.rejected, (state, action) => {
+      .addCase(verifyPropIdThunk.rejected, (state, action) => {
         state.isLoading = false
+        state.id = null
         throw Error(action.error.message)
       })
-      .addCase(loginProp.pending, state => {
+      .addCase(verifyPropTokenThunk.pending, state => {
         state.isLoading = true
       })
-      .addCase(loginProp.fulfilled, (state, action) => {
+      .addCase(verifyPropTokenThunk.fulfilled, (state, action) => {
         state.isLoading = false
         state.id = action.payload.id
       })
-      .addCase(loginProp.rejected, (state, action) => {
+      .addCase(verifyPropTokenThunk.rejected, (state, action) => {
         state.isLoading = false
         throw Error(action.error.message)
       })
-      .addCase(addDispalyImages.pending, state => {
+      .addCase(getPropByIdThunk.pending, state => {
         state.isLoading = true
       })
-      .addCase(addDispalyImages.fulfilled, (state, action) => {
+      .addCase(getPropByIdThunk.fulfilled, (state, action) => {
         state.isLoading = false
-        console.log(action.payload)
+        state.id = action.payload.prop.id
+        state.propInformations = action.payload.prop
       })
-      .addCase(addDispalyImages.rejected, (state, action) => {
+      .addCase(getPropByIdThunk.rejected, (state, action) => {
+        state.isLoading = false
+        state.id = null
+        throw Error(action.error.message)
+      })
+      .addCase(createPropThunk.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(createPropThunk.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.id = action.payload.prop?.id
+        state.propInformations = action.payload.prop
+      })
+      .addCase(createPropThunk.rejected, (state, action) => {
         state.isLoading = false
         throw Error(action.error.message)
       })
-      .addCase(updatePropBusinessDetails.pending, state => {
+      .addCase(loginPropThunk.pending, state => {
         state.isLoading = true
       })
-      .addCase(updatePropBusinessDetails.fulfilled, (state, action) => {
+      .addCase(loginPropThunk.fulfilled, (state, action) => {
         state.isLoading = false
-        console.log(action.payload)
+        state.id = action.payload.id
       })
-      .addCase(updatePropBusinessDetails.rejected, (state, action) => {
+      .addCase(loginPropThunk.rejected, (state, action) => {
         state.isLoading = false
         throw Error(action.error.message)
       })
-      .addCase(updatePropInformations.pending, state => {
+      .addCase(addDispalyImagesThunk.pending, state => {
         state.isLoading = true
       })
-      .addCase(updatePropInformations.fulfilled, (state, action) => {
+      .addCase(addDispalyImagesThunk.fulfilled, (state, action) => {
         state.isLoading = false
-        console.log(action.payload)
       })
-      .addCase(updatePropInformations.rejected, (state, action) => {
+      .addCase(addDispalyImagesThunk.rejected, (state, action) => {
         state.isLoading = false
         throw Error(action.error.message)
       })
-      .addCase(updatePropSocialLinks.pending, state => {
+      .addCase(updatePlaceDetailsThunk.pending, state => {
         state.isLoading = true
       })
-      .addCase(updatePropSocialLinks.fulfilled, (state, action) => {
+      .addCase(updatePlaceDetailsThunk.fulfilled, (state, action) => {
         state.isLoading = false
-        console.log(action.payload)
+        state.propInformations = action.payload.prop
       })
-      .addCase(updatePropSocialLinks.rejected, (state, action) => {
+      .addCase(updatePlaceDetailsThunk.rejected, (state, action) => {
+        state.isLoading = false
+        throw Error(action.error.message)
+      })
+      .addCase(updatePropBusinessDetailsThunk.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(updatePropBusinessDetailsThunk.fulfilled, (state, action) => {
+        state.isLoading = false
+      })
+      .addCase(updatePropBusinessDetailsThunk.rejected, (state, action) => {
+        state.isLoading = false
+        throw Error(action.error.message)
+      })
+      .addCase(updatePropInformationsThunk.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(updatePropInformationsThunk.fulfilled, (state, action) => {
+        state.isLoading = false
+      })
+      .addCase(updatePropInformationsThunk.rejected, (state, action) => {
+        state.isLoading = false
+        throw Error(action.error.message)
+      })
+      .addCase(addPropDisplayImagesThunk.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(addPropDisplayImagesThunk.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.propInformations = action.payload.prop
+      })
+      .addCase(addPropDisplayImagesThunk.rejected, (state, action) => {
+        state.isLoading = false
+        throw Error(action.error.message)
+      })
+      .addCase(removePropDisplayImagesThunk.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(removePropDisplayImagesThunk.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.propInformations = action.payload.prop
+      })
+      .addCase(removePropDisplayImagesThunk.rejected, (state, action) => {
+        state.isLoading = false
+        throw Error(action.error.message)
+      })
+      .addCase(updatePropSocialLinksThunk.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(updatePropSocialLinksThunk.fulfilled, (state, action) => {
+        state.isLoading = false
+      })
+      .addCase(updatePropSocialLinksThunk.rejected, (state, action) => {
+        state.isLoading = false
+        throw Error(action.error.message)
+      })
+      .addCase(logoutPropThunk.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(logoutPropThunk.fulfilled, (state, action) => {
+        Object.assign(state, initialState)
+      })
+      .addCase(logoutPropThunk.rejected, (state, action) => {
         state.isLoading = false
         throw Error(action.error.message)
       })
   },
 })
 
-export const { addPlaceOwner, addBusinessDetails, addInformations, addUploadImages, addSocialLinks } =
-  propSlice.actions
+export const {
+  setPropId,
+  addPlaceOwner,
+  addBusinessDetails,
+  addInformations,
+  addUploadImages,
+  addSocialLinks,
+  logoutProp,
+} = propSlice.actions
 export default propSlice.reducer

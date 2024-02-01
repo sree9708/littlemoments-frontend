@@ -3,7 +3,7 @@ import SignupLeftSide from "@/layouts/RegistrationPage/Signup/SignupLeftSide"
 import SignupProvider from "@/services/Context/SignupContext"
 import RightSide from "@/layouts/RegistrationPage/RightSide"
 
-const page = () => {
+const Page = () => {
   return (
     <SignupProvider>
       <div className="grid grid-cols-12 w-full h-screen">
@@ -14,4 +14,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

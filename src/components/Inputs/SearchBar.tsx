@@ -9,7 +9,7 @@ const SearchBar = () => {
   }
   return (
     <div className="flex justify-center my-6">
-      <div className="w-4/5 md:w-3/5 lg:w-2/5 relative flex items-center rounded-md bg-theme-color-2 drop-shadow-[5px_5px_0_rgba(0,0,0,1)]">
+      <div className="w-4/5 md:w-3/5 lg:w-2/5 relative flex items-center rounded-md bg-theme-2 drop-shadow-[5px_5px_0_rgba(0,0,0,1)]">
         <input
           type="text"
           value={searchEvents}

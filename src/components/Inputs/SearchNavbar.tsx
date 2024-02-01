@@ -7,7 +7,7 @@ const SearchNavbar = () => {
     setSearchEvents(event.target.value)
   }
   return (
-    <div className="mx-4 w-full">
+    <div className="mx-4 hidden lg:flex w-fit">
       <div className="w-full relative flex items-center rounded-md">
         <input
           type="text"

@@ -48,7 +48,7 @@ const InputTextareaProfileEdit = ({
           placeholder={placeholder}
           {...register(name, { required })}
           disabled={disabled}
-          rows={6}
+          rows={1}
           style={{ resize: "none" }}
           onInput={handleInput}
         />

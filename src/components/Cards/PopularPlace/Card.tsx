@@ -2,41 +2,22 @@
 
 import Image from "next/image"
 import React from "react"
-import { FaStar } from "react-icons/fa"
 import { HiMapPin } from "react-icons/hi2"
 import { useRouter } from "next/navigation"
 import { StaticImport } from "next/dist/shared/lib/get-img-props"
-import { useAppSelector } from "@/hooks/useStore"
 
 interface CardProps {
-  // popular: boolean
-  _id: string | undefined
+  id: string | undefined
   heading: string | undefined
-  // rating: string
-  // date: string
   placeName: string | undefined
-  // price: string
   city: string | undefined
-  // phone: string
   image: string | StaticImport | undefined
 }
 
-const Card: React.FC<CardProps> = ({
-  // popular,
-  _id,
-  heading,
-  // rating,
-  // date,
-  placeName,
-  // price,
-  city,
-  // phone,
-  image,
-}) => {
-  const router = useRouter()
-
+const Card: React.FC<CardProps> = ({ id, heading, placeName, city, image }) => {
+  const { push } = useRouter()
   const handleRouting = () => {
-    router.push(`/places/${_id}`)
+    push(`/places/${id}`)
   }
 
   return (

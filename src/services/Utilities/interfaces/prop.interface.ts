@@ -1,5 +1,5 @@
 export interface IProp {
-  _id?: string
+  id?: string
   email?: string
   passaword?: string
   placeName?: string
@@ -34,12 +34,7 @@ export interface IProp {
   age?: [number]
   displayImages?: string[]
   socialLinks?: ISocialLinks
-  reviews?: IReview[]
-}
-
-export interface IReview {
-  rating: number
-  review: string
+  isProfileAdded?: boolean
 }
 
 export interface ISocialLinks {

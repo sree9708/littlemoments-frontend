@@ -22,7 +22,7 @@ const UploadImagesForm = () => {
   const { setIsTracker } = useContext(TrackerContext) as TrackerContextProps
 
   const dispatch = useAppDispatch()
-  const displayImages = useAppSelector(state => state.prop.propDetails?.displayImages)
+  const displayImages = useAppSelector(state => state.prop?.propDetailsForm?.displayImages)
   const displayImagesFile = displayImages && displayImages.map((image: string) => base64ToFile(image, "file"))
 
   useEffect(() => {
@@ -55,7 +55,6 @@ const UploadImagesForm = () => {
   }
 
   const handleButtonClick = () => {
-    // Trigger the file input when the button is clicked
     const fileInput = document.getElementById("upload-images")
     if (fileInput) {
       fileInput.click()
@@ -66,12 +65,10 @@ const UploadImagesForm = () => {
     event.preventDefault()
     if (selectedImages.length <= 0) {
       setError("Please select any image")
-      console.log("error")
       return
     }
     try {
       const base64Images = await Promise.all(selectedImages.map(image => filetoBase64(image)))
-      console.log("base64Images", base64Images)
       dispatch(addUploadImages({ displayImages: base64Images }))
       push("/add-place/social-links")
     } catch (error: any) {

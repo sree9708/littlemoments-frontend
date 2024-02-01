@@ -3,31 +3,27 @@
 import React, { useContext, useState } from "react"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
-import * as yup from "yup"
 import InputText from "../../Inputs/InputText"
 import RegistrationButton from "../../Buttons/RegistrationButton"
 import OtpInput from "../../Inputs/InputOtp"
 import Link from "next/link"
 import { SignupContext, SignupContextProps } from "@/services/Context/SignupContext"
-import { addphoneNumber, createUser, generateOtp, verifyOtpSignup } from "@/services/Redux/reducers/userSlice"
+import {
+  addphoneNumber,
+  createUserThunk,
+  generateOtpThunk,
+  verifyOtpSignupThunk,
+} from "@/services/Redux/reducers/userSlice"
 import { useAppDispatch } from "@/hooks/useStore"
 import { useRouter } from "next/navigation"
-
-const schema = yup
-  .object({
-    phoneNumber: yup
-      .string()
-      .required("Phone number is required.")
-      .matches(/^[0-9]{10}$/, "Phone number must be a 10-digit number without any special characters."),
-  })
-  .required()
+import phoneNumberValidation from "@/services/Validation/phoneNumberValidation"
 
 const SignupOtpForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) })
+  } = useForm({ resolver: yupResolver(phoneNumberValidation) })
 
   const route = useRouter()
   const dispatch = useAppDispatch()
@@ -38,11 +34,10 @@ const SignupOtpForm = () => {
   const { setIsSignup } = useContext(SignupContext) as SignupContextProps
 
   const onSubmitLogin = async (data: any) => {
-    console.log("data", data)
     try {
       dispatch(addphoneNumber(data.phoneNumber))
-      await dispatch(generateOtp(data.phoneNumber))
-      await dispatch(createUser())
+      await dispatch(generateOtpThunk(data.phoneNumber))
+      await dispatch(createUserThunk(undefined))
       setIsOtpInput(true)
     } catch (err: any) {
       setIsSignup(true)
@@ -51,9 +46,8 @@ const SignupOtpForm = () => {
   }
 
   const onSubmitOtp = async (data: any) => {
-    console.log(data)
     try {
-      await dispatch(verifyOtpSignup({ phoneNumber: data.phoneNumber, otp }))
+      await dispatch(verifyOtpSignupThunk({ phoneNumber: data.phoneNumber, otp }))
       setIsOtpInput(false)
       route.push("/")
     } catch (err: any) {
@@ -97,13 +91,13 @@ const SignupOtpForm = () => {
         )}
         <RegistrationButton text={isOtpInput ? "Verify Otp" : "Sign Up"} />
         <div
-          className="flex justify-center text-theme-color-3 mt-2 underline cursor-pointer"
+          className="flex justify-center text-theme-3 mt-2 underline cursor-pointer"
           onClick={handleSignupBack}
         >
           Back
         </div>
         {isOtpInput && (
-          <div className="flex justify-between text-theme-color-3 mt-2 underline">
+          <div className="flex justify-between text-theme-3 mt-2 underline">
             <button type="button" onClick={changeNumber}>
               Change number
             </button>
@@ -113,7 +107,7 @@ const SignupOtpForm = () => {
       </form>
       <div className="flex flex-wrap justify-center gap-2 text-xl">
         <div>Dont have account ?</div>
-        <Link href="/signup" className="text-theme-color-3 font-bold">
+        <Link href="/signup" className="text-theme-3 font-bold">
           Signup instead
         </Link>
       </div>

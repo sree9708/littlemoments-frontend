@@ -1,4 +1,3 @@
-import BusinessDetailsForm from "@/components/Forms/ProfileProps/BusinessDetailsForm"
 import React, { useState } from "react"
 import { IoMdCloseCircleOutline } from "react-icons/io"
 import BusinessDetailsDescription from "./BusinessDetailsDescription"

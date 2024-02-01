@@ -8,7 +8,7 @@ export const Reviews = () => {
     <div className="my-12">
       <Title />
       <Content />
-      <Pagination />
+      {/* <Pagination /> */}
     </div>
   )
 }

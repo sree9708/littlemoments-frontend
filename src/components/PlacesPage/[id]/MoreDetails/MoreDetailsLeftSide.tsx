@@ -3,19 +3,14 @@
 import { useAppSelector } from "@/hooks/useStore"
 import { DetailPageContext, DetailPageContextProps } from "@/services/Context/DetailPageContext"
 import Image from "next/image"
-import React, { useContext, useEffect, useRef, useState } from "react"
+import React, { useContext, useRef, useState } from "react"
 import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6"
 import { IoMdCloseCircleOutline } from "react-icons/io"
 import Slider from "react-slick"
-
-const images: {
-  [key: number]: string
-} = {
-  0: "https://images.pexels.com/photos/2412603/pexels-photo-2412603.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  1: "https://images.pexels.com/photos/2845890/pexels-photo-2845890.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-  2: "https://images.pexels.com/photos/3603453/pexels-photo-3603453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-  3: "https://images.pexels.com/photos/18781943/pexels-photo-18781943/free-photo-of-footbridge-over-shantang-river-in-suzhou-at-night.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-}
+import TimeOverview from "../Overview/TimeOverview"
+import CategoryOverview from "../Overview/CategoryOverview"
+import AgeOverview from "../Overview/AgeOverview"
+import RateCardFeatures from "../Overview/RateCardFeatures"
 
 export const MoreDetailsLeftSide = () => {
   const [overview, setOverview] = useState<boolean>(false)
@@ -23,7 +18,7 @@ export const MoreDetailsLeftSide = () => {
   const { moreVideos, setMoreVideos } = useContext(DetailPageContext) as DetailPageContextProps
 
   const [selectedImage, setSelectedImage] = useState<number | null>(null)
-  const placeDetails = useAppSelector(state => state.place.placeDetails)
+  const placeDetails = useAppSelector(state => state.place?.placeDetails)
 
   const sliderRef = useRef<Slider>(null)
 
@@ -50,7 +45,7 @@ export const MoreDetailsLeftSide = () => {
   }
 
   return (
-    <div id="listing-videos" className="sm:col-span-8">
+    <div id="listing-videos" className="w-full">
       <div>
         <div className="flex w-full justify-between items-center" onClick={handleOverview}>
           <div className="text-5xl font-title">OVERVIEW</div>
@@ -62,20 +57,21 @@ export const MoreDetailsLeftSide = () => {
           }`}
         >
           <div className="my-2">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum ea autem iure, et facere quae quos
-            asperiores non esse corrupti eius praesentium, sunt aspernatur magni? Id, veniam. Nisi minima, qui
-            molestiae impedit placeat maxime quae deleniti harum sequi est porro laudantium et. Dolore quaerat
-            sequi laborum doloribus animi possimus doloremque.
+            <TimeOverview />
+          </div>
+          <div className="my-2">
+            <CategoryOverview />
+          </div>
+          <div>
+            <AgeOverview />
           </div>
         </div>
         <div className="w-full border-t border-gray-500 my-4"></div>
       </div>
       <div>
-        <div className="flex w-full justify-between items-center">
+        <div className="flex w-full justify-between items-center" onClick={handleFeatures}>
           <div className="text-5xl font-title">FEATURES</div>
-          <div className="text-xl cursor-pointer" onClick={handleFeatures}>
-            {features ? <FaCircleMinus /> : <FaCirclePlus />}
-          </div>
+          <div className="text-xl cursor-pointer">{features ? <FaCircleMinus /> : <FaCirclePlus />}</div>
         </div>
         <div
           className={`transition-opacity duration-300 ease-in-out  overflow-hidden ${
@@ -83,20 +79,15 @@ export const MoreDetailsLeftSide = () => {
           }`}
         >
           <div className="my-2">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum ea autem iure, et facere quae quos
-            asperiores non esse corrupti eius praesentium, sunt aspernatur magni? Id, veniam. Nisi minima, qui
-            molestiae impedit placeat maxime quae deleniti harum sequi est porro laudantium et. Dolore quaerat
-            sequi laborum doloribus animi possimus doloremque.
+            <RateCardFeatures />
           </div>
         </div>
         <div className="w-full border-t border-gray-500 my-4"></div>
       </div>
       <div>
-        <div className="flex w-full justify-between items-center">
+        <div className="flex w-full justify-between items-center" onClick={handleVideo}>
           <div className="text-5xl font-title">LISTING VIDEOS</div>
-          <div className="text-xl cursor-pointer" onClick={handleVideo}>
-            {moreVideos ? <FaCircleMinus /> : <FaCirclePlus />}
-          </div>
+          <div className="text-xl cursor-pointer">{moreVideos ? <FaCircleMinus /> : <FaCirclePlus />}</div>
         </div>
         <div
           className={`transition-opacity duration-300 ease-in-out  overflow-hidden ${

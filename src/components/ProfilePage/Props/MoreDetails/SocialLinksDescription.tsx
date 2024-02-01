@@ -1,58 +1,44 @@
 import RegistrationButton from "@/components/Buttons/RegistrationButton"
 import InputTextSocialLinksEdit from "@/components/Inputs/EditProfile/InputTextSocialLinksEdit"
-import { useAppDispatch } from "@/hooks/useStore"
-import { updatePropSocialLinks } from "@/services/Redux/reducers/propSlice"
+import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
+import { updatePropSocialLinksThunk } from "@/services/Redux/reducers/propSlice"
+import SocialLinksValidation from "@/services/Validation/socialLinksValidation"
 import { yupResolver } from "@hookform/resolvers/yup"
 import React, { useEffect } from "react"
 import { useForm } from "react-hook-form"
-import * as yup from "yup"
 
-const schema = yup
-  .object({
-    fb: yup
-      .string()
-      .url("Please enter a valid URL")
-      .min(3, "Facebook must be at least 3 characters.")
-      .max(100, "Facebook must not exceed 20 characters."),
-    instagram: yup
-      .string()
-      .url("Please enter a valid URL")
-      .min(3, "Instagram must be at least 3 characters.")
-      .max(100, "Instagram must not exceed 20 characters."),
-    youtube: yup
-      .string()
-      .url("Please enter a valid URL")
-      .min(3, "Youtube must be at least 3 characters.")
-      .max(100, "Youtube must not exceed 20 characters."),
-    twitter: yup
-      .string()
-      .url("Please enter a valid URL")
-      .min(3, "Twitter must be at least 3 characters.")
-      .max(100, "Twitter must not exceed 20 characters."),
-  })
-  .required()
+interface SocialLinksDescriptionProps {
+  isEdit: boolean
+  setIsEdit: (isEdit: boolean) => void
+}
 
-const SocialLinksDescription = ({ isEdit }: { isEdit: boolean }) => {
+const SocialLinksDescription: React.FC<SocialLinksDescriptionProps> = ({ isEdit, setIsEdit }) => {
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) })
+  } = useForm({ resolver: yupResolver(SocialLinksValidation) })
 
   const dispatch = useAppDispatch()
+  const propInformation = useAppSelector(state => state.prop?.propInformations)
 
   useEffect(() => {
-    setValue("fb", "http://www.musaffar.com")
-    setValue("instagram", "http://www.musaffar.com")
-    setValue("youtube", "http://www.musaffar.com")
-    setValue("twitter", "http://www.musaffar.com")
+    setValue("fb", propInformation?.socialLinks?.fb || "")
+    setValue("instagram", propInformation?.socialLinks?.instagram || "")
+    setValue("youtube", propInformation?.socialLinks?.youtube || "")
+    setValue("twitter", propInformation?.socialLinks?.twitter || "")
   }, [setValue])
 
   const onSubmitSignup = async (data: any) => {
-    console.log("data", data)
-    dispatch(updatePropSocialLinks(data))
     try {
+      await dispatch(
+        updatePropSocialLinksThunk({
+          id: propInformation?.id,
+          data,
+        }),
+      )
+      setIsEdit(false)
     } catch (error) {
       console.log(error)
     }

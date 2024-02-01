@@ -29,10 +29,10 @@ const InputCategory = ({
     setValue(name, defaultValue)
   }, [name, defaultValue, setValue])
   return (
-    <div className="w-full">
+    <div className="w-full my-3">
       <div className="flex relative">
         <select
-          className={`w-full bg-transparent rounded-lg p-2 my-3 border-2  text-xl border-primary focus:outline-none focus:ring-transparent ${
+          className={`w-full bg-transparent rounded-lg p-2 border-2  text-xl border-primary focus:outline-none focus:ring-transparent ${
             selectedValue !== "" ? "text-black" : "text-gray-400"
           } `}
           {...register(name, { required })}

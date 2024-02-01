@@ -3,46 +3,27 @@
 import React from "react"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
-import * as yup from "yup"
 import InputText from "../../Inputs/InputText"
 import RegistrationButton from "../../Buttons/RegistrationButton"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useAppDispatch } from "@/hooks/useStore"
-import { createProp } from "@/services/Redux/reducers/propSlice"
-
-const schema = yup
-  .object({
-    email: yup.string().trim().required("Email is required.").email("Invalid email format."),
-    password: yup
-      .string()
-      .required("Password is required.")
-      .matches(
-        /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&])[a-zA-Z\d@$!%*#?&]+$/,
-        "Password must be at least 6 characters long and include a letter, a number, and a special character.",
-      )
-      .min(6, "Password must be at least 6 characters long"),
-    confirmPassword: yup
-      .string()
-      .oneOf([yup.ref("password"), undefined], "Passwords must match") // Ensure it matches the 'password' field
-      .required("Confirm Password is required."),
-  })
-  .required()
+import { createPropThunk } from "@/services/Redux/reducers/propSlice"
+import signupPropValidation from "@/services/Validation/signupPropValidation"
 
 const SignupPropsForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) })
+  } = useForm({ resolver: yupResolver(signupPropValidation) })
 
   const router = useRouter()
   const dispatch = useAppDispatch()
 
   const onSubmitLogin = async (data: any) => {
-    console.log("data", data)
     try {
-      await dispatch(createProp({ email: data.email, password: data.password }))
+      await dispatch(createPropThunk({ email: data.email, password: data.password }))
       router.push("/")
     } catch (err: any) {
       console.log("form : ", err.message)
@@ -80,7 +61,7 @@ const SignupPropsForm = () => {
       </form>
       <div className="flex flex-wrap justify-center gap-2 text-xl">
         <div>Already have account ?</div>
-        <Link href="/login/props" className="text-theme-color-3 font-bold">
+        <Link href="/login/props" className="text-theme-3 font-bold">
           Login instead
         </Link>
       </div>

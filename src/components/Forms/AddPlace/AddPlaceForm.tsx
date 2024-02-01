@@ -2,7 +2,6 @@
 
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
-import * as yup from "yup"
 import InputText from "../../Inputs/InputText"
 import RegistrationButton from "../../Buttons/RegistrationButton"
 import { useContext, useEffect } from "react"
@@ -11,37 +10,29 @@ import { useRouter } from "next/navigation"
 import { FaArrowLeftLong } from "react-icons/fa6"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { addPlaceOwner } from "@/services/Redux/reducers/propSlice"
-
-const schema = yup
-  .object({
-    placeName: yup
-      .string()
-      .required("Place name is required.")
-      .min(3, "Place name must be at least 3 characters.")
-      .max(100, "Place name must not exceed 20 characters."),
-    email: yup.string().trim().required("Email is required.").email("Invalid email format."),
-    displayContactNo: yup
-      .string()
-      .required("Phone number is required.")
-      .matches(/^[0-9]{10}$/, "Phone number must be a 10-digit number without any special characters."),
-  })
-  .required()
+import addPlaceValidation from "@/services/Validation/addPlaceValidation"
 
 const AddPlaceForm = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) })
+  } = useForm({ resolver: yupResolver(addPlaceValidation) })
 
   const { push } = useRouter()
   const dispatch = useAppDispatch()
-  const propDetails = useAppSelector(state => state.prop.propDetails)
+
+  const propDetailsForm = useAppSelector(state => state.prop?.propDetailsForm)
+  const propInformation = useAppSelector(state => state.prop?.propInformations)
   const { setIsTracker } = useContext(TrackerContext) as TrackerContextProps
 
   useEffect(() => {
     setIsTracker(1)
-  }, [setIsTracker])
+    setValue("email", propInformation?.email || "")
+    setValue("placeName", propDetailsForm?.placeName || "")
+    setValue("displayContactNo", propDetailsForm?.displayContactNo || "")
+  }, [setIsTracker, setValue, propInformation, propDetailsForm])
 
   const onSubmitSignup = (data: any) => {
     dispatch(addPlaceOwner(data))
@@ -62,7 +53,7 @@ const AddPlaceForm = () => {
           register={register}
           required
           error={errors.placeName?.message}
-          defaultValue={propDetails?.placeName}
+          // defaultValue={propDetailsForm?.placeName}
         />
         <InputText
           name="email"
@@ -71,7 +62,8 @@ const AddPlaceForm = () => {
           register={register}
           required
           error={errors.email?.message}
-          defaultValue={propDetails?.email}
+          disabled={true}
+          // defaultValue={propInformation?.email}
         />
         <InputText
           name="displayContactNo"
@@ -80,7 +72,7 @@ const AddPlaceForm = () => {
           register={register}
           required
           error={errors.displayContactNo?.message}
-          defaultValue={propDetails?.displayContactNo}
+          // defaultValue={propDetailsForm?.displayContactNo}
         />
         <div className="flex gap-4">
           <button

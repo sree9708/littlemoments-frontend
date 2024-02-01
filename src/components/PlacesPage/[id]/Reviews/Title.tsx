@@ -1,7 +1,6 @@
 "use client"
 
 import InputTextarea from "@/components/Inputs/InputTextarea"
-import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 import React, { useState } from "react"
 import { useForm } from "react-hook-form"
@@ -11,29 +10,24 @@ import { IoMdCloseCircleOutline } from "react-icons/io"
 import Modal from "react-modal"
 import RegistrationButton from "@/components/Buttons/RegistrationButton"
 import InputText from "@/components/Inputs/InputText"
-
-const schema = yup
-  .object({
-    title: yup
-      .string()
-      .required("Title is required.")
-      .min(3, "Title must be at least 3 characters.")
-      .max(100, "Title must not exceed 100 characters."),
-    review: yup
-      .string()
-      .required("Review is required.")
-      .min(3, "Review must be at least 3 characters.")
-      .max(1000, "Review must not exceed 1000 characters."),
-    rating: yup.number().required("Rating is required"),
-  })
-  .required()
+import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
+import { createReviewThunk, getReviewsByPropIdThunk } from "@/services/Redux/reducers/reviewSlice"
+import { useParams } from "next/navigation"
+import reviewValidation from "@/services/Validation/reviewValidation"
 
 export const Title = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) })
+  } = useForm({ resolver: yupResolver(reviewValidation) })
+
+  const params = useParams()
+  const propId: string = params?.id as string
+
+  const dispatch = useAppDispatch()
+  const userId = useAppSelector(state => state.user?.id)
+  const reviews = useAppSelector(state => state.review?.reviews)
 
   const stars = Array(5).fill(null)
 
@@ -42,27 +36,39 @@ export const Title = () => {
   const [hover, setHover] = useState(0)
 
   const handleModal = () => {
-    setisModal(!isModal)
+    if (!userId) {
+      alert("You must be logged in to write a review.")
+      return
+    } else {
+      setisModal(!isModal)
+    }
   }
 
-  const onSubmit = (data: any) => {}
+  const onSubmit = async (data: any) => {
+    console.log(data)
+    try {
+      await dispatch(createReviewThunk({ userId, propId, ...data }))
+      await dispatch(getReviewsByPropIdThunk(propId))
+      setisModal(false)
+    } catch (error) {}
+  }
 
   return (
     <div>
       <div className="block sm:flex justify-between">
         <div>
-          <div className="text-title-md font-title font-bold">REVIEWS</div>
+          <div className="text-title-md font-title font-bold truncate">REVIEWS</div>
           <div className="flex gap-4 items-center">
             <div className="text-5xl font-title font-bold">5.0</div>
             <div className="flex-wrap">
               <div className="flex items-center">
                 {stars.map((_, index) => (
-                  <div key={index} className="text-theme-color-4">
+                  <div key={index} className="text-theme-4">
                     <FaStar />
                   </div>
                 ))}
               </div>
-              <div className="text-slate-400 text-xs">1,289 reviews</div>
+              <div className="text-slate-400 text-xs">{reviews.length} reviews</div>
             </div>
           </div>
         </div>
@@ -85,10 +91,11 @@ export const Title = () => {
         style={{
           overlay: {
             backgroundColor: "#00000080",
+            zIndex: 55,
           },
         }}
       >
-        <div className="relative">
+        <div className="relative z-50">
           <div className="font-title text-title-sm">Review</div>
           <button onClick={handleModal} className="absolute top-0 right-0">
             <IoMdCloseCircleOutline />
@@ -109,7 +116,7 @@ export const Title = () => {
                       className="hidden"
                     />
                     <FaStar
-                      className="cursor-pointer"
+                      className="cursor-pointer drop-shadow-sm"
                       color={ratingValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
                       size={30}
                       onMouseEnter={() => setHover(ratingValue)}

@@ -2,7 +2,7 @@ import React from "react"
 import RightSide from "@/layouts/RegistrationPage/RightSide"
 import LoginPropsLeftSide from "@/layouts/RegistrationPage/Props/Login/LoginPropsLeftSide"
 
-const page = () => {
+const Page = () => {
   return (
     <div className="grid grid-cols-12 w-full h-screen">
       <LoginPropsLeftSide />
@@ -11,4 +11,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

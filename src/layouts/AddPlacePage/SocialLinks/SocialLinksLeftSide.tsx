@@ -1,7 +1,6 @@
 import React from "react"
 import Title from "@/components/RegistrationPage/Title"
 import Tracker from "../Tracker"
-import UploadImagesForm from "@/components/Forms/AddPlace/UploadImagesForm"
 import SocialLinksForm from "@/components/Forms/AddPlace/SocialLinksForm"
 
 const SocialLinksLeftSide = () => {

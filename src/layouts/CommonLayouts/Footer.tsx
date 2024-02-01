@@ -4,10 +4,10 @@ import React from "react"
 
 const Footer: React.FC = () => {
   return (
-    <div className="pt-24 bg-primary text-secondary">
+    <footer className="pt-24 bg-primary text-secondary">
       <Links />
       <Copyright />
-    </div>
+    </footer>
   )
 }
 

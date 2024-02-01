@@ -2,7 +2,7 @@ import React from "react"
 import BusinessDetailsLeftSide from "@/layouts/AddPlacePage/BusinessDetails/BusinessDetailsLeftSide"
 import RightSide from "@/layouts/RegistrationPage/RightSide"
 
-const page = () => {
+const Page = () => {
   return (
     <div className="grid grid-cols-12 w-full h-screen">
       <BusinessDetailsLeftSide />
@@ -11,4 +11,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

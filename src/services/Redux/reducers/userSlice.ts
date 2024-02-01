@@ -1,9 +1,19 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
-import axios from "../../Axios/axios"
-import { RootState } from "../store"
 import { IUser } from "@/services/Utilities/interfaces/user.interface"
+import {
+  createUser,
+  generateOtp,
+  getUserById,
+  removeWishlist,
+  updateWishlist,
+  verifyOtpLogin,
+  verifyOtpSignup,
+  verifyToken,
+  verifyUserId,
+  logoutUserBackend,
+} from "../thunk/userThunk"
 
-interface UserState {
+export interface UserState {
   isLoading: boolean
   id: string | null
   userDetailsForm: IUser | null
@@ -19,87 +29,16 @@ const initialState: UserState = {
   error: null,
 }
 
-export const generateOtp = createAsyncThunk("user/generateOtp", async (phoneNumber: string) => {
-  try {
-    const response = await axios.get(`/users/generate-otp`, { params: { phoneNumber } })
-    return response.data
-  } catch (err: any) {
-    if (err.response && err.response.data && err.response.data.error) {
-      throw Error(err.response.data.error)
-    } else {
-      throw Error(err.message)
-    }
-  }
-})
-
-export const verifyOtpLogin = createAsyncThunk(
-  "user/verifyOtpLogin",
-  async (params: { phoneNumber: string; otp: string }) => {
-    try {
-      const response = await axios.get(`/users/verify-otp-login`, { params: params })
-      return response.data
-    } catch (err: any) {
-      if (err.response && err.response.data && err.response.data.error) {
-        throw Error(err.response.data.error)
-      } else {
-        throw Error(err.message)
-      }
-    }
-  },
-)
-
-export const verifyOtpSignup = createAsyncThunk(
-  "user/verifyOtpSignup",
-  async (params: { phoneNumber: string; otp: string }) => {
-    try {
-      const response = await axios.get(`/users/verify-otp-signup`, { params: params })
-      return response.data
-    } catch (err: any) {
-      if (err.response && err.response.data && err.response.data.error) {
-        throw Error(err.response.data.error)
-      } else {
-        throw Error(err.message)
-      }
-    }
-  },
-)
-
-export const createUser = createAsyncThunk("user/createUser", async (_, { getState }) => {
-  try {
-    const userDetailsForm: UserState["userDetailsForm"] = (getState() as RootState).user.userDetailsForm
-    const response = await axios.post(`/users`, userDetailsForm)
-    return response.data
-  } catch (err: any) {
-    console.log(err)
-    if (err.response && err.response.data && err.response.data.error) {
-      console.log(err.response.data.error)
-      throw Error(err.response.data.error)
-    } else {
-      throw Error(err.message)
-    }
-  }
-})
-
-export const review = createAsyncThunk(
-  "user/review",
-  async (params: { title: string; review: string; rating: number }) => {
-    try {
-      const response = await axios.post(`/props/review/id`, params, {
-        headers: {
-          accessTokenUser: "YOUR_ACCESS_TOKEN",
-        },
-      })
-      return response.data
-    } catch (err: any) {
-      console.log(err)
-      if (err.response && err.response.data && err.response.data.error) {
-        throw Error(err.response.data.error)
-      } else {
-        throw Error(err.message)
-      }
-    }
-  },
-)
+export const getUserByIdThunk = createAsyncThunk("user/getUserById", getUserById)
+export const generateOtpThunk = createAsyncThunk("user/generateOtp", generateOtp)
+export const verifyOtpLoginThunk = createAsyncThunk("user/verifyOtpLogin", verifyOtpLogin)
+export const verifyOtpSignupThunk = createAsyncThunk("user/verifyOtpSignup", verifyOtpSignup)
+export const verifyUserTokenThunk = createAsyncThunk("user/verifyToken", verifyToken)
+export const verifyUserIdThunk = createAsyncThunk("user/verifyUserId", verifyUserId)
+export const createUserThunk = createAsyncThunk("user/createUser", createUser)
+export const updateWishlistThunk = createAsyncThunk("user/updateWishlist", updateWishlist)
+export const removeWishlistThunk = createAsyncThunk("user/removeWishlist", removeWishlist)
+export const logoutUserThunk = createAsyncThunk("user/logoutUser", logoutUserBackend)
 
 export const userSlice = createSlice({
   name: "user",
@@ -116,65 +55,147 @@ export const userSlice = createSlice({
         ...state.userDetailsForm,
         phoneNumber: action.payload,
       }
-      console.log(state.userDetailsForm)
     },
     logoutUser: state => {
-      state = initialState
+      Object.assign(state, initialState)
     },
   },
   extraReducers: builder => {
     builder
-      .addCase(generateOtp.pending, state => {
+      .addCase(getUserByIdThunk.pending, state => {
         state.isLoading = true
       })
-      .addCase(generateOtp.fulfilled, (state, action: PayloadAction<string>) => {
+      .addCase(getUserByIdThunk.fulfilled, (state, action) => {
         state.isLoading = false
-      })
-      .addCase(generateOtp.rejected, (state, action) => {
-        state.isLoading = false
-        state.error = action.error.message
-        throw Error(action.error.message)
-      })
-      .addCase(verifyOtpLogin.pending, state => {
-        state.isLoading = true
-      })
-      .addCase(verifyOtpLogin.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.id = action.payload.user._id
+        state.id = action.payload.user.id
         state.userInformations = {
+          id: action.payload.user.id,
           username: action.payload.user.username,
           email: action.payload.user.email,
           currentCity: action.payload.user.currentCity,
           gender: action.payload.user.gender,
           phoneNumber: action.payload.user.phoneNumber,
+          wishlists: action.payload.user.wishlists,
         }
       })
-      .addCase(verifyOtpLogin.rejected, (state, action) => {
+      .addCase(getUserByIdThunk.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.error.message
         throw Error(action.error.message)
       })
-      .addCase(verifyOtpSignup.pending, state => {
+      .addCase(generateOtpThunk.pending, state => {
         state.isLoading = true
       })
-      .addCase(verifyOtpSignup.fulfilled, (state, action) => {
+      .addCase(generateOtpThunk.fulfilled, (state, action) => {
         state.isLoading = false
       })
-      .addCase(verifyOtpSignup.rejected, (state, action) => {
+      .addCase(generateOtpThunk.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.error.message
         throw Error(action.error.message)
       })
-      .addCase(createUser.pending, state => {
+      .addCase(verifyOtpLoginThunk.pending, state => {
         state.isLoading = true
       })
-      .addCase(
-        createUser.fulfilled,
-        (state, action: PayloadAction<{ tokens: { accessToken: string; refreshToken: string } }>) => {
-          state.isLoading = false
-        },
-      )
-      .addCase(createUser.rejected, (state, action) => {
+      .addCase(verifyOtpLoginThunk.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.id = action.payload.id
+      })
+      .addCase(verifyOtpLoginThunk.rejected, (state, action) => {
+        state.isLoading = false
+        state.error = action.error.message
+        throw Error(action.error.message)
+      })
+      .addCase(verifyOtpSignupThunk.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(verifyOtpSignupThunk.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.id = action.payload.id
+      })
+      .addCase(verifyOtpSignupThunk.rejected, (state, action) => {
+        state.isLoading = false
+        state.error = action.error.message
+        throw Error(action.error.message)
+      })
+      .addCase(verifyUserTokenThunk.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(verifyUserTokenThunk.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.id = action.payload.id
+      })
+      .addCase(verifyUserTokenThunk.rejected, (state, action) => {
+        state.isLoading = false
+        state.error = action.error.message
+        throw Error(action.error.message)
+      })
+      .addCase(verifyUserIdThunk.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(verifyUserIdThunk.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.id = action.payload.user.id
+        state.userInformations = {
+          id: action.payload.user.id,
+          username: action.payload.user.username,
+          email: action.payload.user.email,
+          currentCity: action.payload.user.currentCity,
+          gender: action.payload.user.gender,
+          phoneNumber: action.payload.user.phoneNumber,
+          wishlists: action.payload.user.wishlists,
+        }
+      })
+      .addCase(verifyUserIdThunk.rejected, (state, action) => {
+        state.isLoading = false
+        state.id = null
+        state.error = action.error.message
+        throw Error(action.error.message)
+      })
+      .addCase(createUserThunk.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(createUserThunk.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.id = action.payload.id
+      })
+      .addCase(createUserThunk.rejected, (state, action) => {
+        state.isLoading = false
+        state.error = action.error.message
+        throw Error(action.error.message)
+      })
+      .addCase(updateWishlistThunk.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(updateWishlistThunk.fulfilled, (state, action) => {
+        state.isLoading = false
+      })
+      .addCase(updateWishlistThunk.rejected, (state, action) => {
+        state.isLoading = false
+        state.error = action.error.message
+        throw Error(action.error.message)
+      })
+      .addCase(removeWishlistThunk.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(removeWishlistThunk.fulfilled, (state, action) => {
+        state.isLoading = false
+      })
+      .addCase(removeWishlistThunk.rejected, (state, action) => {
+        state.isLoading = false
+        state.error = action.error.message
+        throw Error(action.error.message)
+      })
+      .addCase(logoutUserThunk.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(logoutUserThunk.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.id = null
+        state.userDetailsForm = null
+        state.userInformations = null
+      })
+      .addCase(logoutUserThunk.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.error.message
         throw Error(action.error.message)

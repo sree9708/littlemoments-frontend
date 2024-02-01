@@ -19,7 +19,7 @@ const Dropdown = () => {
     <div className="relative inline-block text-left">
       <div
         ref={clickOutsideRef}
-        className="flex gap-1 items-center p-1 hover:opacity-80 border-2 rounded-md bg-theme-color-1 border-primary text-secondary cursor-pointer"
+        className="flex gap-1 items-center p-1 hover:opacity-80 border-2 rounded-md bg-theme-1 border-primary text-secondary cursor-pointer"
         onClick={handleDropdown}
       >
         Mumbai
@@ -35,7 +35,7 @@ const Dropdown = () => {
         >
           <div className="py-1" role="none">
             <div
-              className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-color-1 transition duration-300 ease-in-out hover:text-secondary cursor-pointer"
+              className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-1 transition duration-300 ease-in-out hover:text-secondary cursor-pointer"
               role="menuitem"
               tabIndex={-1}
               id="menu-item-0"
@@ -43,7 +43,7 @@ const Dropdown = () => {
               Bangalore
             </div>
             <div
-              className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-color-1 transition duration-300 ease-in-out hover:text-secondary cursor-pointer"
+              className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-1 transition duration-300 ease-in-out hover:text-secondary cursor-pointer"
               role="menuitem"
               tabIndex={-1}
               id="menu-item-1"
@@ -51,7 +51,7 @@ const Dropdown = () => {
               Chennai
             </div>
             <div
-              className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-color-1 transition duration-300 ease-in-out hover:text-secondary cursor-pointer"
+              className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-1 transition duration-300 ease-in-out hover:text-secondary cursor-pointer"
               role="menuitem"
               tabIndex={-1}
               id="menu-item-2"

@@ -21,10 +21,10 @@ const InputTextarea = ({
   defaultValue,
 }: InputTextareaProps) => {
   return (
-    <div className="w-full">
+    <div className="w-full my-3">
       <div className="w-full flex relative">
         <textarea
-          className={`w-full autofill:bg-yellow-200 bg-transparent rounded-lg p-3 my-3 border-2  text-xl border-primary focus:outline-none focus:ring-transparent ${
+          className={`w-full autofill:bg-yellow-200 bg-transparent rounded-lg p-3  border-2  text-xl border-primary focus:outline-none focus:ring-transparent ${
             disabled && "disabled:bg-gray-100 disabled:cursor-not-allowed"
           }`}
           placeholder={placeholder}

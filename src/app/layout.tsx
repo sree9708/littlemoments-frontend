@@ -3,7 +3,6 @@ import Head from "next/head"
 import "./globals.css"
 import ReduxProvider from "@/services/Redux/Provider"
 import type { Metadata } from "next"
-import ClientComponent from "./ClientComponent"
 
 export const metadata: Metadata = {
   title: "Little Moments",
@@ -20,9 +19,7 @@ const RootLayout: React.FC = ({ children }: any) => {
         />
       </head>
       <body className="font-default font-normal text-base bg-background">
-        <ReduxProvider>
-          <ClientComponent>{children}</ClientComponent>
-        </ReduxProvider>
+        <ReduxProvider>{children}</ReduxProvider>
       </body>
     </html>
   )
