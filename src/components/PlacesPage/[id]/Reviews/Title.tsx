@@ -13,7 +13,7 @@ import InputText from "@/components/Inputs/InputText"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { createReviewThunk, getReviewsByPropIdThunk } from "@/services/Redux/reducers/reviewSlice"
 import { useParams } from "next/navigation"
-import reviewValidation from "@/services/Validation/reviewValidation"
+import reviewValidation from "@/services/Validation/Review/reviewValidation"
 
 export const Title = () => {
   const {
@@ -109,7 +109,6 @@ export const Title = () => {
                   <label key={i}>
                     <input
                       type="radio"
-                      //   name="rating"
                       value={ratingValue}
                       onClick={() => setRating(ratingValue)}
                       {...register("rating")}

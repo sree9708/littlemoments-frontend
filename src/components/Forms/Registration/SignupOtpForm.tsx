@@ -16,7 +16,7 @@ import {
 } from "@/services/Redux/reducers/userSlice"
 import { useAppDispatch } from "@/hooks/useStore"
 import { useRouter } from "next/navigation"
-import phoneNumberValidation from "@/services/Validation/phoneNumberValidation"
+import phoneNumberValidation from "@/services/Validation/Registration/phoneNumberValidation"
 
 const SignupOtpForm = () => {
   const {

@@ -9,15 +9,15 @@ import ClientComponent from "./ClientComponent"
 export default function Home() {
   return (
     <div>
-      <ClientComponent>
-        <Navbar searchBar={true} />
-        <Hero />
-        <Marquee />
-        <PopularPlaces />
-        <AboutUs />
-        <Marquee />
-        <Footer />
-      </ClientComponent>
+      {/* <ClientComponent> */}
+      <Navbar searchBar={true} />
+      <Hero />
+      <Marquee />
+      <PopularPlaces />
+      <AboutUs />
+      <Marquee />
+      <Footer />
+      {/* </ClientComponent> */}
     </div>
   )
 }

@@ -8,13 +8,13 @@ import React, { useState } from "react"
 import { FaArrowRightLong } from "react-icons/fa6"
 import imageSrc from "../../../public/avatar.jpg"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
-import { logoutUser } from "@/services/Redux/reducers/userSlice"
-import { logoutProp } from "@/services/Redux/reducers/propSlice"
+import { logoutUser, logoutUserThunk } from "@/services/Redux/reducers/userSlice"
+import { logoutProp, logoutPropThunk } from "@/services/Redux/reducers/propSlice"
 import { logoutReview } from "@/services/Redux/reducers/reviewSlice"
 import Swal from "sweetalert2"
 import useMounted from "@/hooks/useMounted"
 
-const RightSide: React.FC = () => {
+const RightSide = () => {
   const hasMounted = useMounted()
   const dispatch = useAppDispatch()
   const userId = useAppSelector(state => state.user?.id)
@@ -66,11 +66,17 @@ const RightSide: React.FC = () => {
     }
   }
 
-  const handleLogout = () => {
-    dispatch(logoutUser())
-    dispatch(logoutProp())
-    dispatch(logoutReview())
-    push("/")
+  const handleLogout = async () => {
+    try {
+      await dispatch(logoutUserThunk())
+      await dispatch(logoutPropThunk())
+      dispatch(logoutUser())
+      dispatch(logoutProp())
+      dispatch(logoutReview())
+      push("/")
+    } catch (error: any) {
+      console.log(error.message)
+    }
   }
 
   return (

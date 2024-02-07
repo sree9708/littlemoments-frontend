@@ -10,7 +10,7 @@ import Link from "next/link"
 import { loginPropThunk } from "@/services/Redux/reducers/propSlice"
 import { useRouter } from "next/navigation"
 import { useAppDispatch } from "@/hooks/useStore"
-import loginPropValidation from "@/services/Validation/loginPropValidation"
+import loginPropValidation from "@/services/Validation/Registration/loginPropValidation"
 
 const LoginPropsForm = () => {
   const {

@@ -49,7 +49,7 @@ const InputText = ({
         {type === "password" && (
           <button
             type="button"
-            className="btn absolute flex right-3 top-3 transform translate-y-5"
+            className="btn absolute flex right-3 top-2 transform translate-y-2"
             onClick={toggle}
           >
             {password === "password" ? (

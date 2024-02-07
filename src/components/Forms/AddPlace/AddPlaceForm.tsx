@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation"
 import { FaArrowLeftLong } from "react-icons/fa6"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { addPlaceOwner } from "@/services/Redux/reducers/propSlice"
-import addPlaceValidation from "@/services/Validation/addPlaceValidation"
+import addPlaceValidation from "@/services/Validation/AddPlace/addPlaceValidation"
 
 const AddPlaceForm = () => {
   const {

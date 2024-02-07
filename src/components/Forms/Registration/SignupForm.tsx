@@ -9,7 +9,7 @@ import Link from "next/link"
 import { SignupContext, SignupContextProps } from "@/services/Context/SignupContext"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { adduserDetailsForm } from "@/services/Redux/reducers/userSlice"
-import signupValidation from "@/services/Validation/signupValidation"
+import signupValidation from "@/services/Validation/Registration/signupValidation"
 
 const SignupForm = () => {
   const {

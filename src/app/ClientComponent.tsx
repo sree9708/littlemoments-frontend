@@ -31,6 +31,7 @@ const ClientComponent = ({ children }: { children: any }) => {
           await dispatch(logoutUserThunk())
           await dispatch(logoutPropThunk())
         } catch (error: any) {
+          await dispatch(logoutPropThunk())
           console.log(error.message)
         }
       }

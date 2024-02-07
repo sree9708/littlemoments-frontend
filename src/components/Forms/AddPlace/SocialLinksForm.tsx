@@ -10,7 +10,7 @@ import InputTextSocialLinks from "@/components/Inputs/InputTextSocialLinks"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { addPlaceThunk, addSocialLinks } from "@/services/Redux/reducers/propSlice"
 import { FaArrowLeftLong } from "react-icons/fa6"
-import SocialLinksValidation from "@/services/Validation/socialLinksValidation"
+import SocialLinksValidation from "@/services/Validation/AddPlace/socialLinksValidation"
 
 const SocialLinksForm = () => {
   const {

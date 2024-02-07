@@ -1,4 +1,4 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit"
+import { configureStore } from "@reduxjs/toolkit"
 import { persistStore, persistReducer } from "redux-persist"
 // import storage from "redux-persist/lib/storage"
 import { rootReducer } from "./rootReducers"
@@ -23,7 +23,7 @@ const persistConfig = {
   key: "root",
   storage,
   whitelist: ["user", "prop"],
-  blacklist: ["place", "review"],
+  blacklist: ["place", "review", "category", "city"],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

@@ -15,7 +15,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { addInformations } from "@/services/Redux/reducers/propSlice"
 import AddAndRemoveTooltip from "@/components/Tooltip/TooltipComponent"
 import { IoMdAddCircleOutline, IoMdRemoveCircleOutline } from "react-icons/io"
-import InformationValidation from "@/services/Validation/informartionValidation"
+import InformationValidation from "@/services/Validation/AddPlace/informartionValidation"
 
 const InformationForm = () => {
   const dispatch = useAppDispatch()

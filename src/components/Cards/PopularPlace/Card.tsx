@@ -40,9 +40,9 @@ const Card: React.FC<CardProps> = ({ id, heading, placeName, city, image }) => {
         {/* <div className="absolute bottom-2 left-2 sm:bottom-6 sm:left-6 overflow-hidden whitespace-nowrap overflow-ellipsis drop-shadow-sm text-secondary font-anton font-extrabold text-xl sm:text-2xl w-full">
           {heading}
         </div> */}
-        <div className="absolute z-10 bottom-2 left-2 sm:bottom-6 sm:left-6 overflow-hidden whitespace-nowrap overflow-ellipsis drop-shadow-sm text-secondary font-anton font-extrabold text-xl sm:text-2xl w-full">
+        {/* <div className="absolute z-10 bottom-2 left-2 sm:bottom-6 sm:left-6 overflow-hidden whitespace-nowrap overflow-ellipsis drop-shadow-sm text-secondary font-anton font-extrabold text-xl sm:text-2xl w-full">
           {heading}
-        </div>
+        </div> */}
       </div>
       <div className="p-2">
         <div className="mt-2 font-bold overflow-hidden whitespace-nowrap overflow-ellipsis">{placeName}</div>

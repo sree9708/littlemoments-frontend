@@ -10,7 +10,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { generateOtpThunk, verifyOtpLoginThunk } from "@/services/Redux/reducers/userSlice"
 import { useAppDispatch } from "@/hooks/useStore"
-import loginValidation from "@/services/Validation/phoneNumberValidation"
+import loginValidation from "@/services/Validation/Registration/phoneNumberValidation"
 
 const LoginForm = () => {
   const {

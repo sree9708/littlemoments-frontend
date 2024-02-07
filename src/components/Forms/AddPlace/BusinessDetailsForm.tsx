@@ -14,7 +14,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { addBusinessDetails } from "@/services/Redux/reducers/propSlice"
 import { base64ToFile, filetoBase64 } from "@/services/Utilities/base64/base64.services"
 import { IoCloseSharp } from "react-icons/io5"
-import BusinessDetailsValidation from "@/services/Validation/businessDetailsValidation"
+import BusinessDetailsValidation from "@/services/Validation/AddPlace/businessDetailsValidation"
 import useMounted from "@/hooks/useMounted"
 
 const BusinessDetailsForm = () => {

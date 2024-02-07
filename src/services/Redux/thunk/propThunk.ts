@@ -1,3 +1,4 @@
+import { AccountStatus } from "@/services/Utilities/Enum/account.status.enum"
 import { IPropCreate } from "@/services/Utilities/interfaces/prop.interface"
 import axios from "../../Axios/axios"
 import { RootState } from "../store"
@@ -90,7 +91,7 @@ export const addPlace = async (_: any, { getState }: { getState: any }) => {
       const file = base64ToFile(image as string, `image`)
       formData.append("displayImages", file)
     })
-    const response = await axios.put(`/props/add-place/${propId}`, formData)
+    const response = await axios.put(`/props/${propId}/add-place`, formData)
     return response.data
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.message) {
@@ -110,7 +111,7 @@ export const addDispalyImages = async (_: any, { getState }: { getState: any }) 
       const file = base64ToFile(image as string, `file`)
       formData.append("displayImages", file)
     })
-    const response = await axios.put(`/props/add-dispaly-images/12345`, formData)
+    const response = await axios.put(`/props/12345/add-images`, formData)
     return response.data
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.message) {
@@ -130,7 +131,7 @@ export const updatePlaceDetails = async ({
   placeName: string
 }) => {
   try {
-    const response = await axios.put(`/props/update-place/${id}`, { placeName, city: "hyderabad" })
+    const response = await axios.put(`/props/${id}/update-place`, { placeName, city: "hyderabad" })
     return response.data
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.message) {
@@ -144,7 +145,7 @@ export const updatePlaceDetails = async ({
 
 export const updatePropBusinessDetails = async ({ id, data }: { id: string | undefined; data: any }) => {
   try {
-    const response = await axios.put(`/props/business-details/${id}`, data)
+    const response = await axios.put(`/props/${id}/business-details`, data)
     return response.data
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.message) {
@@ -159,7 +160,7 @@ export const updatePropBusinessDetails = async ({ id, data }: { id: string | und
 export const updatePropInformations = async ({ id, data }: { id: string | undefined; data: any }) => {
   console.log("data", data)
   try {
-    const response = await axios.put(`/props/informations/${id}`, data)
+    const response = await axios.put(`/props/${id}/informations`, data)
     return response.data
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.message) {
@@ -175,7 +176,7 @@ export const addPropDisplayImages = async ({ id, file }: { id: string | undefine
   try {
     const formData = new FormData()
     formData.append("displayImages", file)
-    const response = await axios.put(`/props/add-dispaly-images/${id}`, formData)
+    const response = await axios.put(`/props/${id}/add-images`, formData)
     return response.data
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.message) {
@@ -195,7 +196,7 @@ export const removePropDisplayImages = async ({
   imageUrls: string[]
 }) => {
   try {
-    const response = await axios.put(`/props/remove-dispaly-images/${id}`, { imageUrls })
+    const response = await axios.put(`/props/${id}/remove-images`, { imageUrls })
     return response.data
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.message) {
@@ -209,7 +210,7 @@ export const removePropDisplayImages = async ({
 
 export const updatePropSocialLinks = async ({ id, data }: { id: string | undefined; data: any }) => {
   try {
-    const response = await axios.put(`/props/social-links/${id}`, { socialLinks: data })
+    const response = await axios.put(`/props/${id}/social-links`, { socialLinks: data })
     return response.data
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.message) {

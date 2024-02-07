@@ -3,6 +3,7 @@ import Head from "next/head"
 import "./globals.css"
 import ReduxProvider from "@/services/Redux/Provider"
 import type { Metadata } from "next"
+import ModalProvider from "@/services/Context/ModalContext"
 
 export const metadata: Metadata = {
   title: "Little Moments",
@@ -11,15 +12,11 @@ export const metadata: Metadata = {
 const RootLayout: React.FC = ({ children }: any) => {
   return (
     <html lang="en">
-      <head>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Passion+One&display=swap" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
-        />
-      </head>
+      <Head></Head>
       <body className="font-default font-normal text-base bg-background">
-        <ReduxProvider>{children}</ReduxProvider>
+        <ReduxProvider>
+          <ModalProvider> {children} </ModalProvider>
+        </ReduxProvider>
       </body>
     </html>
   )
