@@ -37,7 +37,6 @@ export const getPropByIdThunk = createAsyncThunk("place/getPropById", getPropByI
 export const createPropThunk = createAsyncThunk("prop/createProp", createProp)
 export const loginPropThunk = createAsyncThunk("prop/loginProp", loginProp)
 export const addPlaceThunk = createAsyncThunk("prop/addPlace", addPlace)
-export const addDispalyImagesThunk = createAsyncThunk("prop/addDispalyImages", addDispalyImages)
 export const updatePlaceDetailsThunk = createAsyncThunk("prop/updatePlaceDetails", updatePlaceDetails)
 export const updatePropBusinessDetailsThunk = createAsyncThunk(
   "prop/updatePropBusinessDetails",
@@ -69,7 +68,7 @@ export const propSlice = createSlice({
       state.propDetailsForm = {
         ...state.propDetailsForm,
         placeName: action.payload.placeName,
-        email: action.payload.email,
+        // email: action.payload.email,
         displayContactNo: action.payload.displayContactNo,
       }
     },
@@ -92,6 +91,7 @@ export const propSlice = createSlice({
         rateCard: action.payload.rateCard,
         timings: action.payload.timings,
         placeDescription: action.payload.placeDescription,
+        superCategory: action.payload.superCategory,
         category: action.payload.category,
         subCategory: action.payload.subCategory,
         age: action.payload.age,
@@ -120,8 +120,8 @@ export const propSlice = createSlice({
       })
       .addCase(verifyPropIdThunk.fulfilled, (state, action) => {
         state.isLoading = false
-        state.id = action.payload.prop.id
-        state.propInformations = action.payload.prop
+        console.log(action.payload)
+        state.id = action.payload.id
       })
       .addCase(verifyPropIdThunk.rejected, (state, action) => {
         state.isLoading = false
@@ -172,16 +172,6 @@ export const propSlice = createSlice({
         state.id = action.payload.id
       })
       .addCase(loginPropThunk.rejected, (state, action) => {
-        state.isLoading = false
-        throw Error(action.error.message)
-      })
-      .addCase(addDispalyImagesThunk.pending, state => {
-        state.isLoading = true
-      })
-      .addCase(addDispalyImagesThunk.fulfilled, (state, action) => {
-        state.isLoading = false
-      })
-      .addCase(addDispalyImagesThunk.rejected, (state, action) => {
         state.isLoading = false
         throw Error(action.error.message)
       })

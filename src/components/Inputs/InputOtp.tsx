@@ -10,7 +10,7 @@ type Props = {
 } & PartialInputProps
 
 const OtpInput = (props: Props) => {
-  const { size = 6, validationPattern = /[0-9]{1}/, value, onChange, className, ...restProps } = props
+  const { size = 4, validationPattern = /[0-9]{1}/, value, onChange, className, ...restProps } = props
 
   const arr = new Array(size).fill("-")
 

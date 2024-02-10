@@ -1,11 +1,19 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { IProp } from "@/services/Utilities/interfaces/prop.interface"
-import { getPlaceById, getPlaces, getPlacesBySkipAndLimit } from "../thunk/placeThunk"
+import {
+  getPlaceById,
+  getPlaces,
+  getPlacesBySkipAndLimit,
+  getPlaceByAdmin,
+  getPlaceByIdWithDetails,
+  updateAccountStatus,
+} from "../thunk/placeThunk"
 
 interface PlaceState {
   isLoading: boolean
   places: IProp[]
   placeDetails: IProp | null
+  adminPlaces: IProp[]
   error: string | null | undefined
 }
 
@@ -13,6 +21,7 @@ const initialState: PlaceState = {
   isLoading: false,
   places: [],
   placeDetails: null,
+  adminPlaces: [],
   error: null,
 }
 
@@ -22,6 +31,12 @@ export const getPlacesBySkipAndLimitThunk = createAsyncThunk(
   getPlacesBySkipAndLimit,
 )
 export const getPlaceByIdThunk = createAsyncThunk("place/getPlaceById", getPlaceById)
+export const getPlaceByAdminThunk = createAsyncThunk("place/getPropByAdmin", getPlaceByAdmin)
+export const getPlaceByIdWithDetailsThunk = createAsyncThunk(
+  "place/getPlaceByIdWithDetails",
+  getPlaceByIdWithDetails,
+)
+export const updateAccountStatusThunk = createAsyncThunk("place/updateAccountStatus", updateAccountStatus)
 
 export const placeSlice = createSlice({
   name: "place",
@@ -51,6 +66,17 @@ export const placeSlice = createSlice({
         state.isLoading = false
         throw Error(action.error.message)
       })
+      .addCase(getPlaceByAdminThunk.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(getPlaceByAdminThunk.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.adminPlaces = action.payload.props
+      })
+      .addCase(getPlaceByAdminThunk.rejected, (state, action) => {
+        state.isLoading = false
+        throw Error(action.error.message)
+      })
       .addCase(getPlaceByIdThunk.pending, state => {
         state.isLoading = true
       })
@@ -59,6 +85,28 @@ export const placeSlice = createSlice({
         state.placeDetails = action.payload.prop
       })
       .addCase(getPlaceByIdThunk.rejected, (state, action) => {
+        state.isLoading = false
+        throw Error(action.error.message)
+      })
+      .addCase(getPlaceByIdWithDetailsThunk.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(getPlaceByIdWithDetailsThunk.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.placeDetails = action.payload.prop
+      })
+      .addCase(getPlaceByIdWithDetailsThunk.rejected, (state, action) => {
+        state.isLoading = false
+        throw Error(action.error.message)
+      })
+      .addCase(updateAccountStatusThunk.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(updateAccountStatusThunk.fulfilled, (state, action) => {
+        state.isLoading = false
+        // state.placeDetails = action.payload.prop
+      })
+      .addCase(updateAccountStatusThunk.rejected, (state, action) => {
         state.isLoading = false
         throw Error(action.error.message)
       })

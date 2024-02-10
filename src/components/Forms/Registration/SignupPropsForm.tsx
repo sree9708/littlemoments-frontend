@@ -9,7 +9,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useAppDispatch } from "@/hooks/useStore"
 import { createPropThunk } from "@/services/Redux/reducers/propSlice"
-import signupPropValidation from "@/services/Validation/signupPropValidation"
+import signupPropValidation from "@/services/Validation/Registration/signupPropValidation"
 
 const SignupPropsForm = () => {
   const {

@@ -4,7 +4,7 @@ import InputTextareaEdit from "@/components/Inputs/EditProfile/InputTextareaEdit
 import useMounted from "@/hooks/useMounted"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { updatePropBusinessDetailsThunk } from "@/services/Redux/reducers/propSlice"
-import BusinessDetailsValidation from "@/services/Validation/businessDetailsValidation"
+import BusinessDetailsValidation from "@/services/Validation/AddPlace/businessDetailsValidation"
 import { yupResolver } from "@hookform/resolvers/yup"
 import React, { useEffect } from "react"
 import { useForm } from "react-hook-form"

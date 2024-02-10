@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import RegistrationButton from "@/components/Buttons/RegistrationButton"
 import { updatePropInformationsThunk } from "@/services/Redux/reducers/propSlice"
 import AddAndRemoveTooltip from "@/components/Tooltip/TooltipComponent"
-import InformationValidation from "@/services/Validation/informartionValidation"
+import InformationValidation from "@/services/Validation/AddPlace/informartionValidation"
 
 interface InformationDescriptionProps {
   isEdit: boolean

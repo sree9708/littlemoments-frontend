@@ -35,8 +35,9 @@ const InputText = ({
     <div className="w-full my-3">
       <div className="flex w-full relative">
         <input
+          id={name}
           type={type !== "password" ? type : password}
-          className={`w-full autofill:bg-yellow-200 bg-transparent rounded-lg p-2 px-3 ${
+          className={`w-full bg-transparent rounded-lg p-2 px-3 ${
             type === "password" && "pe-10"
           } border-2  text-lg border-primary focus:outline-none focus:ring-transparent ${
             disabled && "disabled:bg-gray-100 disabled:cursor-not-allowed"
@@ -49,7 +50,7 @@ const InputText = ({
         {type === "password" && (
           <button
             type="button"
-            className="btn absolute flex right-3 top-3 transform translate-y-5"
+            className="btn absolute flex right-3 top-2 transform translate-y-2"
             onClick={toggle}
           >
             {password === "password" ? (

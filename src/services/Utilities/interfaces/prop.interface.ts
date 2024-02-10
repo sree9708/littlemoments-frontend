@@ -1,3 +1,5 @@
+import { AccountStatus } from "../Enum/account.status.enum"
+
 export interface IProp {
   id?: string
   email?: string
@@ -6,6 +8,8 @@ export interface IProp {
   displayContactNo?: string
   password?: string
   city?: string
+  state?: string
+  country?: string
   location?: string
   address?: string
   gstin?: string
@@ -29,12 +33,14 @@ export interface IProp {
     saturday: [string]
   }
   placeDescription?: string
-  category?: string
-  subCategory?: string
+  superCategory?: any
+  category?: any
+  subCategory?: any
   age?: [number]
   displayImages?: string[]
   socialLinks?: ISocialLinks
   isProfileAdded?: boolean
+  accountStatus?: AccountStatus
 }
 
 export interface ISocialLinks {

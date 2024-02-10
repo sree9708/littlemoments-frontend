@@ -10,7 +10,7 @@ import { MoreDetails } from "@/layouts/PlacesPage/[id]/MoreDetails"
 import { Reviews } from "@/layouts/PlacesPage/[id]/Reviews"
 import DetailPageProvider from "@/services/Context/DetailPageContext"
 import { getPlaceByIdThunk } from "@/services/Redux/reducers/placeSlice"
-import { redirect, useParams } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { useEffect } from "react"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
@@ -21,7 +21,7 @@ export default function Home() {
   const propId: string = params?.id as string
 
   const dispatch = useAppDispatch()
-
+  const { push } = useRouter()
   useEffect(() => {
     if (propId) {
       const fetchData = async () => {
@@ -33,7 +33,7 @@ export default function Home() {
       }
       fetchData()
     } else {
-      redirect("/")
+      push("/")
     }
   }, [])
 

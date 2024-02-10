@@ -1,17 +1,33 @@
-import React from "react"
-import { UseFormRegister, UseFormWatch } from "react-hook-form"
+import React, { useEffect } from "react"
+import { UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form"
 
 type InputAgeProps = {
   name: string
   placeholder: string
   register: UseFormRegister<any>
   watch: UseFormWatch<any>
+  setValue: UseFormSetValue<any>
   required: boolean
   error?: string | undefined
+  defaultValue?: number | undefined
 }
 
-const InputAge = ({ name, placeholder, register, watch, required, error }: InputAgeProps) => {
+const InputAge = ({
+  name,
+  placeholder,
+  register,
+  watch,
+  setValue,
+  required,
+  defaultValue,
+  error,
+}: InputAgeProps) => {
   const selectedValue = watch(name, "")
+
+  useEffect(() => {
+    setValue(name, defaultValue)
+  }, [name, defaultValue, setValue])
+
   return (
     <div className="w-full my-3">
       <div className="flex relative">

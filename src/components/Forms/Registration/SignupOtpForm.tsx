@@ -11,12 +11,12 @@ import { SignupContext, SignupContextProps } from "@/services/Context/SignupCont
 import {
   addphoneNumber,
   createUserThunk,
-  generateOtpThunk,
-  verifyOtpSignupThunk,
+  generateOtpWithPhoneNumberThunk,
+  verifyOtpThunk,
 } from "@/services/Redux/reducers/userSlice"
 import { useAppDispatch } from "@/hooks/useStore"
 import { useRouter } from "next/navigation"
-import phoneNumberValidation from "@/services/Validation/phoneNumberValidation"
+import phoneNumberValidation from "@/services/Validation/Registration/phoneNumberValidation"
 
 const SignupOtpForm = () => {
   const {
@@ -31,26 +31,30 @@ const SignupOtpForm = () => {
   const [otp, setOtp] = useState("")
   const [isOtpInput, setIsOtpInput] = useState<boolean>(false)
 
+  const [isError, setIsError] = useState<string | null>(null)
+
   const { setIsSignup } = useContext(SignupContext) as SignupContextProps
 
   const onSubmitLogin = async (data: any) => {
     try {
       dispatch(addphoneNumber(data.phoneNumber))
-      await dispatch(generateOtpThunk(data.phoneNumber))
-      await dispatch(createUserThunk(undefined))
+      await dispatch(generateOtpWithPhoneNumberThunk(data.phoneNumber))
       setIsOtpInput(true)
     } catch (err: any) {
       setIsSignup(true)
+      setIsError(err.message)
       console.log("form : ", err.message)
     }
   }
 
   const onSubmitOtp = async (data: any) => {
     try {
-      await dispatch(verifyOtpSignupThunk({ phoneNumber: data.phoneNumber, otp }))
+      await dispatch(verifyOtpThunk({ phoneNumber: data.phoneNumber, otp }))
+      await dispatch(createUserThunk(undefined))
       setIsOtpInput(false)
       route.push("/")
     } catch (err: any) {
+      setIsError(err.message)
       console.log("form : ", err.message)
     }
   }
@@ -89,6 +93,7 @@ const SignupOtpForm = () => {
             }}
           />
         )}
+        {isError && <div className="text-red-500 text-sm">{isError}</div>}
         <RegistrationButton text={isOtpInput ? "Verify Otp" : "Sign Up"} />
         <div
           className="flex justify-center text-theme-3 mt-2 underline cursor-pointer"
