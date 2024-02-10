@@ -68,7 +68,7 @@ export const propSlice = createSlice({
       state.propDetailsForm = {
         ...state.propDetailsForm,
         placeName: action.payload.placeName,
-        email: action.payload.email,
+        // email: action.payload.email,
         displayContactNo: action.payload.displayContactNo,
       }
     },
@@ -91,6 +91,7 @@ export const propSlice = createSlice({
         rateCard: action.payload.rateCard,
         timings: action.payload.timings,
         placeDescription: action.payload.placeDescription,
+        superCategory: action.payload.superCategory,
         category: action.payload.category,
         subCategory: action.payload.subCategory,
         age: action.payload.age,

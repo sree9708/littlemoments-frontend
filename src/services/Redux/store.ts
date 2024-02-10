@@ -22,7 +22,7 @@ const storage = typeof window !== "undefined" ? createWebStorage("local") : crea
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["user", "prop"],
+  whitelist: ["user", "prop", "admin"],
   blacklist: ["place", "review", "category", "city"],
 }
 

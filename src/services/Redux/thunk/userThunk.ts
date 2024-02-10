@@ -30,9 +30,9 @@ export const generateOtp = async (phoneNumber: string) => {
   }
 }
 
-export const verifyOtpLogin = async (params: { phoneNumber: string; otp: string }) => {
+export const generateOtpByLogin = async (phoneNumber: string) => {
   try {
-    const response = await axios.get(`/users/verify-otp-login`, { params: params })
+    const response = await axios.get(`/users/generate-otp/login`, { params: { phoneNumber } })
     return response.data
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.message) {
@@ -43,9 +43,35 @@ export const verifyOtpLogin = async (params: { phoneNumber: string; otp: string 
   }
 }
 
-export const verifyOtpSignup = async (params: { phoneNumber: string; otp: string }) => {
+export const generateOtpWithPhoneNumber = async (phoneNumber: string) => {
   try {
-    const response = await axios.get(`/users/verify-otp-signup`, { params: params })
+    const response = await axios.get(`/users/generate-otp/phonenumber`, { params: { phoneNumber } })
+    return response.data
+  } catch (err: any) {
+    if (err.response && err.response.data && err.response.data.message) {
+      throw Error(err.response.data.message)
+    } else {
+      throw Error(err.message)
+    }
+  }
+}
+
+export const verifyOtp = async (params: { phoneNumber: string; otp: string }) => {
+  try {
+    const response = await axios.get(`/users/verify-otp`, { params: params })
+    return response.data
+  } catch (err: any) {
+    if (err.response && err.response.data && err.response.data.message) {
+      throw Error(err.response.data.message)
+    } else {
+      throw Error(err.message)
+    }
+  }
+}
+
+export const userLogin = async (params: { phoneNumber: string; otp: string }) => {
+  try {
+    const response = await axios.get(`/users/login`, { params: params })
     return response.data
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.message) {

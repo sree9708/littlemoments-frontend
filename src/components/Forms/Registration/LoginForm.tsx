@@ -1,14 +1,14 @@
 "use client"
 
 import React, { useState } from "react"
-import { useForm } from "react-hook-form"
+import { set, useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import InputText from "../../Inputs/InputText"
 import RegistrationButton from "../../Buttons/RegistrationButton"
 import OtpInput from "../../Inputs/InputOtp"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { generateOtpThunk, verifyOtpLoginThunk } from "@/services/Redux/reducers/userSlice"
+import { generateOtpByLoginThunk, userLoginThunk } from "@/services/Redux/reducers/userSlice"
 import { useAppDispatch } from "@/hooks/useStore"
 import loginValidation from "@/services/Validation/Registration/phoneNumberValidation"
 
@@ -18,24 +18,27 @@ const LoginForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(loginValidation) })
+
   const [otp, setOtp] = useState("")
   const [isOtpInput, setIsOtpInput] = useState<boolean>(false)
+  const [isError, setIsError] = useState<string | null>(null)
 
   const route = useRouter()
   const dispatch = useAppDispatch()
 
   const onSubmitLogin = async (data: any) => {
     try {
-      await dispatch(generateOtpThunk(data.phoneNumber))
+      await dispatch(generateOtpByLoginThunk(data.phoneNumber))
       setIsOtpInput(true)
     } catch (err: any) {
+      setIsError(err.message)
       console.log("form : ", err.message)
     }
   }
 
   const onSubmitOtp = async (data: any) => {
     try {
-      await dispatch(verifyOtpLoginThunk({ phoneNumber: data.phoneNumber, otp }))
+      await dispatch(userLoginThunk({ phoneNumber: data.phoneNumber, otp }))
       setIsOtpInput(false)
       route.push("/")
     } catch (err: any) {
@@ -73,6 +76,7 @@ const LoginForm = () => {
             }}
           />
         )}
+        {isError && <div className="text-red-500 text-sm">{isError}</div>}
         <RegistrationButton text={isOtpInput ? "Verify Otp" : "Login"} />
         {isOtpInput && (
           <div className="flex justify-between text-theme-3 mt-2 underline">

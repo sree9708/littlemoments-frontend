@@ -5,7 +5,7 @@ import {
   getPlaces,
   getPlacesBySkipAndLimit,
   getPlaceByAdmin,
-  getPlaceByIdWithFullInformation,
+  getPlaceByIdWithDetails,
   updateAccountStatus,
 } from "../thunk/placeThunk"
 
@@ -32,9 +32,9 @@ export const getPlacesBySkipAndLimitThunk = createAsyncThunk(
 )
 export const getPlaceByIdThunk = createAsyncThunk("place/getPlaceById", getPlaceById)
 export const getPlaceByAdminThunk = createAsyncThunk("place/getPropByAdmin", getPlaceByAdmin)
-export const getPlaceByIdWithFullInformationThunk = createAsyncThunk(
-  "place/getPlaceByIdWithFullInformation",
-  getPlaceByIdWithFullInformation,
+export const getPlaceByIdWithDetailsThunk = createAsyncThunk(
+  "place/getPlaceByIdWithDetails",
+  getPlaceByIdWithDetails,
 )
 export const updateAccountStatusThunk = createAsyncThunk("place/updateAccountStatus", updateAccountStatus)
 
@@ -88,14 +88,14 @@ export const placeSlice = createSlice({
         state.isLoading = false
         throw Error(action.error.message)
       })
-      .addCase(getPlaceByIdWithFullInformationThunk.pending, state => {
+      .addCase(getPlaceByIdWithDetailsThunk.pending, state => {
         state.isLoading = true
       })
-      .addCase(getPlaceByIdWithFullInformationThunk.fulfilled, (state, action) => {
+      .addCase(getPlaceByIdWithDetailsThunk.fulfilled, (state, action) => {
         state.isLoading = false
         state.placeDetails = action.payload.prop
       })
-      .addCase(getPlaceByIdWithFullInformationThunk.rejected, (state, action) => {
+      .addCase(getPlaceByIdWithDetailsThunk.rejected, (state, action) => {
         state.isLoading = false
         throw Error(action.error.message)
       })

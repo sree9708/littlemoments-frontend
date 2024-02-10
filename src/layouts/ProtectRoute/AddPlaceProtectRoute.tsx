@@ -1,10 +1,11 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { logoutProp, verifyPropIdThunk } from "@/services/Redux/reducers/propSlice"
 import { logoutUser } from "@/services/Redux/reducers/userSlice"
-import { redirect } from "next/navigation"
+import { useRouter } from "next/navigation"
 import React from "react"
 
 const AddPlaceProtectRoute = ({ children }: { children: React.ReactNode }) => {
+  const { push } = useRouter()
   const dispatch = useAppDispatch()
   const proId = useAppSelector(state => state.prop?.id)
 
@@ -15,11 +16,11 @@ const AddPlaceProtectRoute = ({ children }: { children: React.ReactNode }) => {
         dispatch(logoutUser())
       } catch (error: any) {
         dispatch(logoutProp())
-        redirect("/")
+        push("/")
       }
     })()
   } else {
-    redirect("/")
+    push("/")
   }
 
   return <div>{children}</div>

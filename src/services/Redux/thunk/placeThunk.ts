@@ -40,9 +40,9 @@ export const getPlaceById = async (id: string) => {
   }
 }
 
-export const getPlaceByIdWithFullInformation = async (id: string) => {
+export const getPlaceByIdWithDetails = async (id: string) => {
   try {
-    const response = await axios.get(`/props/${id}/details`)
+    const response = await axios.get(`/admin/${id}/details`)
     return response.data
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.message) {
@@ -82,7 +82,7 @@ export const getPlaceByAdmin = async ({
       throw Error("Invalid account status")
     }
 
-    const response = await axios.get(`/props/${status}/${skip}/${limit}`)
+    const response = await axios.get(`/admin/${status}/${skip}/${limit}`)
     return response.data
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.message) {
@@ -101,7 +101,7 @@ export const updateAccountStatus = async ({
   accountStatus: AccountStatus
 }) => {
   try {
-    const response = await axios.put(`/props/${id}/status`, { accountStatus })
+    const response = await axios.put(`/admin/${id}/status`, { accountStatus })
     return response.data
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.message) {

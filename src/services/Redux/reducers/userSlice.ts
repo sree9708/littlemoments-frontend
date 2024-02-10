@@ -6,16 +6,19 @@ import {
   getUserById,
   removeWishlist,
   updateWishlist,
-  verifyOtpLogin,
-  verifyOtpSignup,
   verifyToken,
   verifyUserId,
   logoutUserBackend,
+  verifyOtp,
+  generateOtpWithPhoneNumber,
+  generateOtpByLogin,
+  userLogin,
 } from "../thunk/userThunk"
 
 export interface UserState {
   isLoading: boolean
   id: string | null
+  phoneNumberVerified: boolean
   userDetailsForm: IUser | null
   userInformations: IUser | null
   error: string | null | undefined
@@ -24,6 +27,7 @@ export interface UserState {
 const initialState: UserState = {
   isLoading: false,
   id: null,
+  phoneNumberVerified: false,
   userDetailsForm: null,
   userInformations: null,
   error: null,
@@ -31,8 +35,13 @@ const initialState: UserState = {
 
 export const getUserByIdThunk = createAsyncThunk("user/getUserById", getUserById)
 export const generateOtpThunk = createAsyncThunk("user/generateOtp", generateOtp)
-export const verifyOtpLoginThunk = createAsyncThunk("user/verifyOtpLogin", verifyOtpLogin)
-export const verifyOtpSignupThunk = createAsyncThunk("user/verifyOtpSignup", verifyOtpSignup)
+export const generateOtpByLoginThunk = createAsyncThunk("user/generateOtpByLogin", generateOtpByLogin)
+export const generateOtpWithPhoneNumberThunk = createAsyncThunk(
+  "user/generateOtpWithPhoneNumber",
+  generateOtpWithPhoneNumber,
+)
+export const verifyOtpThunk = createAsyncThunk("user/verifyOtp", verifyOtp)
+export const userLoginThunk = createAsyncThunk("user/userLogin", userLogin)
 export const verifyUserTokenThunk = createAsyncThunk("user/verifyToken", verifyToken)
 export const verifyUserIdThunk = createAsyncThunk("user/verifyUserId", verifyUserId)
 export const createUserThunk = createAsyncThunk("user/createUser", createUser)
@@ -94,26 +103,48 @@ export const userSlice = createSlice({
         state.error = action.error.message
         throw Error(action.error.message)
       })
-      .addCase(verifyOtpLoginThunk.pending, state => {
+      .addCase(generateOtpByLoginThunk.pending, state => {
         state.isLoading = true
       })
-      .addCase(verifyOtpLoginThunk.fulfilled, (state, action) => {
+      .addCase(generateOtpByLoginThunk.fulfilled, (state, action) => {
         state.isLoading = false
-        state.id = action.payload.id
       })
-      .addCase(verifyOtpLoginThunk.rejected, (state, action) => {
+      .addCase(generateOtpByLoginThunk.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.error.message
         throw Error(action.error.message)
       })
-      .addCase(verifyOtpSignupThunk.pending, state => {
+      .addCase(generateOtpWithPhoneNumberThunk.pending, state => {
         state.isLoading = true
       })
-      .addCase(verifyOtpSignupThunk.fulfilled, (state, action) => {
+      .addCase(generateOtpWithPhoneNumberThunk.fulfilled, (state, action) => {
+        state.isLoading = false
+      })
+      .addCase(generateOtpWithPhoneNumberThunk.rejected, (state, action) => {
+        state.isLoading = false
+        state.error = action.error.message
+        throw Error(action.error.message)
+      })
+      .addCase(verifyOtpThunk.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(verifyOtpThunk.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.phoneNumberVerified = true
+      })
+      .addCase(verifyOtpThunk.rejected, (state, action) => {
+        state.isLoading = false
+        state.error = action.error.message
+        throw Error(action.error.message)
+      })
+      .addCase(userLoginThunk.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(userLoginThunk.fulfilled, (state, action) => {
         state.isLoading = false
         state.id = action.payload.id
       })
-      .addCase(verifyOtpSignupThunk.rejected, (state, action) => {
+      .addCase(userLoginThunk.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.error.message
         throw Error(action.error.message)

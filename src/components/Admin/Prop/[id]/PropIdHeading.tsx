@@ -3,7 +3,7 @@
 import ModalComponent from "@/components/Modal/ModalComponent"
 import { useAppDispatch } from "@/hooks/useStore"
 import {
-  getPlaceByIdWithFullInformationThunk,
+  getPlaceByIdWithDetailsThunk,
   updateAccountStatusThunk,
 } from "@/services/Redux/reducers/placeSlice"
 import { AccountStatus } from "@/services/Utilities/Enum/account.status.enum"
@@ -39,7 +39,7 @@ const PropIdHeading = ({ heading, accountStatus }: IPropIdHeading) => {
     }
     try {
       await dispatch(updateAccountStatusThunk({ id: id, accountStatus: isStatus }))
-      await dispatch(getPlaceByIdWithFullInformationThunk(id))
+      await dispatch(getPlaceByIdWithDetailsThunk(id))
     } catch (error: any) {
       console.log(error.message)
     }

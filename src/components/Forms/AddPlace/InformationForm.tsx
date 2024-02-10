@@ -16,6 +16,7 @@ import { addInformations } from "@/services/Redux/reducers/propSlice"
 import AddAndRemoveTooltip from "@/components/Tooltip/TooltipComponent"
 import { IoMdAddCircleOutline, IoMdRemoveCircleOutline } from "react-icons/io"
 import InformationValidation from "@/services/Validation/AddPlace/informartionValidation"
+import { getCategoriesThunk } from "@/services/Redux/reducers/categorySlice"
 
 const InformationForm = () => {
   const dispatch = useAppDispatch()
@@ -27,10 +28,13 @@ const InformationForm = () => {
     watch,
     handleSubmit,
     setValue,
-    reset,
-    getValues,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(InformationValidation) })
+  } = useForm({
+    resolver: yupResolver(InformationValidation),
+    defaultValues: {
+      rateCard: propDetailsForm?.rateCard,
+    },
+  })
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -38,7 +42,6 @@ const InformationForm = () => {
   })
 
   const { push } = useRouter()
-
   const { setIsTracker } = useContext(TrackerContext) as TrackerContextProps
 
   const [timings, setTimings] = useState<any[]>([])
@@ -48,17 +51,34 @@ const InformationForm = () => {
   }, [setIsTracker])
 
   useEffect(() => {
-    console.log("error : ", errors)
-  })
+    ;(async () => {
+      await dispatch(getCategoriesThunk())
+    })()
+  }, [])
+
+  const categories = useAppSelector(state => state.category.categories)
+  const [displayCategory, setDisplayCategory] = useState<any[]>([])
+  const [displaySubCategory, setDisplaySubCategory] = useState<any[]>([])
+  const superCategory = watch("superCategory")
+  const category = watch("category")
 
   useEffect(() => {
-    if (propDetailsForm?.rateCard) {
-      reset({
-        ...getValues(),
-        rateCard: propDetailsForm.rateCard,
-      })
+    setValue("superCategory", propDetailsForm?.superCategory || "")
+    setValue("category", "")
+  }, [superCategory, setValue])
+
+  useEffect(() => {
+    if (superCategory) {
+      const selectedCategory = categories.find((category: any) => category.id === superCategory)?.categories
+      setDisplayCategory(selectedCategory)
+      if (category) {
+        const selectedSubCategory = selectedCategory?.find(
+          (subCategory: any) => subCategory.id === category,
+        )?.subCategories
+        setDisplaySubCategory(selectedSubCategory)
+      }
     }
-  }, [propDetailsForm, reset, getValues])
+  }, [superCategory, category, categories])
 
   const handleAddRow = () => {
     append({ title: "", price: 0 })
@@ -117,7 +137,7 @@ const InformationForm = () => {
                   )}
                   name={`rateCard.${index}.title`}
                   control={control}
-                  defaultValue={field.title}
+                  defaultValue={propDetailsForm?.rateCard?.[index]?.title ?? field.title}
                 />
                 {errors.rateCard && errors.rateCard[index]?.title && (
                   <p className="text-red-600 my-2 text-sm">{errors.rateCard[index]?.title?.message}</p>
@@ -133,7 +153,7 @@ const InformationForm = () => {
                   )}
                   name={`rateCard.${index}.price`}
                   control={control}
-                  defaultValue={field.price}
+                  defaultValue={propDetailsForm?.rateCard?.[index]?.price ?? field.price}
                 />
                 {errors.rateCard && errors.rateCard[index]?.price && (
                   <p className="text-red-600 my-2 text-sm">{errors.rateCard[index]?.price?.message}</p>
@@ -161,42 +181,64 @@ const InformationForm = () => {
         defaultValue={propDetailsForm?.placeDescription}
       />
       <InputCategory
-        name="category"
+        name="superCategory"
+        fieldName="superCategory"
         watch={watch}
         setValue={setValue}
-        category={["a", "b", "c", "d"]}
-        placeholder="Category"
+        categories={categories || []}
+        placeholder="Super Category"
         register={register}
         required
         error={errors.category?.message}
-        defaultValue={propDetailsForm?.category}
+        defaultValue={propDetailsForm?.superCategory}
       />
-      <InputCategory
-        name="subCategory"
-        watch={watch}
-        setValue={setValue}
-        category={["a", "b", "c", "d"]}
-        placeholder="Sub Category"
-        register={register}
-        required
-        error={errors.subCategory?.message}
-        defaultValue={propDetailsForm?.subCategory}
-      />
+      {displayCategory?.length > 0 && (
+        <InputCategory
+          name="category"
+          fieldName="categoryName"
+          watch={watch}
+          setValue={setValue}
+          categories={displayCategory || []}
+          placeholder="Category"
+          register={register}
+          required
+          error={errors.category?.message}
+          defaultValue={propDetailsForm?.category}
+        />
+      )}
+      {displaySubCategory?.length > 0 && (
+        <InputCategory
+          name="subCategory"
+          fieldName="subCategoryName"
+          watch={watch}
+          setValue={setValue}
+          categories={displaySubCategory || []}
+          placeholder="Sub Category"
+          register={register}
+          required
+          error={errors.subCategory?.message}
+          defaultValue={propDetailsForm?.subCategory}
+        />
+      )}
       <div className="flex gap-4">
         <InputAge
           name="startingAge"
           watch={watch}
+          setValue={setValue}
           placeholder="Starting Age"
           register={register}
           required
+          defaultValue={propDetailsForm?.age?.[0] || 0}
           error={errors.startingAge?.message}
         />
         <InputAge
           name="endingAge"
           watch={watch}
+          setValue={setValue}
           placeholder="Ending Age"
           register={register}
           required
+          defaultValue={propDetailsForm?.age?.[1] || 100}
           error={errors.endingAge?.message}
         />
       </div>
