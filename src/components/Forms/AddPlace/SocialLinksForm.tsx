@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import RegistrationButton from "../../Buttons/RegistrationButton"
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useLayoutEffect } from "react"
 import { TrackerContext, TrackerContextProps } from "@/services/Context/TrackerContext"
 import { useRouter } from "next/navigation"
 import InputTextSocialLinks from "@/components/Inputs/InputTextSocialLinks"
@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { addPlaceThunk, addSocialLinks } from "@/services/Redux/reducers/propSlice"
 import { FaArrowLeftLong } from "react-icons/fa6"
 import SocialLinksValidation from "@/services/Validation/AddPlace/socialLinksValidation"
+import { errorMessage } from "@/hooks/useNotifications"
 
 const SocialLinksForm = () => {
   const {
@@ -24,15 +25,16 @@ const SocialLinksForm = () => {
   const propDetailsForm = useAppSelector(state => state.prop?.propDetailsForm)
   const { setIsTracker } = useContext(TrackerContext) as TrackerContextProps
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setIsTracker(5)
-  }, [setIsTracker])
+  },[setIsTracker])
 
   const onSubmitSignup = async (data: any) => {
     try {
       dispatch(addSocialLinks({ socialLinks: data }))
       await dispatch(addPlaceThunk(undefined))
-    } catch (error) {
+    } catch (error: any) {
+      errorMessage(error.message) 
       console.log(error)
     }
     push("/")

@@ -3,6 +3,7 @@
 import Card from "@/components/Cards/PopularPlace/Card"
 import CardLazy from "@/components/Cards/PopularPlace/CardLazy"
 import useMounted from "@/hooks/useMounted"
+import { errorMessage } from "@/hooks/useNotifications"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { getPlacesThunk } from "@/services/Redux/reducers/placeSlice"
 import React, { useEffect } from "react"
@@ -20,6 +21,7 @@ const Cards: React.FC = () => {
         try {
           await dispatch(getPlacesThunk({ skip: 0, limit: 12 }))
         } catch (error: any) {
+          errorMessage(error.message) 
           console.log(error.message)
         }
       }

@@ -4,12 +4,15 @@ import OtpInput from "@/components/Inputs/InputOtp"
 import { useAppDispatch } from "@/hooks/useStore"
 import { generateOtpAdminThunk, verifyOtpAdminThunk } from "@/services/Redux/reducers/adminSlice"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { errorMessage } from "@/hooks/useNotifications"
 
 export default function Home() {
   const [otp, setOtp] = useState("")
   const [isOtpInput, setIsOtpInput] = useState<boolean>(false)
   const [isError, setIsError] = useState<string | null>(null)
 
+  const { push } = useRouter()
   const dispatch = useAppDispatch()
 
   const handleGenerateOtp = async () => {
@@ -18,7 +21,8 @@ export default function Home() {
       setIsOtpInput(true)
     } catch (err: any) {
       setIsError(err.message)
-      console.log("form : ", err.message)
+      errorMessage(err.message) 
+      console.log( err.message)
     }
   }
 
@@ -26,9 +30,11 @@ export default function Home() {
     try {
       await dispatch(verifyOtpAdminThunk(otp))
       setIsOtpInput(false)
+      push("/admin/dashboard")
     } catch (err: any) {
       setIsError(err.message)
-      console.log("form : ", err.message)
+      errorMessage(err.message) 
+      console.log( err.message)
     }
   }
   return (
@@ -52,17 +58,20 @@ export default function Home() {
                 )}
                 {isError && <p className="text-red-500 text-center">{isError}</p>}
                 {!isOtpInput ? (
-                <div className="relative">
-                  <button className="bg-blue-500 text-white rounded-md px-2 py-1" onClick={handleGenerateOtp}>
-                    Generate OTP
-                  </button>
-                </div>
+                  <div className="relative">
+                    <button
+                      className="bg-blue-500 text-white rounded-md px-2 py-1"
+                      onClick={handleGenerateOtp}
+                    >
+                      Generate OTP
+                    </button>
+                  </div>
                 ) : (
-                <div className="relative">
-                  <button className="bg-blue-500 text-white rounded-md px-2 py-1" onClick={handleVerifyOtp}>
-                    Verify OTP
-                  </button>
-                </div>
+                  <div className="relative">
+                    <button className="bg-blue-500 text-white rounded-md px-2 py-1" onClick={handleVerifyOtp}>
+                      Verify OTP
+                    </button>
+                  </div>
                 )}
               </div>
             </div>

@@ -3,6 +3,7 @@
 import RegistrationButton from "@/components/Buttons/RegistrationButton"
 import InputText from "@/components/Inputs/InputText"
 import ModalComponent from "@/components/Modal/ModalComponent"
+import { errorMessage } from "@/hooks/useNotifications"
 import { useAppDispatch } from "@/hooks/useStore"
 import { addSuperCategoryThunk } from "@/services/Redux/reducers/categorySlice"
 import superCategoryValidation from "@/services/Validation/Category/superCategoryValidation"
@@ -32,6 +33,7 @@ const CategoryHeading = () => {
       await dispatch(addSuperCategoryThunk(data.superCategory))
       setAddSuperCategoryModal(false)
     } catch (error: any) {
+      errorMessage(error.message) 
       console.log(error.message)
     }
   }

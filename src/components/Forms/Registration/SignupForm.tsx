@@ -84,7 +84,7 @@ const SignupForm = () => {
       </form>
       <div className="flex flex-wrap justify-center gap-2 text-xl">
         <div>Already have account ?</div>
-        <Link href="/login" className="text-theme-3 font-bold">
+        <Link href="/auth/login" className="text-theme-3 font-bold">
           Login instead
         </Link>
       </div>

@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import InputText from "../../Inputs/InputText"
 import RegistrationButton from "../../Buttons/RegistrationButton"
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useLayoutEffect, useState } from "react"
 import { TrackerContext, TrackerContextProps } from "@/services/Context/TrackerContext"
 import { useRouter } from "next/navigation"
 import { FaArrowLeftLong } from "react-icons/fa6"
@@ -13,6 +13,7 @@ import { addPlaceOwner } from "@/services/Redux/reducers/propSlice"
 import addPlaceValidation from "@/services/Validation/AddPlace/addPlaceValidation"
 import OtpInput from "@/components/Inputs/InputOtp"
 import { generateOtpWithPhoneNumberThunk, verifyOtpThunk } from "@/services/Redux/reducers/userSlice"
+import { errorMessage } from "@/hooks/useNotifications"
 
 const AddPlaceForm = () => {
   const {
@@ -35,12 +36,15 @@ const AddPlaceForm = () => {
   const [genarateOtp, setGenarateOtp] = useState(true)
   const [isError, setIsError] = useState<string | null>(null)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setIsTracker(1)
+  },[setIsTracker])
+
+  useEffect(() => {
     // setValue("email", propInformation?.email || "")
     setValue("placeName", propDetailsForm?.placeName || "")
     setValue("displayContactNo", propDetailsForm?.displayContactNo || "")
-  }, [setIsTracker, setValue, propInformation, propDetailsForm])
+  }, [setValue, propInformation, propDetailsForm])
 
   const onSubmitSignup = async (data: any) => {
     if (genarateOtp) {
@@ -50,7 +54,8 @@ const AddPlaceForm = () => {
         setIsOtpInput(true)
       } catch (err: any) {
         setIsError(err.message)
-        console.log("form : ", err.message)
+        errorMessage(err.message) 
+        console.log( err.message)
       }
     } else {
       if (isOtpInput) {
@@ -59,7 +64,8 @@ const AddPlaceForm = () => {
           setIsOtpInput(false)
         } catch (err: any) {
           setIsError(err.message)
-          console.log("form : ", err.message)
+          errorMessage(err.message) 
+          console.log( err.message)
         }
       } else {
         dispatch(addPlaceOwner(data))

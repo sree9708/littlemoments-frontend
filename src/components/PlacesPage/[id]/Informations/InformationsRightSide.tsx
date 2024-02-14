@@ -1,3 +1,4 @@
+import { errorMessage } from "@/hooks/useNotifications"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { updateWishlistThunk } from "@/services/Redux/reducers/userSlice"
 import { useRouter } from "next/navigation"
@@ -26,7 +27,8 @@ export const InformationsRightSide = () => {
           await dispatch(updateWishlistThunk({ propId: placeDetails?.id ?? "", wishlist: "remove" }))
           setIsFavourite(false)
           setIsLoading(false)
-        } catch (error) {
+        } catch (error: any) {
+          errorMessage(error.message) 
           setIsLoading(false)
           console.log(error)
         }
@@ -36,7 +38,8 @@ export const InformationsRightSide = () => {
           await dispatch(updateWishlistThunk({ propId: placeDetails?.id ?? "", wishlist: "add" }))
           setIsFavourite(true)
           setIsLoading(false)
-        } catch (error) {
+        } catch (error: any) {
+          errorMessage(error.message) 
           setIsLoading(false)
           console.log(error)
         }
@@ -51,7 +54,7 @@ export const InformationsRightSide = () => {
         cancelButtonText: "Cancel",
       }).then(result => {
         if (result.isConfirmed) {
-          push("/login")
+          push("/auth/login")
         }
       })
     }

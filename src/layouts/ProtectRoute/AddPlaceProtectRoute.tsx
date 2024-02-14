@@ -1,3 +1,4 @@
+import { errorMessage } from "@/hooks/useNotifications"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { logoutProp, verifyPropIdThunk } from "@/services/Redux/reducers/propSlice"
 import { logoutUser } from "@/services/Redux/reducers/userSlice"
@@ -15,6 +16,7 @@ const AddPlaceProtectRoute = ({ children }: { children: React.ReactNode }) => {
         await dispatch(verifyPropIdThunk(proId))
         dispatch(logoutUser())
       } catch (error: any) {
+        errorMessage(error.message) 
         dispatch(logoutProp())
         push("/")
       }

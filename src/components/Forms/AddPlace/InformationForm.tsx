@@ -3,7 +3,7 @@
 import { Controller, useFieldArray, useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import RegistrationButton from "../../Buttons/RegistrationButton"
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useLayoutEffect, useState } from "react"
 import { TrackerContext, TrackerContextProps } from "@/services/Context/TrackerContext"
 import { useRouter } from "next/navigation"
 import { FaArrowLeftLong } from "react-icons/fa6"
@@ -17,6 +17,7 @@ import AddAndRemoveTooltip from "@/components/Tooltip/TooltipComponent"
 import { IoMdAddCircleOutline, IoMdRemoveCircleOutline } from "react-icons/io"
 import InformationValidation from "@/services/Validation/AddPlace/informartionValidation"
 import { getCategoriesThunk } from "@/services/Redux/reducers/categorySlice"
+import { errorMessage } from "@/hooks/useNotifications"
 
 const InformationForm = () => {
   const dispatch = useAppDispatch()
@@ -46,13 +47,17 @@ const InformationForm = () => {
 
   const [timings, setTimings] = useState<any[]>([])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setIsTracker(3)
-  }, [setIsTracker])
+  },[setIsTracker])
 
   useEffect(() => {
     ;(async () => {
-      await dispatch(getCategoriesThunk())
+      try{
+        await dispatch(getCategoriesThunk())
+      }catch (error: any){
+        errorMessage(error.message) 
+      }
     })()
   }, [])
 
@@ -98,7 +103,7 @@ const InformationForm = () => {
       }
       dispatch(addInformations(newData))
     } catch (error: any) {
-      console.log("Form : ", error.message)
+      console.log( error.message)
     }
     push("/add-place/upload-images")
   }

@@ -3,6 +3,7 @@
 import RegistrationButton from "@/components/Buttons/RegistrationButton"
 import InputText from "@/components/Inputs/InputText"
 import ModalComponent from "@/components/Modal/ModalComponent"
+import { errorMessage } from "@/hooks/useNotifications"
 import { useAppDispatch } from "@/hooks/useStore"
 import { addCountryThunk } from "@/services/Redux/reducers/citySlice"
 import countryValidation from "@/services/Validation/City/countryValidation"
@@ -32,6 +33,7 @@ const CityHeading = () => {
       await dispatch(addCountryThunk(data.country))
       setAddCountryModal(false)
     } catch (error: any) {
+      errorMessage(error.message) 
       console.log(error.message)
     }
   }

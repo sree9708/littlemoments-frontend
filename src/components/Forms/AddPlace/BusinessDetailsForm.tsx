@@ -4,7 +4,7 @@ import { set, useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import InputText from "../../Inputs/InputText"
 import RegistrationButton from "../../Buttons/RegistrationButton"
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useLayoutEffect, useState } from "react"
 import { TrackerContext, TrackerContextProps } from "@/services/Context/TrackerContext"
 import { useRouter } from "next/navigation"
 import { FaArrowLeftLong } from "react-icons/fa6"
@@ -39,11 +39,12 @@ const BusinessDetailsForm = () => {
   const [gstinFile, setGstinFile] = useState<File | null>(gstin ? gstin : null)
   const [panFile, setPanFile] = useState<File | null>(pan ? pan : null)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setIsTracker(2)
-    setValue("location", propDetailsForm?.location || "")
+  },[setIsTracker])
+  
+  useEffect(() => {
     setValue("address", propDetailsForm?.address || "")
-    setValue("city", "hyderabad")
     setValue("pocContactNo", propDetailsForm?.pocContactNo || "")
     setValue("pocName", propDetailsForm?.pocName || "")
     setValue("pocDesignation", propDetailsForm?.pocDesignation || "")
@@ -61,7 +62,7 @@ const BusinessDetailsForm = () => {
     setValue("pan", dt2.files.length ? dt2.files : undefined)
     setGstinFile(dt2.files.length ? dt2.files[0] : null)
     setPanFile(dt2.files.length ? dt2.files[0] : null)
-  }, [setIsTracker, setValue, propDetailsForm])
+  }, [setValue, propDetailsForm])
 
   const handleGstinFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null
@@ -101,15 +102,6 @@ const BusinessDetailsForm = () => {
     <div>
       {hasMounted && (
         <form className="py-8" onSubmit={handleSubmit(onSubmitSignup)}>
-          <InputText
-            name="location"
-            type="text"
-            placeholder="Add Location (link)"
-            register={register}
-            required
-            error={errors.location?.message}
-            // defaultValue={propDetailsForm?.location}
-          />
           <InputTextarea
             name="address"
             type="text"
@@ -117,7 +109,6 @@ const BusinessDetailsForm = () => {
             register={register}
             required
             error={errors.address?.message}
-            // defaultValue={propDetailsForm?.address}
           />
           {gstinFile && (
             <div className="w-full my-3">
@@ -180,7 +171,6 @@ const BusinessDetailsForm = () => {
             register={register}
             required
             error={errors.pocContactNo?.message}
-            // defaultValue={propDetailsForm?.pocContactNo}
           />
           <InputText
             name="pocName"
@@ -189,7 +179,6 @@ const BusinessDetailsForm = () => {
             register={register}
             required
             error={errors.pocName?.message}
-            // defaultValue={propDetailsForm?.pocName}
           />
           <InputText
             name="pocDesignation"
@@ -198,7 +187,6 @@ const BusinessDetailsForm = () => {
             register={register}
             required
             error={errors.pocDesignation?.message}
-            // defaultValue={propDetailsForm?.pocDesignation}
           />
           <div className="flex gap-4">
             <button

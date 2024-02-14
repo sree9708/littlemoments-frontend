@@ -1,6 +1,5 @@
 import { useAppSelector } from "@/hooks/useStore"
 import React, { useEffect, useState } from "react"
-// import useClickOutside from 'react-click-outside'
 
 interface Schedule {
   [day: string]: string[] | "closed"

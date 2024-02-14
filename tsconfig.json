@@ -27,7 +27,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/app/signup",
+    "src/app/auth/signup",
     "src/services/Context/SignupContext.tsx"
   ],
   "exclude": ["node_modules"]

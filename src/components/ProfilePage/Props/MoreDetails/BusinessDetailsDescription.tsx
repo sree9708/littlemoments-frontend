@@ -2,6 +2,7 @@ import RegistrationButton from "@/components/Buttons/RegistrationButton"
 import InputTextEdit from "@/components/Inputs/EditProfile/InputTextEdit"
 import InputTextareaEdit from "@/components/Inputs/EditProfile/InputTextareaEdit"
 import useMounted from "@/hooks/useMounted"
+import { errorMessage } from "@/hooks/useNotifications"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { updatePropBusinessDetailsThunk } from "@/services/Redux/reducers/propSlice"
 import BusinessDetailsValidation from "@/services/Validation/AddPlace/businessDetailsValidation"
@@ -27,7 +28,7 @@ const BusinessDetailsDescription: React.FC<BusinessDetailsDescriptionProps> = ({
   const propInformation = useAppSelector(state => state.prop?.propInformations)
 
   useEffect(() => {
-    setValue("location", propInformation?.location || "")
+    // setValue("location", propInformation?.location || "")
     setValue("address", propInformation?.address || "")
     setValue("city", propInformation?.city || "")
     setValue("pocContactNo", propInformation?.pocContactNo || "")
@@ -52,7 +53,8 @@ const BusinessDetailsDescription: React.FC<BusinessDetailsDescriptionProps> = ({
         }),
       )
       setIsEdit(false)
-    } catch (error) {
+    } catch (error: any) {
+      errorMessage(error.message) 
       console.log(error)
     }
   }
@@ -63,7 +65,7 @@ const BusinessDetailsDescription: React.FC<BusinessDetailsDescriptionProps> = ({
         <div className="pt-6">
           <form onSubmit={handleSubmit(onSubmitSignup)}>
             <div className="block lg:flex w-full gap-4 my-4">
-              <div className="w-full flex flex-wrap gap-2 border-2 border-primary p-2 rounded-lg">
+              {/* <div className="w-full flex flex-wrap gap-2 border-2 border-primary p-2 rounded-lg">
                 <div className="font-semibold">Location :</div>
                 <div className="flex-grow opacity-70">
                   <InputTextEdit
@@ -76,7 +78,7 @@ const BusinessDetailsDescription: React.FC<BusinessDetailsDescriptionProps> = ({
                     error={errors.location?.message}
                   />
                 </div>
-              </div>
+              </div> */}
               <div className="w-full flex flex-wrap gap-2 border-2 border-primary p-2 rounded-lg">
                 <div className="font-semibold">Address :</div>
                 <div className="flex-grow opacity-70">

@@ -1,8 +1,7 @@
 "use client"
 
-import React from "react"
+import React, { useLayoutEffect, useContext, useState  } from "react"
 import RegistrationButton from "../../Buttons/RegistrationButton"
-import { useContext, useEffect, useState } from "react"
 import { TrackerContext, TrackerContextProps } from "@/services/Context/TrackerContext"
 import { useRouter } from "next/navigation"
 import { FaArrowLeftLong } from "react-icons/fa6"
@@ -25,9 +24,9 @@ const UploadImagesForm = () => {
   const displayImages = useAppSelector(state => state.prop?.propDetailsForm?.displayImages)
   const displayImagesFile = displayImages && displayImages.map((image: string) => base64ToFile(image, "file"))
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setIsTracker(4)
-  }, [setIsTracker])
+  },[setIsTracker])
 
   const [selectedImages, setSelectedImages] = useState<File[]>(displayImagesFile ? displayImagesFile : [])
   const [error, setError] = useState<string | null>(null)
@@ -72,7 +71,7 @@ const UploadImagesForm = () => {
       dispatch(addUploadImages({ displayImages: base64Images }))
       push("/add-place/social-links")
     } catch (error: any) {
-      console.log("Form : ", error.message)
+      console.log( error.message)
     }
   }
 

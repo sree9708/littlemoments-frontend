@@ -11,6 +11,7 @@ import DetailPageProvider from "@/services/Context/DetailPageContext"
 import { useEffect } from "react"
 import { getPropByIdThunk } from "@/services/Redux/reducers/propSlice"
 import useMounted from "@/hooks/useMounted"
+import { errorMessage } from "@/hooks/useNotifications"
 
 export default function Home() {
   const dispatch = useAppDispatch()
@@ -23,6 +24,7 @@ export default function Home() {
       try {
         await dispatch(getPropByIdThunk(undefined))
       } catch (error: any) {
+        errorMessage(error.message) 
         console.log(error)
       }
     }

@@ -15,6 +15,7 @@ import { useEffect } from "react"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import HeroLazy from "@/layouts/PlacesPage/[id]/HeroLazy"
+import { errorMessage } from "@/hooks/useNotifications"
 
 export default function Home() {
   const params = useParams()
@@ -28,6 +29,7 @@ export default function Home() {
         try {
           await dispatch(getPlaceByIdThunk(propId))
         } catch (error: any) {
+          errorMessage(error.message) 
           console.log(error.message)
         }
       }

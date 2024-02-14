@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { createReviewThunk, getReviewsByPropIdThunk } from "@/services/Redux/reducers/reviewSlice"
 import { useParams } from "next/navigation"
 import reviewValidation from "@/services/Validation/Review/reviewValidation"
+import { errorMessage } from "@/hooks/useNotifications"
 
 export const Title = () => {
   const {
@@ -50,7 +51,9 @@ export const Title = () => {
       await dispatch(createReviewThunk({ userId, propId, ...data }))
       await dispatch(getReviewsByPropIdThunk(propId))
       setisModal(false)
-    } catch (error) {}
+    } catch (error: any) {
+      errorMessage(error.message) 
+    }
   }
 
   return (

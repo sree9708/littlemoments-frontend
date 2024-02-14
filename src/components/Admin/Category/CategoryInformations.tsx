@@ -3,6 +3,7 @@
 import RegistrationButton from "@/components/Buttons/RegistrationButton"
 import InputText from "@/components/Inputs/InputText"
 import ModalComponent from "@/components/Modal/ModalComponent"
+import { errorMessage } from "@/hooks/useNotifications"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import {
   addCategoryThunk,
@@ -140,6 +141,7 @@ const CategoryInformations = () => {
         setUpdateSuperCategoryModal(false)
       }
     } catch (error: any) {
+      errorMessage(error.message) 
       console.log(error.message)
     }
   }
@@ -152,6 +154,7 @@ const CategoryInformations = () => {
         setAddCategoryModal(false)
       }
     } catch (error: any) {
+      errorMessage(error.message) 
       console.log(error.message)
     }
   }
@@ -164,6 +167,7 @@ const CategoryInformations = () => {
         setUpdateCategoryModal(false)
       }
     } catch (error: any) {
+      errorMessage(error.message) 
       console.log(error.message)
     }
   }
@@ -181,6 +185,7 @@ const CategoryInformations = () => {
         setAddSubCategoryModal(false)
       }
     } catch (error: any) {
+      errorMessage(error.message) 
       console.log(error.message)
     }
   }
@@ -195,6 +200,7 @@ const CategoryInformations = () => {
         setUpdateSubCategoryModal(false)
       }
     } catch (error: any) {
+      errorMessage(error.message) 
       console.log(error.message)
     }
   }

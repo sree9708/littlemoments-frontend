@@ -13,6 +13,7 @@ import { logoutProp, logoutPropThunk } from "@/services/Redux/reducers/propSlice
 import { logoutReview } from "@/services/Redux/reducers/reviewSlice"
 import Swal from "sweetalert2"
 import useMounted from "@/hooks/useMounted"
+import { errorMessage, successMessage } from "@/hooks/useNotifications"
 
 const RightSide = () => {
   const hasMounted = useMounted()
@@ -73,8 +74,10 @@ const RightSide = () => {
       dispatch(logoutUser())
       dispatch(logoutProp())
       dispatch(logoutReview())
+      successMessage("Logged out successfully.") 
       push("/")
     } catch (error: any) {
+      errorMessage(error.message) 
       console.log(error.message)
     }
   }
@@ -94,7 +97,7 @@ const RightSide = () => {
           <div className="hidden sm:flex cursor-pointer whitespace-nowrap">Download App</div>
           {!userId && !propId ? (
             <Link
-              href="/login"
+              href="/auth/login"
               className="flex items-center gap-2 py-4 px-2 sm:px-4 md:px-8 lg:px-12 bg-primary text-background cursor-pointer hover:opacity-80"
             >
               <div>Login</div>

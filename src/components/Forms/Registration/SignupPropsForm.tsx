@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation"
 import { useAppDispatch } from "@/hooks/useStore"
 import { createPropThunk } from "@/services/Redux/reducers/propSlice"
 import signupPropValidation from "@/services/Validation/Registration/signupPropValidation"
+import { errorMessage } from "@/hooks/useNotifications"
 
 const SignupPropsForm = () => {
   const {
@@ -26,7 +27,8 @@ const SignupPropsForm = () => {
       await dispatch(createPropThunk({ email: data.email, password: data.password }))
       router.push("/")
     } catch (err: any) {
-      console.log("form : ", err.message)
+      errorMessage(err.message) 
+      console.log( err.message)
     }
   }
 
@@ -61,7 +63,7 @@ const SignupPropsForm = () => {
       </form>
       <div className="flex flex-wrap justify-center gap-2 text-xl">
         <div>Already have account ?</div>
-        <Link href="/login/props" className="text-theme-3 font-bold">
+        <Link href="/auth/login/props" className="text-theme-3 font-bold">
           Login instead
         </Link>
       </div>

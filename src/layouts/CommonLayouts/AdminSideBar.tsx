@@ -34,6 +34,30 @@ const AdminSideBar = () => {
           )}
         </div>
         <div className=" flex-1 px-3">
+          <Link href={"/admin/dashboard"}>
+            <div
+              className={`relative group py-2 px-3 my-2 rounded-md flex gap-2 items-center transition-all font-semibold drop-shadow-sm cursor-pointer
+            ${extended ? "bg-theme-1 text-secondary " : "bg-background text-theme-1"}
+          `}
+            >
+              <div>
+                <FaUsers />
+              </div>
+              <div className={`overflow-hidden ${extended ? "w-full" : "w-0"}`}>Dashboard</div>
+              {!extended && (
+                <div
+                  className={`
+                absolute left-full rounded-md px-2 py-1 ml-6
+                bg-theme-4 text-theme-1 text-sm
+                invisible opacity-20 -translate-x-3 transition-all
+                group-hover:visible group-hover:opacity-100 group-hover:translate-x-0
+            `}
+                >
+                  Dashboard
+                </div>
+              )}
+            </div>
+          </Link>
           <Link href={"/admin/props"}>
             <div
               className={`relative group py-2 px-3 my-2 rounded-md flex gap-2 items-center transition-all font-semibold drop-shadow-sm cursor-pointer
