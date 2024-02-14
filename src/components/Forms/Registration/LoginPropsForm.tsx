@@ -11,6 +11,7 @@ import { loginPropThunk } from "@/services/Redux/reducers/propSlice"
 import { useRouter } from "next/navigation"
 import { useAppDispatch } from "@/hooks/useStore"
 import loginPropValidation from "@/services/Validation/Registration/loginPropValidation"
+import { errorMessage } from "@/hooks/useNotifications"
 
 const LoginPropsForm = () => {
   const {
@@ -31,7 +32,8 @@ const LoginPropsForm = () => {
       router.push("/")
     } catch (err: any) {
       setIsError(err.message)
-      console.log("form : ", err.message)
+      errorMessage(err.message) 
+      console.log( err.message)
     }
   }
 
@@ -59,7 +61,7 @@ const LoginPropsForm = () => {
       </form>
       <div className="flex flex-wrap justify-center gap-2 text-xl">
         <div>Don't have account ?</div>
-        <Link href="/signup/props" className="text-theme-3 font-bold">
+        <Link href="/auth/signup/props" className="text-theme-3 font-bold">
           Signup instead
         </Link>
       </div>

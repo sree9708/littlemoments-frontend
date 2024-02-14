@@ -1,5 +1,6 @@
 "use client"
 
+import { errorMessage } from "@/hooks/useNotifications"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { addPropDisplayImagesThunk, removePropDisplayImagesThunk } from "@/services/Redux/reducers/propSlice"
 import Image from "next/image"
@@ -15,7 +16,7 @@ const UploadImagesForm = () => {
 
   const handleCloseClick = (image: string | undefined) => {
     if (image) {
-      if (propInformation?.displayImages.length <= 1) {
+      if ((propInformation?.displayImages ?? []).length <= 1) {
         Swal.fire("Error", "You must have at least one image.", "error")
         return
       }
@@ -40,7 +41,7 @@ const UploadImagesForm = () => {
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files
     if (files) {
-      if (propInformation?.displayImages.length >= 10) {
+      if ((propInformation?.displayImages ?? []).length >= 10) {
         Swal.fire("Error", "You can only upload a maximum of 10 images.", "error")
         return
       }
@@ -48,6 +49,7 @@ const UploadImagesForm = () => {
         await dispatch(addPropDisplayImagesThunk({ id: propInformation?.id, file: files[0] }))
         setUploadImage(false)
       } catch (err: any) {
+        errorMessage(err.message) 
         console.log(err.message)
       }
     }

@@ -2,12 +2,6 @@ import * as yup from "yup"
 
 const businessDetailsValidation = yup
   .object({
-    location: yup
-      .string()
-      .url("Please enter a valid URL")
-      .required("Place name is required.")
-      .min(3, "Place name must be at least 3 characters.")
-      .max(100, "Place name must not exceed 20 characters."),
     address: yup
       .string()
       .required("Description is required.")

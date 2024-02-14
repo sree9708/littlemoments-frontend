@@ -1,5 +1,6 @@
 "use client"
 
+import { errorMessage } from "@/hooks/useNotifications"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { getPlaceByAdminThunk } from "@/services/Redux/reducers/placeSlice"
 import { AccountStatus } from "@/services/Utilities/Enum/account.status.enum"
@@ -20,6 +21,7 @@ const PropsHeading = () => {
           }),
         )
       } catch (error: any) {
+        errorMessage(error.message) 
         console.log(error.message)
       }
     })()

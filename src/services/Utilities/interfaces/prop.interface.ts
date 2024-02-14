@@ -7,10 +7,13 @@ export interface IProp {
   placeName?: string
   displayContactNo?: string
   password?: string
-  city?: string
-  state?: string
-  country?: string
-  location?: string
+  city?: any
+  state?: any
+  country?: any
+  location?: {
+    lat: number,
+    long: number,
+  }
   address?: string
   gstin?: string
   pan?: string

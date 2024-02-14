@@ -1,11 +1,9 @@
 "use client"
 
 import ModalComponent from "@/components/Modal/ModalComponent"
+import { errorMessage } from "@/hooks/useNotifications"
 import { useAppDispatch } from "@/hooks/useStore"
-import {
-  getPlaceByIdWithDetailsThunk,
-  updateAccountStatusThunk,
-} from "@/services/Redux/reducers/placeSlice"
+import { getPlaceByIdWithDetailsThunk, updateAccountStatusThunk } from "@/services/Redux/reducers/placeSlice"
 import { AccountStatus } from "@/services/Utilities/Enum/account.status.enum"
 import { useParams } from "next/navigation"
 import React, { useEffect, useState } from "react"
@@ -41,6 +39,7 @@ const PropIdHeading = ({ heading, accountStatus }: IPropIdHeading) => {
       await dispatch(updateAccountStatusThunk({ id: id, accountStatus: isStatus }))
       await dispatch(getPlaceByIdWithDetailsThunk(id))
     } catch (error: any) {
+      errorMessage(error.message) 
       console.log(error.message)
     }
     handleModal(false)

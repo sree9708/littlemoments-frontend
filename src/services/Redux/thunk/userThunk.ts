@@ -82,6 +82,20 @@ export const userLogin = async (params: { phoneNumber: string; otp: string }) =>
   }
 }
 
+export const addLocation = async ({lat, long, browser, device}: any, { getState }: { getState: any }) => {
+  try {
+    const userId: UserState["id"] = (getState() as RootState).user.id
+    const response = await axios.put(`/locations/${userId}`,{lat, long, browser, device})
+    return response.data
+  } catch (err: any) {
+    if (err.response && err.response.data && err.response.data.message) {
+      throw Error(err.response.data.message)
+    } else {
+      throw Error(err.message)
+    }
+  }
+}
+
 export const verifyToken = async () => {
   try {
     const response = await axios.get(`/users/refresh-token/verify`)

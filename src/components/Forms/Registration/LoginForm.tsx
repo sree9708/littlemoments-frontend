@@ -8,9 +8,10 @@ import RegistrationButton from "../../Buttons/RegistrationButton"
 import OtpInput from "../../Inputs/InputOtp"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { generateOtpByLoginThunk, userLoginThunk } from "@/services/Redux/reducers/userSlice"
+import { addLocationThunk, generateOtpByLoginThunk, userLoginThunk } from "@/services/Redux/reducers/userSlice"
 import { useAppDispatch } from "@/hooks/useStore"
 import loginValidation from "@/services/Validation/Registration/phoneNumberValidation"
+import { errorMessage } from "@/hooks/useNotifications"
 
 const LoginForm = () => {
   const {
@@ -32,17 +33,49 @@ const LoginForm = () => {
       setIsOtpInput(true)
     } catch (err: any) {
       setIsError(err.message)
-      console.log("form : ", err.message)
+      errorMessage(err.message) 
+      console.log( err.message)
     }
   }
+  
+        function getCurrentPosition(options = {}) {
+          return new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject, options);
+          });
+        }
 
   const onSubmitOtp = async (data: any) => {
     try {
       await dispatch(userLoginThunk({ phoneNumber: data.phoneNumber, otp }))
+      
+      const position: any = await getCurrentPosition();
+      const { latitude: lat, longitude: long } = position.coords;
+  
+      const browser = navigator.userAgent;
+      const device = navigator.platform;
+      
+      console.log({
+        lat,
+        long,
+        browser,
+        device,
+      });
+      try{
+        await dispatch(addLocationThunk({
+          lat,
+          long,
+          browser,
+          device,
+        }))
+      }catch(err: any){
+        errorMessage(err.message)
+        console.log(err.message)
+      }
       setIsOtpInput(false)
       route.push("/")
     } catch (err: any) {
-      console.log("form : ", err.message)
+      errorMessage(err.message) 
+      console.log( err.message)
     }
   }
 
@@ -89,7 +122,7 @@ const LoginForm = () => {
       </form>
       <div className="flex flex-wrap justify-center gap-2 text-xl">
         <div>Dont have account ?</div>
-        <Link href="/signup" className="text-theme-3 font-bold">
+        <Link href="/auth/signup" className="text-theme-3 font-bold">
           Signup instead
         </Link>
       </div>

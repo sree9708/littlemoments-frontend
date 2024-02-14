@@ -20,7 +20,7 @@ const InputFile = ({ type, label, name, register, required, error, onChange }: I
   return (
     <div className="w-full">
       <div className="w-full my-3">
-        <label className="font-semibold text-gray-400">{label}</label>
+        <label className="font-semibold text-gray-600">{label}</label>
         <input
           type={type}
           className="w-full autofill:bg-yellow-200 rounded-sm pb-2 border-b text-xl border-primary focus:outline-none focus:ring-transparent 

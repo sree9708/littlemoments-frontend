@@ -1,5 +1,6 @@
 import RegistrationButton from "@/components/Buttons/RegistrationButton"
 import InputTextSocialLinksEdit from "@/components/Inputs/EditProfile/InputTextSocialLinksEdit"
+import { errorMessage } from "@/hooks/useNotifications"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { updatePropSocialLinksThunk } from "@/services/Redux/reducers/propSlice"
 import SocialLinksValidation from "@/services/Validation/AddPlace/socialLinksValidation"
@@ -39,7 +40,8 @@ const SocialLinksDescription: React.FC<SocialLinksDescriptionProps> = ({ isEdit,
         }),
       )
       setIsEdit(false)
-    } catch (error) {
+    } catch (error: any) {
+      errorMessage(error.message) 
       console.log(error)
     }
   }

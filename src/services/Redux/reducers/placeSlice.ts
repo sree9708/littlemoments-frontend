@@ -11,6 +11,7 @@ import {
 
 interface PlaceState {
   isLoading: boolean
+  searchText: string
   places: IProp[]
   placeDetails: IProp | null
   adminPlaces: IProp[]
@@ -19,6 +20,7 @@ interface PlaceState {
 
 const initialState: PlaceState = {
   isLoading: false,
+  searchText: "",
   places: [],
   placeDetails: null,
   adminPlaces: [],

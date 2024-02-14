@@ -18,9 +18,9 @@ const RegistrationNavbar = ({ props }: RegistrationNavbarProps) => {
     setIsLogin(prevIsLogin => !prevIsLogin)
     console.log(isLogin)
     if (!isLogin) {
-      push("/login/props")
+      push("/auth/login/props")
     } else {
-      push("/login")
+      push("/auth/login")
     }
   }
 

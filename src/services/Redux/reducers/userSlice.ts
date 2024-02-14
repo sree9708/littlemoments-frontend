@@ -13,6 +13,7 @@ import {
   generateOtpWithPhoneNumber,
   generateOtpByLogin,
   userLogin,
+  addLocation,
 } from "../thunk/userThunk"
 
 export interface UserState {
@@ -42,6 +43,7 @@ export const generateOtpWithPhoneNumberThunk = createAsyncThunk(
 )
 export const verifyOtpThunk = createAsyncThunk("user/verifyOtp", verifyOtp)
 export const userLoginThunk = createAsyncThunk("user/userLogin", userLogin)
+export const addLocationThunk = createAsyncThunk("user/addLocation", addLocation)
 export const verifyUserTokenThunk = createAsyncThunk("user/verifyToken", verifyToken)
 export const verifyUserIdThunk = createAsyncThunk("user/verifyUserId", verifyUserId)
 export const createUserThunk = createAsyncThunk("user/createUser", createUser)

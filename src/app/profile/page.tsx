@@ -12,6 +12,7 @@ import { useEffect, useState } from "react"
 import { getReviewsByUserIdThunk } from "@/services/Redux/reducers/reviewSlice"
 import { getUserByIdThunk } from "@/services/Redux/reducers/userSlice"
 import useMounted from "@/hooks/useMounted"
+import { errorMessage } from "@/hooks/useNotifications"
 
 export default function Home() {
   const userInformations = useAppSelector(state => state.user?.userInformations)
@@ -24,7 +25,8 @@ export default function Home() {
       try {
         await dispatch(getUserByIdThunk(undefined))
         await dispatch(getReviewsByUserIdThunk(userInformations?.id || ""))
-      } catch (err) {
+      } catch (err: any) {
+        errorMessage(err.message) 
         console.log(err)
       }
     }

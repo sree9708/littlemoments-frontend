@@ -17,6 +17,7 @@ import {
 import { useAppDispatch } from "@/hooks/useStore"
 import { useRouter } from "next/navigation"
 import phoneNumberValidation from "@/services/Validation/Registration/phoneNumberValidation"
+import { errorMessage } from "@/hooks/useNotifications"
 
 const SignupOtpForm = () => {
   const {
@@ -43,7 +44,8 @@ const SignupOtpForm = () => {
     } catch (err: any) {
       setIsSignup(true)
       setIsError(err.message)
-      console.log("form : ", err.message)
+      errorMessage(err.message) 
+      console.log( err.message)
     }
   }
 
@@ -55,7 +57,8 @@ const SignupOtpForm = () => {
       route.push("/")
     } catch (err: any) {
       setIsError(err.message)
-      console.log("form : ", err.message)
+      errorMessage(err.message) 
+      console.log( err.message)
     }
   }
 
@@ -112,7 +115,7 @@ const SignupOtpForm = () => {
       </form>
       <div className="flex flex-wrap justify-center gap-2 text-xl">
         <div>Dont have account ?</div>
-        <Link href="/signup" className="text-theme-3 font-bold">
+        <Link href="/auth/signup" className="text-theme-3 font-bold">
           Signup instead
         </Link>
       </div>

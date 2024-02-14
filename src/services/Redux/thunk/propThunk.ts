@@ -81,6 +81,7 @@ export const addPlace = async (_: any, { getState }: { getState: any }) => {
     const panFile = (getState() as RootState).prop.propDetailsForm?.pan as string
     const displayImages = (getState() as RootState).prop.propDetailsForm?.displayImages as string[]
     const propDetailsForm = (getState() as RootState).prop.propDetailsForm
+    // formData.append("propDetails", propDetailsForm)
     formData.append("propDetails", JSON.stringify(propDetailsForm))
 
     const gstin = base64ToFile(gstinFile as string, `gstin`)
@@ -91,7 +92,11 @@ export const addPlace = async (_: any, { getState }: { getState: any }) => {
       const file = base64ToFile(image as string, `image`)
       formData.append("displayImages", file)
     })
-    const response = await axios.put(`/props/${propId}/add-place`, formData)
+    const response = await axios.put(`/props/${propId}/add-place`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      }
+    })
     return response.data
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.message) {

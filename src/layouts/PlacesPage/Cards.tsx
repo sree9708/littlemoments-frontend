@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { getPlacesBySkipAndLimitThunk, getPlacesThunk } from "@/services/Redux/reducers/placeSlice"
 import { IProp } from "@/services/Utilities/interfaces/prop.interface"
 import useMounted from "@/hooks/useMounted"
+import { errorMessage } from "@/hooks/useNotifications"
 
 const Cards: React.FC = () => {
   const [skip, setSkip] = useState(0)
@@ -24,6 +25,7 @@ const Cards: React.FC = () => {
         try {
           await dispatch(getPlacesThunk({ skip, limit: 20 }))
         } catch (error: any) {
+          errorMessage(error.message) 
           console.log(error.message)
         }
       }
@@ -35,7 +37,8 @@ const Cards: React.FC = () => {
     try {
       await dispatch(getPlacesBySkipAndLimitThunk({ skip, limit: 20 }))
       setSkip(skip + 1)
-    } catch (error) {
+    } catch (error: any) {
+      errorMessage(error.message) 
       console.error("Error fetching photos:", error)
       setHasError(true)
     }

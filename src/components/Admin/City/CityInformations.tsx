@@ -19,6 +19,7 @@ import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { FaRegEdit } from "react-icons/fa"
 import { IoMdAdd } from "react-icons/io"
+import { errorMessage } from "@/hooks/useNotifications"
 
 const CityInformations = () => {
   const {
@@ -135,6 +136,7 @@ const CityInformations = () => {
         setUpdateCountryModal(false)
       }
     } catch (error: any) {
+      errorMessage(error.message) 
       console.log(error.message)
     }
   }
@@ -147,6 +149,7 @@ const CityInformations = () => {
         setAddStateModal(false)
       }
     } catch (error: any) {
+      errorMessage(error.message) 
       console.log(error.message)
     }
   }
@@ -159,6 +162,7 @@ const CityInformations = () => {
         setUpdateStateModal(false)
       }
     } catch (error: any) {
+      errorMessage(error.message) 
       console.log(error.message)
     }
   }
@@ -176,6 +180,7 @@ const CityInformations = () => {
         setAddCityModal(false)
       }
     } catch (error: any) {
+      errorMessage(error.message) 
       console.log(error.message)
     }
   }
@@ -188,6 +193,7 @@ const CityInformations = () => {
         setUpdateCityModal(false)
       }
     } catch (error: any) {
+      errorMessage(error.message) 
       console.log(error.message)
     }
   }

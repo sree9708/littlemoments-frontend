@@ -12,6 +12,7 @@ import InputText from "@/components/Inputs/InputText"
 import Link from "next/link"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { updatePlaceDetailsThunk } from "@/services/Redux/reducers/propSlice"
+import { errorMessage } from "@/hooks/useNotifications"
 
 const schema = yup
   .object({
@@ -48,7 +49,8 @@ const EditModal = () => {
     try {
       await dispatch(updatePlaceDetailsThunk({ id: propInformation?.id, placeName: data.placeName }))
       setEditModal(false)
-    } catch (err) {
+    } catch (err: any) {
+      errorMessage(err.message) 
       console.log(err)
     }
   }

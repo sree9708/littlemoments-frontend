@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
 import { IProp } from "@/services/Utilities/interfaces/prop.interface"
 import {
-  addDispalyImages,
   addPlace,
   addPropDisplayImages,
   createProp,
@@ -75,9 +74,11 @@ export const propSlice = createSlice({
     addBusinessDetails: (state, action: PayloadAction<IProp>) => {
       state.propDetailsForm = {
         ...state.propDetailsForm,
-        location: action.payload.location,
+        location: {
+          lat: 17.4065,
+          long: 78.4772,
+        },
         address: action.payload.address,
-        city: "hyderabad",
         gstin: action.payload.gstin,
         pan: action.payload.pan,
         pocName: action.payload.pocName,

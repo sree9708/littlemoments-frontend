@@ -11,6 +11,7 @@ import RegistrationButton from "@/components/Buttons/RegistrationButton"
 import { updatePropInformationsThunk } from "@/services/Redux/reducers/propSlice"
 import AddAndRemoveTooltip from "@/components/Tooltip/TooltipComponent"
 import InformationValidation from "@/services/Validation/AddPlace/informartionValidation"
+import { errorMessage } from "@/hooks/useNotifications"
 
 interface InformationDescriptionProps {
   isEdit: boolean
@@ -82,6 +83,7 @@ const InformationDescription: React.FC<InformationDescriptionProps> = ({ isEdit,
       )
       setIsEdit(false)
     } catch (error: any) {
+      errorMessage(error.message) 
       console.log("error2", error.message || "error")
     }
   }
