@@ -49,7 +49,7 @@ const UploadImagesForm = () => {
         await dispatch(addPropDisplayImagesThunk({ id: propInformation?.id, file: files[0] }))
         setUploadImage(false)
       } catch (err: any) {
-        errorMessage(err.message) 
+        errorMessage(err.message)
         console.log(err.message)
       }
     }

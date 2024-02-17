@@ -21,8 +21,8 @@ export default function Home() {
       setIsOtpInput(true)
     } catch (err: any) {
       setIsError(err.message)
-      errorMessage(err.message) 
-      console.log( err.message)
+      errorMessage(err.message)
+      console.log(err.message)
     }
   }
 
@@ -33,8 +33,8 @@ export default function Home() {
       push("/admin/dashboard")
     } catch (err: any) {
       setIsError(err.message)
-      errorMessage(err.message) 
-      console.log( err.message)
+      errorMessage(err.message)
+      console.log(err.message)
     }
   }
   return (

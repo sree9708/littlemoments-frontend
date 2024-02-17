@@ -27,8 +27,8 @@ const SignupPropsForm = () => {
       await dispatch(createPropThunk({ email: data.email, password: data.password }))
       router.push("/")
     } catch (err: any) {
-      errorMessage(err.message) 
-      console.log( err.message)
+      errorMessage(err.message)
+      console.log(err.message)
     }
   }
 

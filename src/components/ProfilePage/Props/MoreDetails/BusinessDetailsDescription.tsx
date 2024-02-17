@@ -54,7 +54,7 @@ const BusinessDetailsDescription: React.FC<BusinessDetailsDescriptionProps> = ({
       )
       setIsEdit(false)
     } catch (error: any) {
-      errorMessage(error.message) 
+      errorMessage(error.message)
       console.log(error)
     }
   }

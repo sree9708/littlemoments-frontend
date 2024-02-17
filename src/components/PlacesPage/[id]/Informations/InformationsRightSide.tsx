@@ -28,7 +28,7 @@ export const InformationsRightSide = () => {
           setIsFavourite(false)
           setIsLoading(false)
         } catch (error: any) {
-          errorMessage(error.message) 
+          errorMessage(error.message)
           setIsLoading(false)
           console.log(error)
         }
@@ -39,7 +39,7 @@ export const InformationsRightSide = () => {
           setIsFavourite(true)
           setIsLoading(false)
         } catch (error: any) {
-          errorMessage(error.message) 
+          errorMessage(error.message)
           setIsLoading(false)
           console.log(error)
         }

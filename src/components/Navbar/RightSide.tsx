@@ -74,10 +74,10 @@ const RightSide = () => {
       dispatch(logoutUser())
       dispatch(logoutProp())
       dispatch(logoutReview())
-      successMessage("Logged out successfully.") 
+      successMessage("Logged out successfully.")
       push("/")
     } catch (error: any) {
-      errorMessage(error.message) 
+      errorMessage(error.message)
       console.log(error.message)
     }
   }

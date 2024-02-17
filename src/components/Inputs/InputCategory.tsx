@@ -1,4 +1,3 @@
-import { ICategory } from "@/services/Utilities/interfaces/category.interface"
 import React, { useEffect } from "react"
 import { UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form"
 
@@ -28,15 +27,8 @@ const InputCategory = ({
   defaultValue,
 }: InputCategoryProps) => {
   const selectedValue = watch(name, "")
-  if (fieldName === "superCategory") {
-    // console.log("selectedValue", selectedValue)
-  }
   useEffect(() => {
     setValue(name, defaultValue)
-    if (fieldName === "superCategory") {
-      console.log("name :", name)
-    }
-    // console.log("defaultValue :", defaultValue)
   }, [name, defaultValue, setValue])
 
   return (

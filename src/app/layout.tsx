@@ -12,7 +12,12 @@ export const metadata: Metadata = {
 const RootLayout: React.FC = ({ children }: any) => {
   return (
     <html lang="en">
-      <Head></Head>
+      <Head>
+        <title>{String(metadata.title)}</title>
+        <meta name="description" content={metadata.description ?? ""} />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+      </Head>
       <body className="font-default font-normal text-base bg-background">
         <ReduxProvider>
           <ModalProvider> {children} </ModalProvider>

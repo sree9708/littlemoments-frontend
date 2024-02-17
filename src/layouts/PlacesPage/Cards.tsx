@@ -25,7 +25,7 @@ const Cards: React.FC = () => {
         try {
           await dispatch(getPlacesThunk({ skip, limit: 20 }))
         } catch (error: any) {
-          errorMessage(error.message) 
+          errorMessage(error.message)
           console.log(error.message)
         }
       }
@@ -38,7 +38,7 @@ const Cards: React.FC = () => {
       await dispatch(getPlacesBySkipAndLimitThunk({ skip, limit: 20 }))
       setSkip(skip + 1)
     } catch (error: any) {
-      errorMessage(error.message) 
+      errorMessage(error.message)
       console.error("Error fetching photos:", error)
       setHasError(true)
     }

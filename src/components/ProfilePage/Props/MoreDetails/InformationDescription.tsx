@@ -1,6 +1,6 @@
 import InputTimeProfileProps from "@/components/Inputs/InputTimeProfileProps"
 import { yupResolver } from "@hookform/resolvers/yup"
-import React, { useEffect, useState } from "react"
+import React, { use, useEffect, useState } from "react"
 import { Controller, useFieldArray, useForm } from "react-hook-form"
 import { IoMdAddCircleOutline, IoMdRemoveCircleOutline } from "react-icons/io"
 import InputTextareaEdit from "@/components/Inputs/EditProfile/InputTextareaEdit"
@@ -12,6 +12,7 @@ import { updatePropInformationsThunk } from "@/services/Redux/reducers/propSlice
 import AddAndRemoveTooltip from "@/components/Tooltip/TooltipComponent"
 import InformationValidation from "@/services/Validation/AddPlace/informartionValidation"
 import { errorMessage } from "@/hooks/useNotifications"
+import { getCategoriesThunk } from "@/services/Redux/reducers/categorySlice"
 
 interface InformationDescriptionProps {
   isEdit: boolean
@@ -19,19 +20,23 @@ interface InformationDescriptionProps {
 }
 
 const InformationDescription: React.FC<InformationDescriptionProps> = ({ isEdit, setIsEdit }) => {
+  const [dropdown, setDropdown] = useState(false)
+
   const dispatch = useAppDispatch()
   const propInformation = useAppSelector(state => state.prop?.propInformations)
 
   const {
     register,
     control,
+    watch,
     handleSubmit,
     setValue,
-    reset,
-    getValues,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(InformationValidation),
+    defaultValues: {
+      rateCard: propInformation?.rateCard,
+    },
   })
 
   const { fields, append, remove } = useFieldArray({
@@ -39,17 +44,43 @@ const InformationDescription: React.FC<InformationDescriptionProps> = ({ isEdit,
     name: "rateCard",
   })
 
-  const [dropdown, setDropdown] = useState(false)
+  useEffect(() => {
+    ;(async () => {
+      try {
+        await dispatch(getCategoriesThunk())
+      } catch (error: any) {
+        errorMessage(error.message)
+      }
+    })()
+  }, [])
+
+  const categories = useAppSelector(state => state.category.categories)
+  const [displayCategory, setDisplayCategory] = useState<any[]>(
+    categories.find((category: any) => category?.id === propInformation?.category?.id)?.categories || [],
+  )
+  const [displaySubCategory, setDisplaySubCategory] = useState<any[]>([])
+  const category = watch("category")
 
   useEffect(() => {
     setValue("placeDescription", propInformation?.placeDescription || "")
-    if (propInformation?.rateCard) {
-      reset({
-        ...getValues(),
-        rateCard: propInformation.rateCard,
-      })
+  }, [setValue])
+
+  // useEffect(() => {
+  //   setValue("subCategory", "")
+  // }, [category])
+
+  useEffect(() => {
+    const selectedCategory = categories.find(
+      (category: any) => category?.id === propInformation?.category?.id,
+    )?.categories
+    setDisplayCategory(selectedCategory)
+    if (category) {
+      const selectedSubCategory = selectedCategory?.find(
+        (subCategory: any) => subCategory.id === category,
+      )?.subCategories
+      setDisplaySubCategory(selectedSubCategory)
     }
-  }, [setValue, propInformation, reset, getValues])
+  }, [category, categories])
 
   const handleDropdown = () => {
     setDropdown(!dropdown)
@@ -83,7 +114,7 @@ const InformationDescription: React.FC<InformationDescriptionProps> = ({ isEdit,
       )
       setIsEdit(false)
     } catch (error: any) {
-      errorMessage(error.message) 
+      errorMessage(error.message)
       console.log("error2", error.message || "error")
     }
   }
@@ -192,14 +223,15 @@ const InformationDescription: React.FC<InformationDescriptionProps> = ({ isEdit,
                 <div className="border-2 border-primary p-2 rounded-lg">
                   <InputCategoryEdit
                     name="category"
+                    fieldName="categoryName"
                     placeholder="Category"
-                    category={[]}
+                    categories={displayCategory || []}
                     register={register}
                     setValue={setValue}
                     disabled={!isEdit}
                     required
                     error={errors.category?.message}
-                    defaultValue={propInformation?.category || "littlemoments"}
+                    defaultValue={propInformation?.category?.categories?.id}
                   />
                 </div>
               </div>
@@ -208,14 +240,15 @@ const InformationDescription: React.FC<InformationDescriptionProps> = ({ isEdit,
                 <div className="border-2 border-primary p-2 rounded-lg">
                   <InputCategoryEdit
                     name="subCategory"
+                    fieldName="subCategoryName"
                     placeholder="Sub Category"
-                    category={[]}
+                    categories={displaySubCategory || []}
                     register={register}
                     setValue={setValue}
                     disabled={!isEdit}
                     required
                     error={errors.subCategory?.message}
-                    defaultValue={propInformation?.subCategory || "littlemoments"}
+                    defaultValue={propInformation?.subCategory}
                   />
                 </div>
               </div>

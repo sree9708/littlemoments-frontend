@@ -136,7 +136,7 @@ const CityInformations = () => {
         setUpdateCountryModal(false)
       }
     } catch (error: any) {
-      errorMessage(error.message) 
+      errorMessage(error.message)
       console.log(error.message)
     }
   }
@@ -149,7 +149,7 @@ const CityInformations = () => {
         setAddStateModal(false)
       }
     } catch (error: any) {
-      errorMessage(error.message) 
+      errorMessage(error.message)
       console.log(error.message)
     }
   }
@@ -162,7 +162,7 @@ const CityInformations = () => {
         setUpdateStateModal(false)
       }
     } catch (error: any) {
-      errorMessage(error.message) 
+      errorMessage(error.message)
       console.log(error.message)
     }
   }
@@ -180,7 +180,7 @@ const CityInformations = () => {
         setAddCityModal(false)
       }
     } catch (error: any) {
-      errorMessage(error.message) 
+      errorMessage(error.message)
       console.log(error.message)
     }
   }
@@ -193,7 +193,7 @@ const CityInformations = () => {
         setUpdateCityModal(false)
       }
     } catch (error: any) {
-      errorMessage(error.message) 
+      errorMessage(error.message)
       console.log(error.message)
     }
   }

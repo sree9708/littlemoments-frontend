@@ -41,8 +41,8 @@ const BusinessDetailsForm = () => {
 
   useLayoutEffect(() => {
     setIsTracker(2)
-  },[setIsTracker])
-  
+  }, [setIsTracker])
+
   useEffect(() => {
     setValue("address", propDetailsForm?.address || "")
     setValue("pocContactNo", propDetailsForm?.pocContactNo || "")

@@ -50,7 +50,7 @@ const EditModal = () => {
       await dispatch(updatePlaceDetailsThunk({ id: propInformation?.id, placeName: data.placeName }))
       setEditModal(false)
     } catch (err: any) {
-      errorMessage(err.message) 
+      errorMessage(err.message)
       console.log(err)
     }
   }

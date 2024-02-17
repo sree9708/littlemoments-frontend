@@ -94,8 +94,8 @@ export const addPlace = async (_: any, { getState }: { getState: any }) => {
     })
     const response = await axios.put(`/props/${propId}/add-place`, formData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
-      }
+        "Content-Type": "multipart/form-data",
+      },
     })
     return response.data
   } catch (err: any) {

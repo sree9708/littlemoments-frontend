@@ -11,8 +11,8 @@ export interface IProp {
   state?: any
   country?: any
   location?: {
-    lat: number,
-    long: number,
+    lat: number
+    long: number
   }
   address?: string
   gstin?: string
