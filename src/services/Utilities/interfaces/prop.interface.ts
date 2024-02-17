@@ -27,19 +27,19 @@ export interface IProp {
     },
   ]
   timings?: {
-    sunday: [string]
-    monday: [string]
-    tuesday: [string]
-    wednesday: [string]
-    thursday: [string]
-    friday: [string]
-    saturday: [string]
+    sunday: string[]
+    monday: string[]
+    tuesday: string[]
+    wednesday: string[]
+    thursday: string[]
+    friday: string[]
+    saturday: string[]
   }
   placeDescription?: string
   superCategory?: any
   category?: any
   subCategory?: any
-  age?: [number]
+  age?: number[]
   displayImages?: string[]
   socialLinks?: ISocialLinks
   isProfileAdded?: boolean
