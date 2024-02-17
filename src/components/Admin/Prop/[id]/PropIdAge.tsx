@@ -1,5 +1,5 @@
 import { useAppSelector } from "@/hooks/useStore"
-import React, { useEffect } from "react"
+import React from "react"
 
 const PropIdAge = () => {
   const propDetails = useAppSelector(state => state.place?.placeDetails)

@@ -30,7 +30,6 @@ const InputCategoryEdit = ({
     setValue(name, defaultValue)
   }, [name, defaultValue, setValue])
 
-
   return (
     <div className="w-full">
       <div className="flex relative">

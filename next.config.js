@@ -5,8 +5,8 @@ const nextConfig = {
     domains: ["image.tmdb.org", "images.pexels.com", "littlemoments.nyc3.digitaloceanspaces.com"],
   },
   env: {
-    NEXT_BASE_URL: process.env.NEXT_BASE_URL
-  }
+    NEXT_BASE_URL: process.env.NEXT_BASE_URL,
+  },
 }
 
 module.exports = nextConfig
