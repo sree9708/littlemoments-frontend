@@ -14,7 +14,7 @@ const SocialLinks = () => {
       <div className="absolute top-0 right-0 text-xl cursor-pointer" onClick={handleEdit}>
         {!isEdit ? <div className="text-lg hover:underline">Edit</div> : <IoMdCloseCircleOutline />}
       </div>
-      <SocialLinksDescription isEdit={isEdit} />
+      <SocialLinksDescription isEdit={isEdit} setIsEdit={handleEdit} />
     </div>
   )
 }
