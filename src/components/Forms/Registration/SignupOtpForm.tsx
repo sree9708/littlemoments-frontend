@@ -44,8 +44,8 @@ const SignupOtpForm = () => {
     } catch (err: any) {
       setIsSignup(true)
       setIsError(err.message)
-      errorMessage(err.message) 
-      console.log( err.message)
+      errorMessage(err.message)
+      console.log(err.message)
     }
   }
 
@@ -57,8 +57,8 @@ const SignupOtpForm = () => {
       route.push("/")
     } catch (err: any) {
       setIsError(err.message)
-      errorMessage(err.message) 
-      console.log( err.message)
+      errorMessage(err.message)
+      console.log(err.message)
     }
   }
 

@@ -33,7 +33,7 @@ const CategoryHeading = () => {
       await dispatch(addSuperCategoryThunk(data.superCategory))
       setAddSuperCategoryModal(false)
     } catch (error: any) {
-      errorMessage(error.message) 
+      errorMessage(error.message)
       console.log(error.message)
     }
   }

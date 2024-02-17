@@ -29,7 +29,7 @@ export default function Home() {
         try {
           await dispatch(getPlaceByIdThunk(propId))
         } catch (error: any) {
-          errorMessage(error.message) 
+          errorMessage(error.message)
           console.log(error.message)
         }
       }

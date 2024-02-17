@@ -16,7 +16,7 @@ const AddPlaceProtectRoute = ({ children }: { children: React.ReactNode }) => {
         await dispatch(verifyPropIdThunk(proId))
         dispatch(logoutUser())
       } catch (error: any) {
-        errorMessage(error.message) 
+        errorMessage(error.message)
         dispatch(logoutProp())
         push("/")
       }

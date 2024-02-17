@@ -18,21 +18,20 @@
 
 // export default useNotifications
 
-
-import { message } from 'antd';
+import { message } from "antd"
 
 export const successMessage = (text: any) => {
-    message.success(text)
+  message.success(text)
 }
 
 export const errorMessage = (text: any) => {
-    message.error(text)
+  message.error(text)
 }
 
 export const infoMessage = (text: any) => {
-    message.info(text)
+  message.info(text)
 }
 
 export const warningMessage = (text: any) => {
-    message.warning(text)
+  message.warning(text)
 }

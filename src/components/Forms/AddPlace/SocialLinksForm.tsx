@@ -27,14 +27,14 @@ const SocialLinksForm = () => {
 
   useLayoutEffect(() => {
     setIsTracker(5)
-  },[setIsTracker])
+  }, [setIsTracker])
 
   const onSubmitSignup = async (data: any) => {
     try {
       dispatch(addSocialLinks({ socialLinks: data }))
       await dispatch(addPlaceThunk(undefined))
     } catch (error: any) {
-      errorMessage(error.message) 
+      errorMessage(error.message)
       console.log(error)
     }
     push("/")

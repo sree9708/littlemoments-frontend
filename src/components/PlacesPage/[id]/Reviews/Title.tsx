@@ -52,7 +52,7 @@ export const Title = () => {
       await dispatch(getReviewsByPropIdThunk(propId))
       setisModal(false)
     } catch (error: any) {
-      errorMessage(error.message) 
+      errorMessage(error.message)
     }
   }
 

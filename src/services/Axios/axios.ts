@@ -1,9 +1,9 @@
 import { store } from "../Redux/store"
-import axios, { CancelTokenSource } from "axios"
+import axios from "axios"
 import { setUserId } from "../Redux/reducers/userSlice"
 import { setPropId } from "../Redux/reducers/propSlice"
 
-const BASE_URL = "http://localhost:4000/api/v1/"
+const BASE_URL = process.env.NEXT_BASE_URL
 
 const axiosTokenInstance = axios.create({
   baseURL: BASE_URL,

@@ -37,7 +37,7 @@ export const InformationsLeftSide = () => {
             <HiMapPin />
           </div>
           {placeDetails ? (
-            placeDetails?.city ?? "City not available"
+            placeDetails?.city?.states?.cities?.city ?? "City not available"
           ) : (
             <div className="h-2.5 bg-gray-200 rounded-full aspect-[10/1] animate-pulse"></div>
           )}

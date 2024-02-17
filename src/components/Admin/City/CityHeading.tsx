@@ -33,7 +33,7 @@ const CityHeading = () => {
       await dispatch(addCountryThunk(data.country))
       setAddCountryModal(false)
     } catch (error: any) {
-      errorMessage(error.message) 
+      errorMessage(error.message)
       console.log(error.message)
     }
   }

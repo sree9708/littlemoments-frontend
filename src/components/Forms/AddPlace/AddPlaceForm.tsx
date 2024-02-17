@@ -38,7 +38,7 @@ const AddPlaceForm = () => {
 
   useLayoutEffect(() => {
     setIsTracker(1)
-  },[setIsTracker])
+  }, [setIsTracker])
 
   useEffect(() => {
     // setValue("email", propInformation?.email || "")
@@ -54,8 +54,8 @@ const AddPlaceForm = () => {
         setIsOtpInput(true)
       } catch (err: any) {
         setIsError(err.message)
-        errorMessage(err.message) 
-        console.log( err.message)
+        errorMessage(err.message)
+        console.log(err.message)
       }
     } else {
       if (isOtpInput) {
@@ -64,8 +64,8 @@ const AddPlaceForm = () => {
           setIsOtpInput(false)
         } catch (err: any) {
           setIsError(err.message)
-          errorMessage(err.message) 
-          console.log( err.message)
+          errorMessage(err.message)
+          console.log(err.message)
         }
       } else {
         dispatch(addPlaceOwner(data))

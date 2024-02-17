@@ -21,7 +21,7 @@ const PropsHeading = () => {
           }),
         )
       } catch (error: any) {
-        errorMessage(error.message) 
+        errorMessage(error.message)
         console.log(error.message)
       }
     })()

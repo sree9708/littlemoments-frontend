@@ -1,9 +1,10 @@
 import React, { useEffect } from "react"
-import { UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form"
+import { UseFormRegister, UseFormSetValue } from "react-hook-form"
 
 type InputCategoryEditProps = {
   name: string
-  category: string[]
+  fieldName: string
+  categories: any[]
   placeholder: string
   register: UseFormRegister<any>
   setValue: UseFormSetValue<any>
@@ -15,7 +16,8 @@ type InputCategoryEditProps = {
 
 const InputCategoryEdit = ({
   name,
-  category,
+  fieldName,
+  categories,
   placeholder,
   register,
   setValue,
@@ -27,6 +29,8 @@ const InputCategoryEdit = ({
   useEffect(() => {
     setValue(name, defaultValue)
   }, [name, defaultValue, setValue])
+
+
   return (
     <div className="w-full">
       <div className="flex relative">
@@ -36,10 +40,9 @@ const InputCategoryEdit = ({
           disabled={disabled}
         >
           <option value="">{placeholder}</option>
-          <option value={defaultValue}>{defaultValue}</option>
-          {category.map((item, index) => (
-            <option key={index} value={item}>
-              {item}
+          {categories.map((category, index) => (
+            <option key={index} value={category.id}>
+              {category[fieldName]}
             </option>
           ))}
         </select>

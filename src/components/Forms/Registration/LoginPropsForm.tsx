@@ -32,8 +32,8 @@ const LoginPropsForm = () => {
       router.push("/")
     } catch (err: any) {
       setIsError(err.message)
-      errorMessage(err.message) 
-      console.log( err.message)
+      errorMessage(err.message)
+      console.log(err.message)
     }
   }
 

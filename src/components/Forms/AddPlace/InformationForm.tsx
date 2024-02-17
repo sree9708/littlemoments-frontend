@@ -49,14 +49,14 @@ const InformationForm = () => {
 
   useLayoutEffect(() => {
     setIsTracker(3)
-  },[setIsTracker])
+  }, [setIsTracker])
 
   useEffect(() => {
     ;(async () => {
-      try{
+      try {
         await dispatch(getCategoriesThunk())
-      }catch (error: any){
-        errorMessage(error.message) 
+      } catch (error: any) {
+        errorMessage(error.message)
       }
     })()
   }, [])
@@ -103,7 +103,7 @@ const InformationForm = () => {
       }
       dispatch(addInformations(newData))
     } catch (error: any) {
-      console.log( error.message)
+      console.log(error.message)
     }
     push("/add-place/upload-images")
   }

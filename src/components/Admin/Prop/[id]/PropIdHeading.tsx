@@ -39,7 +39,7 @@ const PropIdHeading = ({ heading, accountStatus }: IPropIdHeading) => {
       await dispatch(updateAccountStatusThunk({ id: id, accountStatus: isStatus }))
       await dispatch(getPlaceByIdWithDetailsThunk(id))
     } catch (error: any) {
-      errorMessage(error.message) 
+      errorMessage(error.message)
       console.log(error.message)
     }
     handleModal(false)
