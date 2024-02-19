@@ -6,8 +6,8 @@
     "dev": "npm run format && next dev",
     "build": "next build",
     "start": "next start",
-    "export": "next export",
     "lint": "next lint",
+    "export": "next export",
     "format": "npx prettier --write ."
   },
   "dependencies": {

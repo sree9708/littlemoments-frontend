@@ -1,6 +1,6 @@
 import AdminNavbar from "@/layouts/CommonLayouts/AdminNavbar"
 import AdminSideBar from "@/layouts/CommonLayouts/AdminSideBar"
-import ClientComponent from "./ClientComponent"
+import ClientComponent from "../../../components/ClientComponents/CityClientComponent"
 import CityContent from "@/layouts/Admin/City/CityContent"
 
 export default function Home() {

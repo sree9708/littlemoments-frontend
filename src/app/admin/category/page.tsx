@@ -1,7 +1,7 @@
+import ClientComponent from "@/components/ClientComponents/CategoryClientComponent"
 import CategoryContent from "@/layouts/Admin/Category/CategoryContent"
 import AdminNavbar from "@/layouts/CommonLayouts/AdminNavbar"
 import AdminSideBar from "@/layouts/CommonLayouts/AdminSideBar"
-import ClientComponent from "./ClientComponent"
 
 export default function Home() {
   return (
