@@ -8,7 +8,6 @@ import React, { useState } from "react"
 import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6"
 
 export const MoreDetails = () => {
-  
   const [businessDetails, setBusinessDetails] = useState<boolean>(false)
   const [information, setInformation] = useState<boolean>(false)
   const [uploadImage, setUploadImage] = useState<boolean>(false)
@@ -47,7 +46,7 @@ export const MoreDetails = () => {
         </div>
         <div className="w-full border-t border-gray-500 my-4"></div>
       </div>
-      <div>
+      {/* <div>
         <div className="flex w-full justify-between items-center" onClick={handleInformation}>
           <div className="text-5xl font-title">INFORMATION</div>
           <div className="text-xl cursor-pointer">{information ? <FaCircleMinus /> : <FaCirclePlus />}</div>
@@ -62,7 +61,7 @@ export const MoreDetails = () => {
           </div>
         </div>
         <div className="w-full border-t border-gray-500 my-4"></div>
-      </div>
+      </div> */}
       <div>
         <div className="flex w-full justify-between items-center" onClick={handleUploadImage}>
           <div className="text-5xl font-title">UPLOAD IMAGES</div>
