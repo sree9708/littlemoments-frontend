@@ -7,7 +7,6 @@ const nextConfig = {
   env: {
     NEXT_BASE_URL: process.env.NEXT_BASE_URL,
   },
-  output: "export",
 }
 
 module.exports = nextConfig
