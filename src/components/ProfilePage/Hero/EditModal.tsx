@@ -19,11 +19,11 @@ const schema = yup
       .required("Username is required.")
       .min(3, "Username must be at least 3 characters.")
       .max(20, "Username must not exceed 20 characters."),
-    city: yup
-      .string()
-      .required("City is required.")
-      .min(2, "City must be at least 2 characters.")
-      .max(50, "City must not exceed 50 characters."),
+    // city: yup
+    //   .string()
+    //   .required("City is required.")
+    //   .min(2, "City must be at least 2 characters.")
+    //   .max(50, "City must not exceed 50 characters."),
   })
   .required()
 
@@ -70,14 +70,6 @@ const EditModal = () => {
               register={register}
               required
               error={errors.username?.message}
-            />
-            <InputText
-              name="city"
-              type="text"
-              placeholder="City"
-              register={register}
-              required
-              error={errors.city?.message}
             />
             <RegistrationButton text="Submit" />
           </form>
