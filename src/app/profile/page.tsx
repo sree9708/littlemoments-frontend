@@ -8,7 +8,7 @@ import Hero from "@/layouts/ProfilePage/Hero"
 import { MoreDetails } from "@/layouts/ProfilePage/MoreDetails"
 import HeroLazy from "@/layouts/ProfilePage/HeroLazy"
 import DetailPageProvider from "@/services/Context/DetailPageContext"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { getReviewsByUserIdThunk } from "@/services/Redux/reducers/reviewSlice"
 import { getUserByIdThunk } from "@/services/Redux/reducers/userSlice"
 import useMounted from "@/hooks/useMounted"
@@ -40,7 +40,7 @@ export default function Home() {
           <Navbar searchBar={false} />
           <div className="padding">
             {userInformations ? <Hero /> : <HeroLazy />}
-            <MoreDetails />
+            {/* <MoreDetails /> */}
           </div>
           <Marquee />
           <Footer />
