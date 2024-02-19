@@ -8,6 +8,7 @@ import React, { useState } from "react"
 import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6"
 
 export const MoreDetails = () => {
+  
   const [businessDetails, setBusinessDetails] = useState<boolean>(false)
   const [information, setInformation] = useState<boolean>(false)
   const [uploadImage, setUploadImage] = useState<boolean>(false)
