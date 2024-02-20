@@ -1,3 +1,5 @@
+"use client"
+
 import Cards from "@/components/LandingHomePage/PopularPlaces/Cards"
 import Title from "@/components/LandingHomePage/PopularPlaces/Title"
 import React from "react"
