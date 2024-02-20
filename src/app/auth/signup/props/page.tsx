@@ -3,9 +3,8 @@ import SignupPropsLeftSide from "@/layouts/RegistrationPage/Props/Signup/SignupP
 
 const Page = () => {
   return (
-  <>
-    <SignupPropsLeftSide />
-  </>)
+      <SignupPropsLeftSide />
+  )
 }
 
 export default Page

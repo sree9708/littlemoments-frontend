@@ -6,23 +6,26 @@ import useMounted from "@/hooks/useMounted"
 import { errorMessage } from "@/hooks/useNotifications"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { getPlacesThunk } from "@/services/Redux/reducers/placeSlice"
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 
 const Cards: React.FC = () => {
   const hasMounted = useMounted()
 
   const dispatch = useAppDispatch()
   const isLoading = useAppSelector(state => state.place?.isLoading)
+  // const [isLoading, setIsLoading] = useState(false)
   const places = useAppSelector(state => state.place?.places)
 
   useEffect(() => {
     async function fetchData() {
       if (places && places.length === 0) {
         try {
+          // setIsLoading(true)
           await dispatch(getPlacesThunk({ skip: 0, limit: 12 }))
         } catch (error: any) {
           errorMessage(error.message)
         }
+        // setIsLoading(false)
       }
     }
     fetchData()
@@ -53,13 +56,13 @@ const Cards: React.FC = () => {
                   />
                 ))
               ) : (
-                // <div className="w-full text-center text-2xl font-medium">No Places Found</div>
-                <>
-                  <CardLazy />
-                  <CardLazy />
-                  <CardLazy />
-                  <CardLazy />
-                </>
+                <div className="w-full text-center text-2xl font-medium">No Places Found</div>
+                // <>
+                //   <CardLazy />
+                //   <CardLazy />
+                //   <CardLazy />
+                //   <CardLazy />
+                // </>
               )}
             </>
           )}

@@ -29,10 +29,6 @@ const PropIdContent = () => {
 
   const propDetails = useAppSelector(state => state.place.placeDetails)
 
-  if (!id) {
-    // If id is not available yet, return loading state or handle as necessary
-    return <div>Loading...</div>;
-  }
 
   return (
     <div className="p-3">

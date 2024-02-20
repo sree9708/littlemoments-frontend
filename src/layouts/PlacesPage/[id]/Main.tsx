@@ -44,11 +44,6 @@ export default function Main() {
 
   const placeDetails = useAppSelector(state => state.place?.placeDetails)
 
-  if (!propId) {
-    // If id is not available yet, return loading state or handle as necessary
-    return <div>Loading...</div>;
-  }
-
   return (
     <>
       <div>

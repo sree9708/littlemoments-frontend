@@ -9,6 +9,10 @@ const PropTable = () => {
   const isLoading = useAppSelector(state => state.place?.isLoading)
   const places = useAppSelector(state => state.place?.adminPlaces)
 
+  useEffect(()=>{
+
+  },[isLoading])
+  
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg my-4">
       <table className="w-full text-sm text-left rtl:text-right text-gray-500">

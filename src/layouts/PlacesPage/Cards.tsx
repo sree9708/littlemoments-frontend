@@ -15,7 +15,8 @@ const Cards: React.FC = () => {
 
   const hasMounted = useMounted()
   const dispatch = useAppDispatch()
-  const isLoading = useAppSelector(state => state.place?.isLoading)
+  // const isLoading = useAppSelector(state => state.place?.isLoading)
+  const [isLoading, setIsLoading] = useState(false)
 
   const places = useAppSelector(state => state.place?.places)
 
@@ -23,10 +24,12 @@ const Cards: React.FC = () => {
     async function fetchData() {
       if (places && places.length === 0) {
         try {
+          setIsLoading(true)
           await dispatch(getPlacesThunk({ skip, limit: 20 }))
         } catch (error: any) {
           errorMessage(error.message)
         }
+        setIsLoading(false)
       }
     }
     fetchData()

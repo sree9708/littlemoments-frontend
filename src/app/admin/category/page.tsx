@@ -1,11 +1,10 @@
 import ClientComponent from "@/components/ClientComponents/CategoryClientComponent"
 import CategoryContent from "@/layouts/Admin/Category/CategoryContent"
-import AdminNavbar from "@/layouts/CommonLayouts/AdminNavbar"
 import AdminSideBar from "@/layouts/CommonLayouts/AdminSideBar"
 
 export default function Home() {
   return (
-    <ClientComponent>
+    // <ClientComponent>
       <div className="flex">
         <div className="flex-shrink-0">
           <AdminSideBar />
@@ -17,6 +16,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </ClientComponent>
+    // </ClientComponent>
   )
 }
