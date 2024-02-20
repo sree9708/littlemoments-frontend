@@ -70,7 +70,7 @@ const PropTable = () => {
                   {place.placeName || "N/A"}
                 </th>
                 <td className="px-6 py-4">{place.email || "Not add"}</td>
-                <td className="px-6 py-4">{place.city || "Not add"}</td>
+                <td className="px-6 py-4">{place.city?.states?.cities?.cityName || "Not add"}</td>
                 <td className="px-6 py-4">{place.id || "id not found"}</td>
                 <td className="px-6 py-4">
                   <Link
