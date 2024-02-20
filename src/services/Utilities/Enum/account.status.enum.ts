@@ -1,0 +1,9 @@
+export enum AccountStatus {
+  ALL = "ALL",
+  ON_HOLD = "ON_HOLD",
+  PENDING = "PENDING",
+  ACTIVE = "ACTIVE",
+  INACTIVE = "INACTIVE",
+  BLOCKED = "BLOCKED",
+  DISMISSED = "DISMISSED",
+}
