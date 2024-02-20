@@ -21,7 +21,7 @@ const Cards: React.FC = () => {
       // if (!places) {
         try {
           // setIsLoading(true)
-          await dispatch(getPlacesThunk({ skip: 0, limit: 12 }))
+          // await dispatch(getPlacesThunk({ skip: 0, limit: 12 }))
         } catch (error: any) {
           errorMessage(error.message)
         }
