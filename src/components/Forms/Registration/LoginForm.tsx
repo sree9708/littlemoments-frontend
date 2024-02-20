@@ -118,7 +118,7 @@ const LoginForm = () => {
         )}
       </form>
       <div className="flex flex-wrap justify-center gap-2 text-xl">
-        <div>Dont have account ?</div>
+        <div>Don&apos;t have account ?</div>
         <Link href="/auth/signup" className="text-theme-3 font-bold">
           Signup instead
         </Link>
