@@ -1,12 +1,10 @@
-"use client"
-
 import Card from "@/components/Cards/PopularPlace/Card"
 import CardLazy from "@/components/Cards/PopularPlace/CardLazy"
 import useMounted from "@/hooks/useMounted"
 import { errorMessage } from "@/hooks/useNotifications"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { getPlacesThunk } from "@/services/Redux/reducers/placeSlice"
-import React, { useEffect, useLayoutEffect } from "react"
+import React, { useEffect } from "react"
 
 const Cards: React.FC = () => {
   const hasMounted = useMounted()
@@ -17,16 +15,15 @@ const Cards: React.FC = () => {
 
   useEffect(() => {
     async function fetchData() {
-        try {
-          await dispatch(getPlacesThunk({ skip: 0, limit: 12 }))
-        } catch (error: any) {
-          errorMessage(error.message)
-        }
+      try {
+        // Dispatch the action only when the component mounts
+        await dispatch(getPlacesThunk({ skip: 0, limit: 12 }))
+      } catch (error: any) {
+        errorMessage(error.message)
+      }
     }
     fetchData()
-  }, [])
-  
-
+  }, []) // Empty dependency array ensures the effect runs only once
 
   return (
     <>
@@ -39,29 +36,19 @@ const Cards: React.FC = () => {
               <CardLazy />
               <CardLazy />
             </>
+          ) : places.length > 0 ? (
+            places.map((place, index) => (
+              <Card
+                key={index}
+                id={place.id}
+                heading={place.category}
+                placeName={place.placeName}
+                city={place.city}
+                image={place.displayImages && place.displayImages[0]}
+              />
+            ))
           ) : (
-            <>
-              {places.length > 0 ? (
-                places.map((place, index) => (
-                  <Card
-                    key={index}
-                    id={place.id}
-                    heading={place.category}
-                    placeName={place.placeName}
-                    city={place.city}
-                    image={place.displayImages && place.displayImages[0]}
-                  />
-                ))
-              ) : (
-                <div className="w-full text-center text-2xl font-medium">No Places Found</div>
-                // <>
-                //   <CardLazy />
-                //   <CardLazy />
-                //   <CardLazy />
-                //   <CardLazy />
-                // </>
-              )}
-            </>
+            <div className="w-full text-center text-2xl font-medium">No Places Found</div>
           )}
         </div>
       )}
