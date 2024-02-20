@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // output: 'export',
   reactStrictMode: false,
   images: {
     domains: ["image.tmdb.org", "images.pexels.com", "littlemoments.nyc3.digitaloceanspaces.com"],

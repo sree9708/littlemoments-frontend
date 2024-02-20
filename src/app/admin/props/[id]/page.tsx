@@ -1,7 +1,7 @@
-export const runtime = 'edge';
-
 import PropIdContent from "@/layouts/Admin/Prop/[id]/PropIdContent"
 import AdminSideBar from "@/layouts/CommonLayouts/AdminSideBar"
+
+export const runtime = 'edge';
 
 export default function Page() {
   return (
