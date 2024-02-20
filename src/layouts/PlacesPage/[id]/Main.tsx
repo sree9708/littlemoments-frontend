@@ -34,7 +34,6 @@ export default function Main() {
           await dispatch(getPlaceByIdThunk(propId))
         } catch (error: any) {
           errorMessage(error.message)
-          console.log(error.message)
         }
       }
       fetchData()

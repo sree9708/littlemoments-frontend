@@ -22,7 +22,6 @@ const Cards: React.FC = () => {
           await dispatch(getPlacesThunk({ skip: 0, limit: 12 }))
         } catch (error: any) {
           errorMessage(error.message)
-          console.log(error.message)
         }
       }
     }

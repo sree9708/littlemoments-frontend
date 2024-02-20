@@ -33,7 +33,6 @@ const LoginPropsForm = () => {
     } catch (err: any) {
       setIsError(err.message)
       errorMessage(err.message)
-      console.log(err.message)
     }
   }
 

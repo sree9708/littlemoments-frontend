@@ -129,7 +129,6 @@ const CityInformations = () => {
   }
 
   const onSubmitUpdateCountry = async (data: any, countryId: string | null) => {
-    console.log(data)
     try {
       if (selectedCountry) {
         await dispatch(updateCountryThunk({ country: data.country, countryId: countryId }))
@@ -137,12 +136,10 @@ const CityInformations = () => {
       }
     } catch (error: any) {
       errorMessage(error.message)
-      console.log(error.message)
     }
   }
 
   const onSubmitState = async (data: any) => {
-    console.log(data)
     try {
       if (selectedCountry) {
         await dispatch(addStateThunk({ state: data.state, id: selectedCountry }))
@@ -150,12 +147,10 @@ const CityInformations = () => {
       }
     } catch (error: any) {
       errorMessage(error.message)
-      console.log(error.message)
     }
   }
 
   const onSubmitUpdateState = async (data: any, stateId: string | null) => {
-    console.log(data)
     try {
       if (selectedState) {
         await dispatch(updateStateThunk({ state: data.state, stateId: stateId }))
@@ -163,12 +158,10 @@ const CityInformations = () => {
       }
     } catch (error: any) {
       errorMessage(error.message)
-      console.log(error.message)
     }
   }
 
   const onSubmitCity = async (data: any) => {
-    console.log(data)
     try {
       if (selectedCountry && selectedState) {
         await dispatch(
@@ -181,12 +174,10 @@ const CityInformations = () => {
       }
     } catch (error: any) {
       errorMessage(error.message)
-      console.log(error.message)
     }
   }
 
   const onSubmitUpdateCity = async (data: any, cityId: string | null) => {
-    console.log(data)
     try {
       if (selectedCity) {
         await dispatch(updateCityThunk({ city: data.city, cityId: cityId }))
@@ -194,7 +185,6 @@ const CityInformations = () => {
       }
     } catch (error: any) {
       errorMessage(error.message)
-      console.log(error.message)
     }
   }
 

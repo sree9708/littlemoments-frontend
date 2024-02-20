@@ -35,7 +35,6 @@ const SocialLinksForm = () => {
       await dispatch(addPlaceThunk(undefined))
     } catch (error: any) {
       errorMessage(error.message)
-      console.log(error)
     }
     push("/")
   }

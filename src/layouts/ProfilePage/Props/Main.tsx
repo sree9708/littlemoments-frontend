@@ -24,7 +24,6 @@ const Main = () => {
         await dispatch(getPropByIdThunk(undefined))
       } catch (error: any) {
         errorMessage(error.message)
-        console.log(error)
       }
     }
     fetchData()

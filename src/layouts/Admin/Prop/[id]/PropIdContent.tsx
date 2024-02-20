@@ -3,6 +3,7 @@
 import PropIdDetails from "@/components/Admin/Prop/[id]/PropIdDetails"
 import PropIdHeading from "@/components/Admin/Prop/[id]/PropIdHeading"
 import PropIdMoreDetails from "@/components/Admin/Prop/[id]/PropIdMoreDetails"
+import { errorMessage } from "@/hooks/useNotifications"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { getPlaceByIdWithDetailsThunk } from "@/services/Redux/reducers/placeSlice"
 import { AccountStatus } from "@/services/Utilities/Enum/account.status.enum"
@@ -21,7 +22,7 @@ const PropIdContent = () => {
       try {
         dispatch(getPlaceByIdWithDetailsThunk(id))
       } catch (error: any) {
-        console.log(error.message)
+        errorMessage(error.message)
       }
     })()
   }, [])

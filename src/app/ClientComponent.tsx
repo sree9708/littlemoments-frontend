@@ -32,7 +32,6 @@ const ClientComponent = ({ children }: { children: any }) => {
           await dispatch(logoutPropThunk())
         } catch (error: any) {
           await dispatch(logoutPropThunk())
-          console.log(error.message)
         }
       }
     }
@@ -49,7 +48,6 @@ const ClientComponent = ({ children }: { children: any }) => {
             await dispatch(logoutUserThunk())
             dispatch(logoutUser())
           } catch (error: any) {
-            console.log(error.message)
           }
         }
       })()
@@ -63,7 +61,6 @@ const ClientComponent = ({ children }: { children: any }) => {
             await dispatch(logoutPropThunk())
             dispatch(logoutProp())
           } catch (error: any) {
-            console.log(error.message)
           }
         }
       })()

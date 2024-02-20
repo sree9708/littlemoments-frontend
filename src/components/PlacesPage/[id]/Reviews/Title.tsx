@@ -50,7 +50,6 @@ export const Title = () => {
   }
 
   const onSubmit = async (data: any) => {
-    console.log(data)
     try {
       await dispatch(createReviewThunk({ userId, propId, ...data }))
       await dispatch(getReviewsByPropIdThunk(propId))

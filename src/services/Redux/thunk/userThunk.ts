@@ -8,7 +8,6 @@ export const getUserById = async (_: any, { getState }: { getState: any }) => {
     const response = await axios.get(`/users/${userId}`)
     return response.data
   } catch (err: any) {
-    console.log(err)
     if (err.response && err.response.data && err.response.data.message) {
       throw Error(err.response.data.message)
     } else {
@@ -128,9 +127,7 @@ export const createUser = async (_: any, { getState }: { getState: any }) => {
     const response = await axios.post(`/users`, userDetailsForm)
     return response.data
   } catch (err: any) {
-    console.log(err)
     if (err.response && err.response.data && err.response.data.message) {
-      console.log(err.response.data.message)
       throw Error(err.response.data.message)
     } else {
       throw Error(err.message)
@@ -144,9 +141,7 @@ export const updateWishlist = async ({ propId, wishlist }: any, { getState }: { 
     const response = await axios.put(`/users/wishlist/${userId}/${propId}/${wishlist}`)
     return response.data
   } catch (err: any) {
-    console.log(err)
     if (err.response && err.response.data && err.response.data.message) {
-      console.log(err.response.data.message)
       throw Error(err.response.data.message)
     } else {
       throw Error(err.message)
@@ -160,9 +155,7 @@ export const removeWishlist = async (propId: string, { getState }: { getState: a
     const response = await axios.post(`/users/wishlist/${userId}/${propId}/remove`)
     return response.data
   } catch (err: any) {
-    console.log(err)
     if (err.response && err.response.data && err.response.data.message) {
-      console.log(err.response.data.message)
       throw Error(err.response.data.message)
     } else {
       throw Error(err.message)

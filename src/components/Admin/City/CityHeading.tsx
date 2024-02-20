@@ -28,13 +28,11 @@ const CityHeading = () => {
   }
 
   const onSubmit = async (data: any) => {
-    console.log(data)
     try {
       await dispatch(addCountryThunk(data.country))
       setAddCountryModal(false)
     } catch (error: any) {
       errorMessage(error.message)
-      console.log(error.message)
     }
   }
   return (

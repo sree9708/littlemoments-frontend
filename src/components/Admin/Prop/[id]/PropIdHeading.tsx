@@ -34,7 +34,6 @@ const PropIdHeading = ({ heading, accountStatus }: IPropIdHeading) => {
   }
 
   const onSubmit = async () => {
-    console.log(isStatus)
     if (isStatus === accountStatus) {
       Swal.fire({ icon: "error", title: "No changes", text: "Please change the status" })
       return
@@ -44,7 +43,6 @@ const PropIdHeading = ({ heading, accountStatus }: IPropIdHeading) => {
       await dispatch(getPlaceByIdWithDetailsThunk(id))
     } catch (error: any) {
       errorMessage(error.message)
-      console.log(error.message)
     }
     handleModal(false)
   }

@@ -37,7 +37,6 @@ const BusinessDetailsDescription: React.FC<BusinessDetailsDescriptionProps> = ({
   }, [setValue, propInformation])
 
   const onSubmitSignup = async (data: any) => {
-    console.log("data", data)
     try {
       await dispatch(
         updatePropBusinessDetailsThunk({
@@ -55,7 +54,6 @@ const BusinessDetailsDescription: React.FC<BusinessDetailsDescriptionProps> = ({
       setIsEdit(false)
     } catch (error: any) {
       errorMessage(error.message)
-      console.log(error)
     }
   }
 

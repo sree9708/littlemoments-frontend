@@ -78,7 +78,6 @@ const RightSide = () => {
       push("/")
     } catch (error: any) {
       errorMessage(error.message)
-      console.log(error.message)
     }
   }
 

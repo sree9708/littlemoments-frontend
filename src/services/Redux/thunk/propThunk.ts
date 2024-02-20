@@ -36,7 +36,6 @@ export const getPropById = async (_: any, { getState }: { getState: any }) => {
     const response = await axios.get(`/props/${propId}`)
     return response.data
   } catch (err: any) {
-    console.log(err)
     if (err.response && err.response.data && err.response.data.message) {
       throw Error(err.response.data.message)
     } else {
@@ -51,7 +50,6 @@ export const createProp = async ({ email, password }: IPropCreate) => {
     return response.data
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.message) {
-      console.log(err.response.data.message)
       throw Error(err.response.data.message)
     } else {
       throw Error(err.message)
@@ -65,7 +63,6 @@ export const loginProp = async ({ email, password }: IPropCreate) => {
     return response.data
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.message) {
-      console.log(err.response.data.message)
       throw Error(err.response.data.message)
     } else {
       throw Error(err.message)
@@ -100,7 +97,6 @@ export const addPlace = async (_: any, { getState }: { getState: any }) => {
     return response.data
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.message) {
-      console.log(err.response.data.message)
       throw Error(err.response.data.message)
     } else {
       throw Error(err.message)
@@ -120,7 +116,6 @@ export const addDispalyImages = async (_: any, { getState }: { getState: any }) 
     return response.data
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.message) {
-      console.log(err.response.data.message)
       throw Error(err.response.data.message)
     } else {
       throw Error(err.message)
@@ -140,7 +135,6 @@ export const updatePlaceDetails = async ({
     return response.data
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.message) {
-      console.log(err.response.data.message)
       throw Error(err.response.data.message)
     } else {
       throw Error(err.message)
@@ -154,7 +148,6 @@ export const updatePropBusinessDetails = async ({ id, data }: { id: string | und
     return response.data
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.message) {
-      console.log(err.response.data.message)
       throw Error(err.response.data.message)
     } else {
       throw Error(err.message)
@@ -163,13 +156,11 @@ export const updatePropBusinessDetails = async ({ id, data }: { id: string | und
 }
 
 export const updatePropInformations = async ({ id, data }: { id: string | undefined; data: any }) => {
-  console.log("data", data)
   try {
     const response = await axios.put(`/props/${id}/informations`, data)
     return response.data
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.message) {
-      console.log(err.response.data.message)
       throw Error(err.response.data.message)
     } else {
       throw Error(err.message)
@@ -185,7 +176,6 @@ export const addPropDisplayImages = async ({ id, file }: { id: string | undefine
     return response.data
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.message) {
-      console.log(err.response.data.message)
       throw Error(err.response.data.message)
     } else {
       throw Error(err.message)
@@ -205,7 +195,6 @@ export const removePropDisplayImages = async ({
     return response.data
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.message) {
-      console.log(err.response.data.message)
       throw Error(err.response.data.message)
     } else {
       throw Error(err.message)
@@ -219,7 +208,6 @@ export const updatePropSocialLinks = async ({ id, data }: { id: string | undefin
     return response.data
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.message) {
-      console.log(err.response.data.message)
       throw Error(err.response.data.message)
     } else {
       throw Error(err.message)

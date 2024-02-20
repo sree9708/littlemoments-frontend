@@ -5,7 +5,6 @@ export const getCategories = async () => {
     const response = await axios.get(`/categories`)
     return response.data
   } catch (err: any) {
-    console.log(err)
     if (err.response && err.response.data && err.response.data.message) {
       throw Error(err.response.data.message)
     } else {
@@ -19,7 +18,6 @@ export const addSuperCategory = async (superCategory: string) => {
     const response = await axios.post(`/categories/add-super-category`, { superCategory })
     return response.data
   } catch (err: any) {
-    console.log(err)
     if (err.response && err.response.data && err.response.data.message) {
       throw Error(err.response.data.message)
     } else {
@@ -41,7 +39,6 @@ export const updateSuperCategory = async ({
     })
     return response.data
   } catch (err: any) {
-    console.log(err)
     if (err.response && err.response.data && err.response.data.message) {
       throw Error(err.response.data.message)
     } else {
@@ -55,7 +52,6 @@ export const addCategory = async ({ category, id }: { category: string; id: stri
     const response = await axios.put(`/categories/add-category/${id}`, { category })
     return response.data
   } catch (err: any) {
-    console.log(err)
     if (err.response && err.response.data && err.response.data.message) {
       throw Error(err.response.data.message)
     } else {
@@ -77,7 +73,6 @@ export const updateCategory = async ({
     })
     return response.data
   } catch (err: any) {
-    console.log(err)
     if (err.response && err.response.data && err.response.data.message) {
       throw Error(err.response.data.message)
     } else {
@@ -99,7 +94,6 @@ export const addSubCategory = async ({
     })
     return response.data
   } catch (err: any) {
-    console.log(err)
     if (err.response && err.response.data && err.response.data.message) {
       throw Error(err.response.data.message)
     } else {
@@ -121,7 +115,6 @@ export const updateSubCategory = async ({
     })
     return response.data
   } catch (err: any) {
-    console.log(err)
     if (err.response && err.response.data && err.response.data.message) {
       throw Error(err.response.data.message)
     } else {

@@ -28,13 +28,11 @@ const CategoryHeading = () => {
   }
 
   const onSubmit = async (data: any) => {
-    console.log(data)
     try {
       await dispatch(addSuperCategoryThunk(data.superCategory))
       setAddSuperCategoryModal(false)
     } catch (error: any) {
       errorMessage(error.message)
-      console.log(error.message)
     }
   }
   return (

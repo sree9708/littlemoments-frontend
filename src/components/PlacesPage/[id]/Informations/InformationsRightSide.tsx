@@ -30,7 +30,6 @@ export const InformationsRightSide = () => {
         } catch (error: any) {
           errorMessage(error.message)
           setIsLoading(false)
-          console.log(error)
         }
       } else {
         try {
@@ -41,7 +40,6 @@ export const InformationsRightSide = () => {
         } catch (error: any) {
           errorMessage(error.message)
           setIsLoading(false)
-          console.log(error)
         }
       }
     } else {
@@ -101,15 +99,15 @@ export const InformationsRightSide = () => {
             if (navigator.share) {
               try {
                 await navigator.share({
-                  title: "Title of the content",
-                  text: "Text of the content",
+                  title: "Littlemoments",
+                  text: "Littlemoments",
                   url: window.location.href,
                 })
-              } catch (error) {
-                console.error("Something went wrong sharing the blog", error)
+              } catch (error: any) {
+                errorMessage(error.message)
               }
             } else {
-              console.log("Web Share API not supported")
+              errorMessage("Only available in mobile phone")
             }
           }}
         >

@@ -97,7 +97,6 @@ const InformationDescription: React.FC<InformationDescriptionProps> = ({ isEdit,
   }
 
   const onSubmitSignup = async (data: any) => {
-    console.log("asdfds", data)
     try {
       await dispatch(
         updatePropInformationsThunk({
@@ -115,7 +114,6 @@ const InformationDescription: React.FC<InformationDescriptionProps> = ({ isEdit,
       setIsEdit(false)
     } catch (error: any) {
       errorMessage(error.message)
-      console.log("error2", error.message || "error")
     }
   }
 
