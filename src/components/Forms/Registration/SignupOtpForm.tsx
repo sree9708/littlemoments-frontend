@@ -45,7 +45,6 @@ const SignupOtpForm = () => {
       setIsSignup(true)
       setIsError(err.message)
       errorMessage(err.message)
-      console.log(err.message)
     }
   }
 
@@ -58,7 +57,6 @@ const SignupOtpForm = () => {
     } catch (err: any) {
       setIsError(err.message)
       errorMessage(err.message)
-      console.log(err.message)
     }
   }
 

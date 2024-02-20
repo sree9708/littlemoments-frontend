@@ -11,6 +11,7 @@ import { IoCloseCircleOutline } from "react-icons/io5"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { addUploadImages } from "@/services/Redux/reducers/propSlice"
 import { base64ToFile, filetoBase64 } from "@/services/Utilities/base64/base64.services"
+import { errorMessage } from "@/hooks/useNotifications"
 
 interface ExtendedFile extends File {
   previewUrl?: string
@@ -71,7 +72,7 @@ const UploadImagesForm = () => {
       dispatch(addUploadImages({ displayImages: base64Images }))
       push("/add-place/social-links")
     } catch (error: any) {
-      console.log(error.message)
+      errorMessage(error.message)
     }
   }
 
@@ -92,8 +93,8 @@ const UploadImagesForm = () => {
       image.previewUrl = url
 
       return url
-    } catch (error) {
-      console.error("Error creating object URL:", error)
+    } catch (error: any) {
+      errorMessage(error.message)
       return ""
     }
   }

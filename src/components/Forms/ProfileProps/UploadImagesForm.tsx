@@ -50,7 +50,6 @@ const UploadImagesForm = () => {
         setUploadImage(false)
       } catch (err: any) {
         errorMessage(err.message)
-        console.log(err.message)
       }
     }
   }

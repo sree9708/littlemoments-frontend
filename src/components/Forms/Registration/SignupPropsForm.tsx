@@ -28,7 +28,6 @@ const SignupPropsForm = () => {
       router.push("/")
     } catch (err: any) {
       errorMessage(err.message)
-      console.log(err.message)
     }
   }
 

@@ -5,7 +5,6 @@ export const getCities = async () => {
     const response = await axios.get(`/cities`)
     return response.data
   } catch (err: any) {
-    console.log(err)
     if (err.response && err.response.data && err.response.data.message) {
       throw Error(err.response.data.message)
     } else {
@@ -19,7 +18,6 @@ export const addCountry = async (country: string) => {
     const response = await axios.post(`/cities/add-country`, { country })
     return response.data
   } catch (err: any) {
-    console.log(err)
     if (err.response && err.response.data && err.response.data.message) {
       throw Error(err.response.data.message)
     } else {
@@ -41,7 +39,6 @@ export const updateCountry = async ({
     })
     return response.data
   } catch (err: any) {
-    console.log(err)
     if (err.response && err.response.data && err.response.data.message) {
       throw Error(err.response.data.message)
     } else {
@@ -55,7 +52,6 @@ export const addState = async ({ state, id }: { state: string; id: string }) => 
     const response = await axios.put(`/cities/add-state/${id}`, { state })
     return response.data
   } catch (err: any) {
-    console.log(err)
     if (err.response && err.response.data && err.response.data.message) {
       throw Error(err.response.data.message)
     } else {
@@ -71,7 +67,6 @@ export const updateState = async ({ state, stateId }: { state: string; stateId: 
     })
     return response.data
   } catch (err: any) {
-    console.log(err)
     if (err.response && err.response.data && err.response.data.message) {
       throw Error(err.response.data.message)
     } else {
@@ -87,7 +82,6 @@ export const addCity = async ({ city, stateId }: { city: string; stateId: string
     })
     return response.data
   } catch (err: any) {
-    console.log(err)
     if (err.response && err.response.data && err.response.data.message) {
       throw Error(err.response.data.message)
     } else {
@@ -103,7 +97,6 @@ export const updateCity = async ({ city, cityId }: { city: string; cityId: strin
     })
     return response.data
   } catch (err: any) {
-    console.log(err)
     if (err.response && err.response.data && err.response.data.message) {
       throw Error(err.response.data.message)
     } else {

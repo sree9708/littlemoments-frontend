@@ -14,7 +14,6 @@ const ClientComponent = ({ children }: { children: ReactNode }) => {
         await dispatch(getCategoriesThunk())
       } catch (error: any) {
         errorMessage(error.message)
-        console.log(error.message)
       }
     })()
   }, [])

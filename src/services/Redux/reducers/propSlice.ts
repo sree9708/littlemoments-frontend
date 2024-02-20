@@ -121,7 +121,6 @@ export const propSlice = createSlice({
       })
       .addCase(verifyPropIdThunk.fulfilled, (state, action) => {
         state.isLoading = false
-        console.log(action.payload)
         state.id = action.payload.id
       })
       .addCase(verifyPropIdThunk.rejected, (state, action) => {

@@ -132,7 +132,6 @@ const CategoryInformations = () => {
   }
 
   const onSubmitUpdateSuperCategory = async (data: any, superCategoryId: string | null) => {
-    console.log(data)
     try {
       if (selectedSuperCategory) {
         await dispatch(
@@ -142,12 +141,10 @@ const CategoryInformations = () => {
       }
     } catch (error: any) {
       errorMessage(error.message)
-      console.log(error.message)
     }
   }
 
   const onSubmitCategory = async (data: any) => {
-    console.log(data)
     try {
       if (selectedSuperCategory) {
         await dispatch(addCategoryThunk({ category: data.category, id: selectedSuperCategory }))
@@ -155,12 +152,11 @@ const CategoryInformations = () => {
       }
     } catch (error: any) {
       errorMessage(error.message)
-      console.log(error.message)
     }
   }
 
   const onSubmitUpdateCategory = async (data: any, categoryId: string | null) => {
-    console.log(data)
+
     try {
       if (selectedCategory) {
         await dispatch(updateCategoryThunk({ category: data.category, categoryId: categoryId }))
@@ -168,12 +164,10 @@ const CategoryInformations = () => {
       }
     } catch (error: any) {
       errorMessage(error.message)
-      console.log(error.message)
     }
   }
 
   const onSubmitSubCategory = async (data: any) => {
-    console.log(data)
     try {
       if (selectedSuperCategory && selectedCategory) {
         await dispatch(
@@ -186,12 +180,10 @@ const CategoryInformations = () => {
       }
     } catch (error: any) {
       errorMessage(error.message)
-      console.log(error.message)
     }
   }
 
   const onSubmitUpdateSubCategory = async (data: any, subCategoryId: string | null) => {
-    console.log(data)
     try {
       if (selectedSubCategory) {
         await dispatch(
@@ -201,7 +193,6 @@ const CategoryInformations = () => {
       }
     } catch (error: any) {
       errorMessage(error.message)
-      console.log(error.message)
     }
   }
 

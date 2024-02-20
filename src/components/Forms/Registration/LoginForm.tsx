@@ -38,7 +38,6 @@ const LoginForm = () => {
     } catch (err: any) {
       setIsError(err.message)
       errorMessage(err.message)
-      console.log(err.message)
     }
   }
 
@@ -58,12 +57,6 @@ const LoginForm = () => {
       const browser = navigator.userAgent
       const device = navigator.platform
 
-      console.log({
-        lat,
-        long,
-        browser,
-        device,
-      })
       try {
         await dispatch(
           addLocationThunk({
@@ -75,13 +68,11 @@ const LoginForm = () => {
         )
       } catch (err: any) {
         errorMessage(err.message)
-        console.log(err.message)
       }
       setIsOtpInput(false)
       route.push("/")
     } catch (err: any) {
       errorMessage(err.message)
-      console.log(err.message)
     }
   }
 

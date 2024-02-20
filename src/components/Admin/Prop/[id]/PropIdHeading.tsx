@@ -6,6 +6,7 @@ import { useAppDispatch } from "@/hooks/useStore"
 import { getPlaceByIdWithDetailsThunk, updateAccountStatusThunk } from "@/services/Redux/reducers/placeSlice"
 import { AccountStatus } from "@/services/Utilities/Enum/account.status.enum"
 import { useParams } from "next/navigation"
+import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
 import { TiEdit } from "react-icons/ti"
 import Swal from "sweetalert2"
@@ -17,7 +18,10 @@ interface IPropIdHeading {
 const PropIdHeading = ({ heading, accountStatus }: IPropIdHeading) => {
   const [isStatus, setIsState] = useState<AccountStatus>(accountStatus)
 
-  const { id }: { id: string } = useParams()
+  // const { id }: { id: string } = useParams()
+  const router = useRouter()
+  const id: string = router.query.id as string
+
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -30,7 +34,6 @@ const PropIdHeading = ({ heading, accountStatus }: IPropIdHeading) => {
   }
 
   const onSubmit = async () => {
-    console.log(isStatus)
     if (isStatus === accountStatus) {
       Swal.fire({ icon: "error", title: "No changes", text: "Please change the status" })
       return
@@ -40,7 +43,6 @@ const PropIdHeading = ({ heading, accountStatus }: IPropIdHeading) => {
       await dispatch(getPlaceByIdWithDetailsThunk(id))
     } catch (error: any) {
       errorMessage(error.message)
-      console.log(error.message)
     }
     handleModal(false)
   }

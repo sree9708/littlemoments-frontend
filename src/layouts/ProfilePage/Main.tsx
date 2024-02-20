@@ -45,7 +45,6 @@ export default function Main() {
         await dispatch(getReviewsByUserIdThunk(userInformations?.id || ""))
       } catch (err: any) {
         errorMessage(err.message)
-        console.log(err)
       }
     }
     getReviews()

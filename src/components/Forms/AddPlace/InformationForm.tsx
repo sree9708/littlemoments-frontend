@@ -94,7 +94,6 @@ const InformationForm = () => {
   }
 
   const onSubmitSignup = async (data: any) => {
-    console.log("data : ", data)
     try {
       const newData = {
         ...data,
@@ -103,7 +102,7 @@ const InformationForm = () => {
       }
       dispatch(addInformations(newData))
     } catch (error: any) {
-      console.log(error.message)
+      errorMessage(error.message)
     }
     push("/add-place/upload-images")
   }

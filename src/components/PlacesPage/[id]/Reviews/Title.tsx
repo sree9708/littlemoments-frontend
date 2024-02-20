@@ -15,6 +15,7 @@ import { createReviewThunk, getReviewsByPropIdThunk } from "@/services/Redux/red
 import { useParams } from "next/navigation"
 import reviewValidation from "@/services/Validation/Review/reviewValidation"
 import { errorMessage } from "@/hooks/useNotifications"
+import { useRouter } from "next/router"
 
 export const Title = () => {
   const {
@@ -23,8 +24,11 @@ export const Title = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(reviewValidation) })
 
-  const params = useParams()
-  const propId: string = params?.id as string
+  // const params = useParams()
+  // const propId: string = params?.id as string
+
+  const router = useRouter()
+  const propId: string = router.query.id as string
 
   const dispatch = useAppDispatch()
   const userId = useAppSelector(state => state.user?.id)
@@ -46,7 +50,6 @@ export const Title = () => {
   }
 
   const onSubmit = async (data: any) => {
-    console.log(data)
     try {
       await dispatch(createReviewThunk({ userId, propId, ...data }))
       await dispatch(getReviewsByPropIdThunk(propId))

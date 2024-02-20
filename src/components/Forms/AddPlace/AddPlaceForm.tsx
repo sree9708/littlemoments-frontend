@@ -55,7 +55,6 @@ const AddPlaceForm = () => {
       } catch (err: any) {
         setIsError(err.message)
         errorMessage(err.message)
-        console.log(err.message)
       }
     } else {
       if (isOtpInput) {
@@ -65,7 +64,6 @@ const AddPlaceForm = () => {
         } catch (err: any) {
           setIsError(err.message)
           errorMessage(err.message)
-          console.log(err.message)
         }
       } else {
         dispatch(addPlaceOwner(data))

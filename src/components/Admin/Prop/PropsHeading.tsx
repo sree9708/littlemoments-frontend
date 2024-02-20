@@ -22,7 +22,6 @@ const PropsHeading = () => {
         )
       } catch (error: any) {
         errorMessage(error.message)
-        console.log(error.message)
       }
     })()
   }, [selectedAccountStatus])

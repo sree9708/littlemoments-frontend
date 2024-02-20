@@ -22,7 +22,6 @@ import { errorMessage } from "@/hooks/useNotifications"
     } catch (err: any) {
       setIsError(err.message)
       errorMessage(err.message)
-      console.log(err.message)
     }
   }
 
@@ -34,7 +33,6 @@ import { errorMessage } from "@/hooks/useNotifications"
     } catch (err: any) {
       setIsError(err.message)
       errorMessage(err.message)
-      console.log(err.message)
     }
   }
   return (

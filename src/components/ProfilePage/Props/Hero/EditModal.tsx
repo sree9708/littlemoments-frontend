@@ -51,7 +51,6 @@ const EditModal = () => {
       setEditModal(false)
     } catch (err: any) {
       errorMessage(err.message)
-      console.log(err)
     }
   }
 
