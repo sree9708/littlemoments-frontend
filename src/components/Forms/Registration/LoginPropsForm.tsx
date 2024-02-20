@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 "use client"
 
 import React, { useState } from "react"
@@ -59,7 +58,7 @@ const LoginPropsForm = () => {
         <RegistrationButton text="Login" />
       </form>
       <div className="flex flex-wrap justify-center gap-2 text-xl">
-        <div>Don't have account ?</div>
+        <div>Don&apos;t have account ?</div>
         <Link href="/auth/signup/props" className="text-theme-3 font-bold">
           Signup instead
         </Link>
