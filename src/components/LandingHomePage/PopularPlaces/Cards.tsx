@@ -10,11 +10,8 @@ import React, { useEffect, useState } from "react"
 
 const Cards: React.FC = () => {
   const hasMounted = useMounted()
-
+  
   const dispatch = useAppDispatch()
-  const isLoading = useAppSelector(state => state.place?.isLoading)
-  // const [isLoading, setIsLoading] = useState(false)
-  const places = useAppSelector(state => state.place?.places)
 
   useEffect(() => {
     async function fetchData() {
@@ -30,6 +27,11 @@ const Cards: React.FC = () => {
     }
     fetchData()
   }, [])
+  
+  const isLoading = useAppSelector(state => state.place?.isLoading)
+  // const [isLoading, setIsLoading] = useState(false)
+  const places = useAppSelector(state => state.place?.places)
+
 
   return (
     <>
