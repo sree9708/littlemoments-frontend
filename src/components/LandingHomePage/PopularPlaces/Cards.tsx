@@ -16,20 +16,20 @@ const Cards: React.FC = () => {
   // const [isLoading, setIsLoading] = useState(false)
   const places = useAppSelector(state => state.place?.places)
 
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     if (!places) {
-  //       try {
-  //         // setIsLoading(true)
-  //         await dispatch(getPlacesThunk({ skip: 0, limit: 12 }))
-  //       } catch (error: any) {
-  //         errorMessage(error.message)
-  //       }
-  //       // setIsLoading(false)
-  //     }
-  //   }
-  //   fetchData()
-  // }, [])
+  useEffect(() => {
+    async function fetchData() {
+      // if (!places) {
+        try {
+          // setIsLoading(true)
+          await dispatch(getPlacesThunk({ skip: 0, limit: 12 }))
+        } catch (error: any) {
+          errorMessage(error.message)
+        }
+        // setIsLoading(false)
+      // }
+    }
+    fetchData()
+  }, [])
   
 
 
