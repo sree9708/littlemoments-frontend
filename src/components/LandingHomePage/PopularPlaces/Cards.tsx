@@ -6,27 +6,27 @@ import useMounted from "@/hooks/useMounted"
 import { errorMessage } from "@/hooks/useNotifications"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { getPlacesThunk } from "@/services/Redux/reducers/placeSlice"
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 
 const Cards: React.FC = () => {
   const hasMounted = useMounted()
-  
+
   const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    async function fetchData() {
-      if (places && places.length === 0) {
-        try {
-          // setIsLoading(true)
-          await dispatch(getPlacesThunk({ skip: 0, limit: 12 }))
-        } catch (error: any) {
-          errorMessage(error.message)
-        }
-        // setIsLoading(false)
-      }
-    }
-    fetchData()
-  }, [])
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     if (places && places.length === 0) {
+  //       try {
+  //         // setIsLoading(true)
+  //         await dispatch(getPlacesThunk({ skip: 0, limit: 12 }))
+  //       } catch (error: any) {
+  //         errorMessage(error.message)
+  //       }
+  //       // setIsLoading(false)
+  //     }
+  //   }
+  //   fetchData()
+  // }, [])
   
   const isLoading = useAppSelector(state => state.place?.isLoading)
   // const [isLoading, setIsLoading] = useState(false)
