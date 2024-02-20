@@ -18,7 +18,7 @@ const Cards: React.FC = () => {
 
   useEffect(() => {
     async function fetchData() {
-      if (!places) {
+      // if (!places) {
         try {
           // setIsLoading(true)
           await dispatch(getPlacesThunk({ skip: 0, limit: 12 }))
@@ -26,7 +26,7 @@ const Cards: React.FC = () => {
           errorMessage(error.message)
         }
         // setIsLoading(false)
-      }
+      // }
     }
     fetchData()
   }, [])
