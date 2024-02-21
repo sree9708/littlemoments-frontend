@@ -23,19 +23,19 @@ const informationValidation = yup
       .max(1000, "Description can be maximum 250 characters long."),
     superCategory: yup
       .string()
-      .required("Place name is required.")
-      .min(1, "Place name must be at least 3 characters.")
-      .max(100, "Place name must not exceed 50 characters."),
+      .required("Super Category is required.")
+      .min(1, "Super Category must be at least 3 characters.")
+      .max(100, "Super Category must not exceed 50 characters."),
     category: yup
       .string()
-      .required("Place name is required.")
-      .min(1, "Place name must be at least 3 characters.")
-      .max(100, "Place name must not exceed 50 characters."),
+      .required("Category is required.")
+      .min(1, "Category must be at least 3 characters.")
+      .max(100, "Category must not exceed 50 characters."),
     subCategory: yup
       .string()
-      .required("Place name is required.")
-      .min(1, "Place name must be at least 3 characters.")
-      .max(100, "Place name must not exceed 50 characters."),
+      .required("Sub Category is required.")
+      .min(1, "Sub Category must be at least 3 characters.")
+      .max(100, "Sub Category must not exceed 50 characters."),
     startingAge: yup
       .number()
       .required("Starting Age is required.")

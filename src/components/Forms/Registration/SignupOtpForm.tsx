@@ -14,7 +14,7 @@ import {
   generateOtpWithPhoneNumberThunk,
   verifyOtpThunk,
 } from "@/services/Redux/reducers/userSlice"
-import { useAppDispatch } from "@/hooks/useStore"
+import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { useRouter } from "next/navigation"
 import phoneNumberValidation from "@/services/Validation/Registration/phoneNumberValidation"
 import { errorMessage } from "@/hooks/useNotifications"
@@ -35,8 +35,9 @@ const SignupOtpForm = () => {
   const [isError, setIsError] = useState<string | null>(null)
 
   const { setIsSignup } = useContext(SignupContext) as SignupContextProps
+  const phoneNumber = useAppSelector(state => state.user?.userDetailsForm?.phoneNumber)
 
-  const onSubmitLogin = async (data: any) => {
+  const onSubmitSignup = async (data: any) => {
     try {
       dispatch(addphoneNumber(data.phoneNumber))
       await dispatch(generateOtpWithPhoneNumberThunk(data.phoneNumber))
@@ -74,7 +75,7 @@ const SignupOtpForm = () => {
         className="py-8"
         onSubmit={e => {
           e.preventDefault()
-          isOtpInput ? handleSubmit(onSubmitOtp)() : handleSubmit(onSubmitLogin)()
+          isOtpInput ? handleSubmit(onSubmitOtp)() : handleSubmit(onSubmitSignup)()
         }}
       >
         <InputText
@@ -85,6 +86,7 @@ const SignupOtpForm = () => {
           required
           error={errors.phoneNumber?.message}
           disabled={isOtpInput}
+          defaultValue={phoneNumber}
         />
         {isOtpInput && (
           <OtpInput

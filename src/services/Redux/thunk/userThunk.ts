@@ -123,10 +123,12 @@ export const verifyUserId = async (id: string) => {
 
 export const createUser = async (_: any, { getState }: { getState: any }) => {
   try {
-    const userDetailsForm: UserState["userDetailsForm"] = (getState() as RootState).user.userDetailsForm
+    console.log("hlooo")
+    const userDetailsForm: UserState["userDetailsForm"] = (getState() as RootState)?.user?.userDetailsForm
     const response = await axios.post(`/users`, userDetailsForm)
     return response.data
   } catch (err: any) {
+    console.log(err)
     if (err.response && err.response.data && err.response.data.message) {
       throw Error(err.response.data.message)
     } else {

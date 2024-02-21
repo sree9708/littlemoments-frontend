@@ -12,7 +12,6 @@ import { useRouter } from "next/router"
 import React, { useEffect } from "react"
 
 const PropIdContent = () => {
-
   const router = useRouter()
   const id: string = router.query.id as string
 
@@ -29,7 +28,6 @@ const PropIdContent = () => {
 
   const propDetails = useAppSelector(state => state.place.placeDetails)
 
-
   return (
     <div className="p-3">
       <PropIdHeading
@@ -44,12 +42,12 @@ const PropIdContent = () => {
 
 export async function generateStaticParams() {
   // Fetch IDs from the backend or define a static list of IDs
-  const ids = ['id1', 'id2', 'id3']; // Replace with your actual list of IDs or logic to fetch IDs
-  
+  const ids = ["id1", "id2", "id3"] // Replace with your actual list of IDs or logic to fetch IDs
+
   // Return an array of objects with `params` key
-  return ids.map((id) => ({
+  return ids.map(id => ({
     params: { id },
-  }));
+  }))
 }
 
 export default PropIdContent

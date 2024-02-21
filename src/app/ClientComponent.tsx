@@ -47,8 +47,7 @@ const ClientComponent = ({ children }: { children: any }) => {
           try {
             await dispatch(logoutUserThunk())
             dispatch(logoutUser())
-          } catch (error: any) {
-          }
+          } catch (error: any) {}
         }
       })()
     } else if (proId) {
@@ -60,8 +59,7 @@ const ClientComponent = ({ children }: { children: any }) => {
           try {
             await dispatch(logoutPropThunk())
             dispatch(logoutProp())
-          } catch (error: any) {
-          }
+          } catch (error: any) {}
         }
       })()
     } else {
