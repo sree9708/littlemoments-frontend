@@ -75,7 +75,6 @@ const BusinessDetailsForm = () => {
   }
 
   const onSubmitSignup = async (data: any) => {
-
     const filePromises = [
       gstinFile ? filetoBase64(gstinFile) : Promise.resolve(null),
       panFile ? filetoBase64(panFile) : Promise.resolve(null),

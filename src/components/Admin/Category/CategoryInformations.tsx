@@ -156,7 +156,6 @@ const CategoryInformations = () => {
   }
 
   const onSubmitUpdateCategory = async (data: any, categoryId: string | null) => {
-
     try {
       if (selectedCategory) {
         await dispatch(updateCategoryThunk({ category: data.category, categoryId: categoryId }))

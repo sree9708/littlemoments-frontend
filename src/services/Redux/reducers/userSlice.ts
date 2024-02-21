@@ -194,6 +194,7 @@ export const userSlice = createSlice({
       })
       .addCase(createUserThunk.rejected, (state, action) => {
         state.isLoading = false
+        console.log("Action :", action.error)
         state.error = action.error.message
         throw Error(action.error.message)
       })

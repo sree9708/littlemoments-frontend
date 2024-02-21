@@ -10,23 +10,22 @@ import { MoreDetails } from "@/layouts/PlacesPage/[id]/MoreDetails"
 import { Reviews } from "@/layouts/PlacesPage/[id]/Reviews"
 import { getPlaceByIdThunk } from "@/services/Redux/reducers/placeSlice"
 import { useParams, useRouter } from "next/navigation"
-import { useRouter as nextRouter } from 'next/router'
+import { useRouter as nextRouter } from "next/router"
 import { useEffect } from "react"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import HeroLazy from "@/layouts/PlacesPage/[id]/HeroLazy"
 import { errorMessage } from "@/hooks/useNotifications"
 
-
 export default function Main() {
   // const params = useParams()
   // const propId: string = params?.id as string
-  
+
   const dispatch = useAppDispatch()
   const { push } = useRouter()
   const router = nextRouter()
   const propId: string = router.query.id as string
-  
+
   useEffect(() => {
     if (propId) {
       const fetchData = async () => {

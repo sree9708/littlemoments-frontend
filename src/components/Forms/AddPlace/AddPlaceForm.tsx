@@ -14,6 +14,7 @@ import addPlaceValidation from "@/services/Validation/AddPlace/addPlaceValidatio
 import OtpInput from "@/components/Inputs/InputOtp"
 import { generateOtpWithPhoneNumberThunk, verifyOtpThunk } from "@/services/Redux/reducers/userSlice"
 import { errorMessage } from "@/hooks/useNotifications"
+import useMounted from "@/hooks/useMounted"
 
 const AddPlaceForm = () => {
   const {
@@ -25,16 +26,21 @@ const AddPlaceForm = () => {
 
   const { push } = useRouter()
   const dispatch = useAppDispatch()
-
+  const hasMounted = useMounted()
+  
   const propDetailsForm = useAppSelector(state => state.prop?.propDetailsForm)
   const propInformation = useAppSelector(state => state.prop?.propInformations)
-  const phoneNumberVerified = useAppSelector(state => state.user?.phoneNumberVerified)
+  const phoneNumberVerified: boolean = useAppSelector(state => state.user?.phoneNumberVerified)
   const { setIsTracker } = useContext(TrackerContext) as TrackerContextProps
 
   const [otp, setOtp] = useState("")
   const [isOtpInput, setIsOtpInput] = useState<boolean>(false)
-  const [genarateOtp, setGenarateOtp] = useState(true)
+  const [genarateOtp, setGenarateOtp] = useState<boolean>(true)
   const [isError, setIsError] = useState<string | null>(null)
+
+  useEffect(()=>{
+    setGenarateOtp(!phoneNumberVerified)
+  },[])
 
   useLayoutEffect(() => {
     setIsTracker(1)
@@ -57,17 +63,22 @@ const AddPlaceForm = () => {
         errorMessage(err.message)
       }
     } else {
-      if (isOtpInput) {
-        try {
-          await dispatch(verifyOtpThunk({ phoneNumber: data.displayContactNo, otp }))
-          setIsOtpInput(false)
-        } catch (err: any) {
-          setIsError(err.message)
-          errorMessage(err.message)
-        }
-      } else {
+      if(phoneNumberVerified){
         dispatch(addPlaceOwner(data))
         push("/add-place/business-details")
+      }else{
+        if (isOtpInput) {
+          try {
+            await dispatch(verifyOtpThunk({ phoneNumber: data.displayContactNo, otp }))
+            setIsOtpInput(false)
+          } catch (err: any) {
+            setIsError(err.message)
+            errorMessage(err.message)
+          }
+        }else{
+          dispatch(addPlaceOwner(data))
+          push("/add-place/business-details")
+        }
       }
     }
   }
@@ -77,7 +88,8 @@ const AddPlaceForm = () => {
   }
 
   return (
-    <>
+    <div>
+      {hasMounted && 
       <form className="py-8" onSubmit={handleSubmit(onSubmitSignup)}>
         <InputText
           name="placeName"
@@ -149,7 +161,8 @@ const AddPlaceForm = () => {
           )}
         </div>
       </form>
-    </>
+      }
+    </div>
   )
 }
 

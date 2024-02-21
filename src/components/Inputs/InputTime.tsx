@@ -60,7 +60,7 @@ const InputTime: React.FC<any> = ({ onTimeChange }: { onTimeChange: (data: any) 
 
   const handleCheckboxChange = (day: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
-      setSchedule(prevSchedule => ({ ...prevSchedule, [day]: ["", ""] }))
+      setSchedule(prevSchedule => ({ ...prevSchedule, [day]: ["12:00", "12:00"] }))
     } else {
       const { [day]: _, ...rest } = schedule
       setSchedule({ ...rest, [day]: ["closed"] })
@@ -71,7 +71,7 @@ const InputTime: React.FC<any> = ({ onTimeChange }: { onTimeChange: (data: any) 
     const startTime = e.target.value
     setSchedule(prevSchedule => ({
       ...prevSchedule,
-      [day]: [startTime, prevSchedule[day] ? prevSchedule[day][1] : ""],
+      [day]: [startTime, prevSchedule[day] ? prevSchedule[day][1] : "12:00"],
     }))
   }
 
@@ -79,7 +79,7 @@ const InputTime: React.FC<any> = ({ onTimeChange }: { onTimeChange: (data: any) 
     const endTime = e.target.value
     setSchedule(prevSchedule => ({
       ...prevSchedule,
-      [day]: [prevSchedule[day] ? prevSchedule[day][0] : "", endTime],
+      [day]: [prevSchedule[day] ? prevSchedule[day][0] : "12:00", endTime],
     }))
   }
 
@@ -140,6 +140,7 @@ const InputTime: React.FC<any> = ({ onTimeChange }: { onTimeChange: (data: any) 
                         <div className="absolute top-0 right-0">AM</div>
                       </div>
                     </div>
+                    <div className="text-theme-1">to</div>
                     <div className="w-full px-2">
                       <div className="relative">
                         <select
@@ -164,7 +165,6 @@ const InputTime: React.FC<any> = ({ onTimeChange }: { onTimeChange: (data: any) 
               </div>
             ))}
           </div>
-          {/* {JSON.stringify(schedule, null, 2)} */}
         </div>
       )}
     </div>

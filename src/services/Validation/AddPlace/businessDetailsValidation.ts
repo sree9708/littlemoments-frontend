@@ -7,11 +7,11 @@ const businessDetailsValidation = yup
       .required("Description is required.")
       .min(10, "Description must be at least 10 characters long.")
       .max(1000, "Description can be maximum 250 characters long."),
-    city: yup
-      .string()
-      .required("Description is required.")
-      .min(5, "Description must be at least 5 characters long.")
-      .max(1000, "Description can be maximum 250 characters long."),
+    // city: yup
+    //   .string()
+    //   .required("Description is required.")
+    //   .min(5, "Description must be at least 5 characters long.")
+    //   .max(1000, "Description can be maximum 250 characters long."),
     gstin: yup
       .mixed<FileList>()
       .test("fileRequired", "Gstin file is required", value => value && value.length > 0)

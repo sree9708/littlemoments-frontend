@@ -3,7 +3,7 @@ const nextConfig = {
   // output: 'export',
   reactStrictMode: false,
   images: {
-    domains: ["image.tmdb.org", "images.pexels.com", "littlemoments.nyc3.digitaloceanspaces.com"],
+    domains: ["i.ibb.co", "images.pexels.com", "littlemoments.nyc3.digitaloceanspaces.com"],
   },
   env: {
     NEXT_BASE_URL: process.env.NEXT_BASE_URL,

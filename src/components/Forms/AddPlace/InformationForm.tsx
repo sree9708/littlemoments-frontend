@@ -190,10 +190,10 @@ const InformationForm = () => {
         watch={watch}
         setValue={setValue}
         categories={categories || []}
-        placeholder="Super Category"
+        placeholder={categories.length===0 ? "Super Category not found contact admin" : "Super Category"}
         register={register}
         required
-        error={errors.category?.message}
+        error={errors.superCategory?.message}
         defaultValue={propDetailsForm?.superCategory}
       />
       {displayCategory?.length > 0 && (
@@ -203,7 +203,7 @@ const InformationForm = () => {
           watch={watch}
           setValue={setValue}
           categories={displayCategory || []}
-          placeholder="Category"
+          placeholder={displayCategory.length===0 ? "Category not found contact admin" : "Category"}
           register={register}
           required
           error={errors.category?.message}
@@ -217,7 +217,7 @@ const InformationForm = () => {
           watch={watch}
           setValue={setValue}
           categories={displaySubCategory || []}
-          placeholder="Sub Category"
+          placeholder={displaySubCategory.length===0 ? "Sub Category not found contact admin" : "Sub Category"}
           register={register}
           required
           error={errors.subCategory?.message}
