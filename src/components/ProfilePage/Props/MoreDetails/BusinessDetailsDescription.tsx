@@ -30,7 +30,7 @@ const BusinessDetailsDescription: React.FC<BusinessDetailsDescriptionProps> = ({
   useEffect(() => {
     // setValue("location", propInformation?.location || "")
     setValue("address", propInformation?.address || "")
-    setValue("city", propInformation?.city || "")
+    // setValue("city", propInformation?.city || "")
     setValue("pocContactNo", propInformation?.pocContactNo || "")
     setValue("pocName", propInformation?.pocName || "")
     setValue("pocDesignation", propInformation?.pocDesignation || "")
