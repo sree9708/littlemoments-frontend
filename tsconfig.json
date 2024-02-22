@@ -28,7 +28,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/app/auth/signup",
-    "src/services/Context/SignupContext.tsx"
+    "src/services/Context/SignupContext.tsx",
+    "src/app/admin/dashboard"
   ],
   "exclude": ["node_modules"]
 }

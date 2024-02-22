@@ -1,4 +1,5 @@
 import useClickOutside from "@/hooks/useClickOutside"
+import { ITimings } from "@/services/Utilities/interfaces/prop.interface"
 import React, { useEffect, useState } from "react"
 import { IoMdArrowDropdown } from "react-icons/io"
 
@@ -31,12 +32,11 @@ const timeOptions: string[] = [
   "10:30",
   "11:00",
   "11:30",
-  // ... Add more time options as needed
 ]
 
-const InputTime: React.FC<any> = ({ onTimeChange }: { onTimeChange: (data: any) => void }) => {
+const InputTime: React.FC<any> = ({ onTimeChange, timings }: { onTimeChange: (data: any) => void, timings: any | undefined }) => {
   const [dropdown, setDropdown] = useState(false)
-  const [schedule, setSchedule] = useState<Schedule>(() => {
+  const [schedule, setSchedule] = useState<ITimings>(() => {
     const initialSchedule: Schedule = {}
     ;["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"].forEach(day => {
       initialSchedule[day] = ["closed"]

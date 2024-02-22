@@ -1,29 +1,40 @@
+"use client"
+
 import { errorMessage } from "@/hooks/useNotifications"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { logoutProp, verifyPropIdThunk } from "@/services/Redux/reducers/propSlice"
 import { logoutUser } from "@/services/Redux/reducers/userSlice"
 import { useRouter } from "next/navigation"
-import React from "react"
+import React, { useEffect } from "react"
 
 const AddPlaceProtectRoute = ({ children }: { children: React.ReactNode }) => {
   const { push } = useRouter()
   const dispatch = useAppDispatch()
   const proId = useAppSelector(state => state.prop?.id)
 
-  if (proId) {
-    ;(async () => {
+  useEffect(() => {
+    const fetchData = async () => {
       try {
-        await dispatch(verifyPropIdThunk(proId))
-        dispatch(logoutUser())
+        if (proId) {
+          await dispatch(verifyPropIdThunk(proId))
+          dispatch(logoutUser())
+        } else {
+          push("/")
+        }
       } catch (error: any) {
-        errorMessage(error.message)
+        errorMessage("Please login")
         dispatch(logoutProp())
         push("/")
       }
-    })()
-  } else {
-    push("/")
-  }
+    }
+
+    fetchData()
+
+    // Cleanup function if needed
+    // return () => {
+    //   // Perform cleanup actions if necessary
+    // }
+  }, [proId, dispatch, push])
 
   return <div>{children}</div>
 }

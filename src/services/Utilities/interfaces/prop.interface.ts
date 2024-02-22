@@ -26,15 +26,7 @@ export interface IProp {
       price: number
     },
   ]
-  timings?: {
-    sunday: string[]
-    monday: string[]
-    tuesday: string[]
-    wednesday: string[]
-    thursday: string[]
-    friday: string[]
-    saturday: string[]
-  }
+  timings?: ITimings
   placeDescription?: string
   superCategory?: any
   category?: any
@@ -56,4 +48,15 @@ export interface ISocialLinks {
 export interface IPropCreate {
   email: string
   password: string
+}
+
+
+export interface ITimings {
+    sunday: string[]
+    monday: string[]
+    tuesday: string[]
+    wednesday: string[]
+    thursday: string[]
+    friday: string[]
+    saturday: string[]
 }

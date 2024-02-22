@@ -70,7 +70,7 @@ const InformationForm = () => {
   useEffect(() => {
     setValue("superCategory", propDetailsForm?.superCategory || "")
     setValue("category", "")
-  }, [superCategory, setValue])
+  }, [])
 
   useEffect(() => {
     if (superCategory) {
@@ -81,7 +81,12 @@ const InformationForm = () => {
           (subCategory: any) => subCategory.id === category,
         )?.subCategories
         setDisplaySubCategory(selectedSubCategory)
+      } else {
+        setDisplaySubCategory([])
       }
+    } else {
+      setDisplayCategory([])
+      setDisplaySubCategory([])
     }
   }, [superCategory, category, categories])
 
@@ -136,6 +141,7 @@ const InformationForm = () => {
                   render={({ field }) => (
                     <input
                       {...field}
+                      placeholder="items"
                       className="w-full autofill:bg-yellow-200 bg-transparent rounded-lg p-2 border-2  text-lg border-primary focus:outline-none focus:ring-transparent "
                     />
                   )}
@@ -190,7 +196,7 @@ const InformationForm = () => {
         watch={watch}
         setValue={setValue}
         categories={categories || []}
-        placeholder={categories.length===0 ? "Super Category not found contact admin" : "Super Category"}
+        placeholder={categories.length === 0 ? "Super Category not found contact admin" : "Super Category"}
         register={register}
         required
         error={errors.superCategory?.message}
@@ -203,7 +209,7 @@ const InformationForm = () => {
           watch={watch}
           setValue={setValue}
           categories={displayCategory || []}
-          placeholder={displayCategory.length===0 ? "Category not found contact admin" : "Category"}
+          placeholder={displayCategory.length === 0 ? "Category not found contact admin" : "Category"}
           register={register}
           required
           error={errors.category?.message}
@@ -217,7 +223,9 @@ const InformationForm = () => {
           watch={watch}
           setValue={setValue}
           categories={displaySubCategory || []}
-          placeholder={displaySubCategory.length===0 ? "Sub Category not found contact admin" : "Sub Category"}
+          placeholder={
+            displaySubCategory.length === 0 ? "Sub Category not found contact admin" : "Sub Category"
+          }
           register={register}
           required
           error={errors.subCategory?.message}

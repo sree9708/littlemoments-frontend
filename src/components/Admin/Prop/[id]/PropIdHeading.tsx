@@ -18,9 +18,9 @@ interface IPropIdHeading {
 const PropIdHeading = ({ heading, accountStatus }: IPropIdHeading) => {
   const [isStatus, setIsState] = useState<AccountStatus>(accountStatus)
 
-  // const { id }: { id: string } = useParams()
-  const router = useRouter()
-  const id: string = router.query.id as string
+  const { id }: { id: string } = useParams()
+  // const router = useRouter()
+  // const id: string = router.query.id as string
 
   const dispatch = useAppDispatch()
 

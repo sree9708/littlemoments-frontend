@@ -1,4 +1,5 @@
 import { useAppSelector } from "@/hooks/useStore"
+import { ITimings } from "@/services/Utilities/interfaces/prop.interface"
 import React, { useEffect, useState } from "react"
 
 interface Schedule {
@@ -30,7 +31,6 @@ const timeOptions: string[] = [
   "10:30",
   "11:00",
   "11:30",
-  // ... Add more time options as needed
 ]
 
 const InputTimeProfileProps: React.FC<any> = ({
@@ -42,7 +42,7 @@ const InputTimeProfileProps: React.FC<any> = ({
 }) => {
   const propInformation = useAppSelector(state => state.prop?.propInformations)
 
-  const [schedule, setSchedule] = useState<Schedule>(
+  const [schedule, setSchedule] = useState<ITimings>(
     propInformation?.timings || {
       monday: ["closed"],
       tuesday: ["closed"],
