@@ -70,7 +70,7 @@ const AddPlaceForm = () => {
       } else {
         if (isOtpInput) {
           try {
-            if(!otp){
+            if (!otp) {
               return setIsError("Please enter otp")
             }
             // await dispatch(verifyOtpThunk({ phoneNumber: data.displayContactNo, otp }))

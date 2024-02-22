@@ -79,16 +79,26 @@ export const addPlace = async (_: any, { getState }: { getState: any }) => {
     const displayImages = (getState() as RootState).prop.propDetailsForm?.displayImages as string[]
     const propDetailsForm = (getState() as RootState).prop.propDetailsForm
     // formData.append("propDetails", propDetailsForm)
-    formData.append("propDetails", JSON.stringify(propDetailsForm))
+    // formData.append("propDetails", JSON.stringify(propDetailsForm))
+    const modifiedPropDetailsForm = { ...propDetailsForm };
+    delete modifiedPropDetailsForm.gstin;
+    delete modifiedPropDetailsForm.pan;
+    delete modifiedPropDetailsForm.displayImages;
+
+    formData.append("propDetails", JSON.stringify(modifiedPropDetailsForm))
 
     const gstin = base64ToFile(gstinFile as string, `gstin`)
     const pan = base64ToFile(panFile as string, `pan`)
     formData.append("gstin", gstin)
     formData.append("pan", pan)
+
     Array.from(displayImages ?? []).forEach((image: unknown) => {
       const file = base64ToFile(image as string, `image`)
       formData.append("displayImages", file)
     })
+    
+    console.log("propDetailsForm :", propDetailsForm)
+    console.log("formData :", formData)
     const response = await axios.put(`/props/${propId}/add-place`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",

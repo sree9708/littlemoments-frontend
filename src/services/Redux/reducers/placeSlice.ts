@@ -95,6 +95,7 @@ export const placeSlice = createSlice({
       })
       .addCase(getPlaceByIdWithDetailsThunk.fulfilled, (state, action) => {
         state.isLoading = false
+        console.log("action.payload.prop :", action.payload.prop)
         state.placeDetails = action.payload.prop
       })
       .addCase(getPlaceByIdWithDetailsThunk.rejected, (state, action) => {

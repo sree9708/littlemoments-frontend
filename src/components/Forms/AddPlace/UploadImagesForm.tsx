@@ -101,6 +101,7 @@ const UploadImagesForm = () => {
 
   return (
     <>
+      <div className="font-semibold">Uploaded Images: {selectedImages.length} / 10</div>
       <div className="py-8">
         <div className="grid grid-cols-3 gap-4">
           {selectedImages.map((image, index) => (
