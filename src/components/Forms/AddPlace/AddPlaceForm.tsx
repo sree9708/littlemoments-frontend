@@ -27,7 +27,7 @@ const AddPlaceForm = () => {
   const { push } = useRouter()
   const dispatch = useAppDispatch()
   const hasMounted = useMounted()
-  
+
   const propDetailsForm = useAppSelector(state => state.prop?.propDetailsForm)
   const propInformation = useAppSelector(state => state.prop?.propInformations)
   const phoneNumberVerified: boolean = useAppSelector(state => state.user?.phoneNumberVerified)
@@ -38,9 +38,9 @@ const AddPlaceForm = () => {
   const [genarateOtp, setGenarateOtp] = useState<boolean>(true)
   const [isError, setIsError] = useState<string | null>(null)
 
-  useEffect(()=>{
+  useEffect(() => {
     setGenarateOtp(!phoneNumberVerified)
-  },[])
+  }, [])
 
   useLayoutEffect(() => {
     setIsTracker(1)
@@ -55,7 +55,7 @@ const AddPlaceForm = () => {
   const onSubmitSignup = async (data: any) => {
     if (genarateOtp) {
       try {
-        await dispatch(generateOtpWithPhoneNumberThunk(data.displayContactNo))
+        // await dispatch(generateOtpWithPhoneNumberThunk(data.displayContactNo))
         setGenarateOtp(false)
         setIsOtpInput(true)
       } catch (err: any) {
@@ -63,19 +63,27 @@ const AddPlaceForm = () => {
         errorMessage(err.message)
       }
     } else {
-      if(phoneNumberVerified){
+      if (phoneNumberVerified) {
+        setIsError(null)
         dispatch(addPlaceOwner(data))
         push("/add-place/business-details")
-      }else{
+      } else {
         if (isOtpInput) {
           try {
-            await dispatch(verifyOtpThunk({ phoneNumber: data.displayContactNo, otp }))
+            if (!otp) {
+              return setIsError("Please enter otp")
+            }
+            // await dispatch(verifyOtpThunk({ phoneNumber: data.displayContactNo, otp }))
             setIsOtpInput(false)
+            setIsError(null)
+            dispatch(addPlaceOwner(data))
+            push("/add-place/business-details")
           } catch (err: any) {
             setIsError(err.message)
             errorMessage(err.message)
           }
-        }else{
+        } else {
+          setIsError(null)
           dispatch(addPlaceOwner(data))
           push("/add-place/business-details")
         }
@@ -89,18 +97,18 @@ const AddPlaceForm = () => {
 
   return (
     <div>
-      {hasMounted && 
-      <form className="py-8" onSubmit={handleSubmit(onSubmitSignup)}>
-        <InputText
-          name="placeName"
-          type="text"
-          placeholder="Place name"
-          register={register}
-          required
-          error={errors.placeName?.message}
-          // defaultValue={propDetailsForm?.placeName}
-        />
-        {/* <InputText
+      {hasMounted && (
+        <form className="py-8" onSubmit={handleSubmit(onSubmitSignup)}>
+          <InputText
+            name="placeName"
+            type="text"
+            placeholder="Place name"
+            register={register}
+            required
+            error={errors.placeName?.message}
+            // defaultValue={propDetailsForm?.placeName}
+          />
+          {/* <InputText
           name="email"
           type="email"
           placeholder="Email"
@@ -110,58 +118,58 @@ const AddPlaceForm = () => {
           disabled={true}
           // defaultValue={propInformation?.email}
         /> */}
-        <InputText
-          name="displayContactNo"
-          type="text"
-          placeholder="Phone number"
-          register={register}
-          required
-          disabled={phoneNumberVerified}
-          error={errors.displayContactNo?.message}
-          // defaultValue={propDetailsForm?.displayContactNo}
-        />
-        {isOtpInput && (
-          <OtpInput
-            value={otp}
-            onChange={val => {
-              setOtp(val)
-            }}
+          <InputText
+            name="displayContactNo"
+            type="text"
+            placeholder="Phone number"
+            register={register}
+            required
+            disabled={phoneNumberVerified}
+            error={errors.displayContactNo?.message}
+            // defaultValue={propDetailsForm?.displayContactNo}
           />
-        )}
-        {isError && <p className="text-red-500 text-center">{isError}</p>}
-        <div className="flex gap-4">
-          <button
-            type="button"
-            className="w-fit flex items-center gap-2 bg-background text-primary mt-8 p-4 rounded-md border-2 border-primary text-2xl font-bold"
-            onClick={handleBack}
-          >
-            <FaArrowLeftLong />
-            Back
-          </button>
-          {!phoneNumberVerified ? (
-            genarateOtp ? (
-              <button
-                type="submit"
-                className="w-full bg-theme-3 mt-8 p-4 rounded-md border-2 border-primary text-2xl text-secondary font-bold"
-              >
-                Generate otp
-              </button>
-            ) : isOtpInput ? (
-              <button
-                type="submit"
-                className="w-full bg-theme-3 mt-8 p-4 rounded-md border-2 border-primary text-2xl text-secondary font-bold"
-              >
-                Verify Otp
-              </button>
+          {isOtpInput && (
+            <OtpInput
+              value={otp}
+              onChange={val => {
+                setOtp(val)
+              }}
+            />
+          )}
+          {isError && <p className="text-red-500 text-center">{isError}</p>}
+          <div className="flex gap-4">
+            <button
+              type="button"
+              className="w-fit flex items-center gap-2 bg-background text-primary mt-8 p-4 rounded-md border-2 border-primary text-2xl font-bold"
+              onClick={handleBack}
+            >
+              <FaArrowLeftLong />
+              Back
+            </button>
+            {!phoneNumberVerified ? (
+              genarateOtp ? (
+                <button
+                  type="submit"
+                  className="w-full bg-theme-3 mt-8 p-4 rounded-md border-2 border-primary text-2xl text-secondary font-bold"
+                >
+                  Generate otp
+                </button>
+              ) : isOtpInput ? (
+                <button
+                  type="submit"
+                  className="w-full bg-theme-3 mt-8 p-4 rounded-md border-2 border-primary text-2xl text-secondary font-bold"
+                >
+                  Verify Otp
+                </button>
+              ) : (
+                <RegistrationButton text="Continue" />
+              )
             ) : (
               <RegistrationButton text="Continue" />
-            )
-          ) : (
-            <RegistrationButton text="Continue" />
-          )}
-        </div>
-      </form>
-      }
+            )}
+          </div>
+        </form>
+      )}
     </div>
   )
 }

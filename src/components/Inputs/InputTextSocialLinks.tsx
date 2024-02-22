@@ -53,7 +53,7 @@ const InputTextSocialLinks = ({
           {...register(name, { required })}
           defaultValue={defaultValue}
         />
-        <div className="btn absolute flex right-3 top-2 transform translate-y-5">
+        <div className="btn absolute flex right-3 top-2 transform translate-y-2">
           <IconComponent />
         </div>
       </div>

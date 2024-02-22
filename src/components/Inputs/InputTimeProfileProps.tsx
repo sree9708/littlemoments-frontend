@@ -30,7 +30,6 @@ const timeOptions: string[] = [
   "10:30",
   "11:00",
   "11:30",
-  // ... Add more time options as needed
 ]
 
 const InputTimeProfileProps: React.FC<any> = ({

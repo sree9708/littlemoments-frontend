@@ -60,7 +60,7 @@ const BusinessDetailsForm = () => {
       dt2.items.add(file)
     }
     setValue("pan", dt2.files.length ? dt2.files : undefined)
-    setGstinFile(dt2.files.length ? dt2.files[0] : null)
+    setGstinFile(dt1.files.length ? dt1.files[0] : null)
     setPanFile(dt2.files.length ? dt2.files[0] : null)
   }, [setValue, propDetailsForm])
 
@@ -74,7 +74,7 @@ const BusinessDetailsForm = () => {
     setPanFile(file)
   }
 
-  const onSubmitSignup = async (data: any) => {
+  const onSubmitBusinessDetails = async (data: any) => {
     const filePromises = [
       gstinFile ? filetoBase64(gstinFile) : Promise.resolve(null),
       panFile ? filetoBase64(panFile) : Promise.resolve(null),
@@ -99,7 +99,7 @@ const BusinessDetailsForm = () => {
   return (
     <div>
       {hasMounted && (
-        <form className="py-8" onSubmit={handleSubmit(onSubmitSignup)}>
+        <form className="py-8" onSubmit={handleSubmit(onSubmitBusinessDetails)}>
           <InputTextarea
             name="address"
             type="text"

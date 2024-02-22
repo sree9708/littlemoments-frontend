@@ -1,4 +1,5 @@
 import { useAppSelector } from "@/hooks/useStore"
+import { ITimings } from "@/services/Utilities/interfaces/prop.interface"
 import React, { useEffect, useState } from "react"
 interface Schedule {
   [day: string]: string[] | "closed"
@@ -6,7 +7,7 @@ interface Schedule {
 
 const PropIdTime: React.FC<any> = () => {
   const propDetails = useAppSelector(state => state.place.placeDetails)
-  const [schedule, setSchedule] = useState<Schedule>(
+  const [schedule, setSchedule] = useState<ITimings>(
     propDetails?.timings || {
       monday: ["closed"],
       tuesday: ["closed"],

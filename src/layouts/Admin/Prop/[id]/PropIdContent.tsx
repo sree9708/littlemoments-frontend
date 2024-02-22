@@ -7,20 +7,20 @@ import { errorMessage } from "@/hooks/useNotifications"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { getPlaceByIdWithDetailsThunk } from "@/services/Redux/reducers/placeSlice"
 import { AccountStatus } from "@/services/Utilities/Enum/account.status.enum"
-import { useParams } from "next/navigation"
-import { useRouter } from "next/router"
+import { useRouter, useParams } from "next/navigation"
 import React, { useEffect } from "react"
 
 const PropIdContent = () => {
-  const router = useRouter()
-  const id: string = router.query.id as string
-
+  const { id }: { id: string } = useParams()
+  const { push } = useRouter()
   const dispatch = useAppDispatch()
+
   useEffect(() => {
     ;(async () => {
       try {
-        dispatch(getPlaceByIdWithDetailsThunk(id))
+        await dispatch(getPlaceByIdWithDetailsThunk(id))
       } catch (error: any) {
+        push("/admin/dashboard")
         errorMessage(error.message)
       }
     })()
@@ -40,14 +40,14 @@ const PropIdContent = () => {
   )
 }
 
-export async function generateStaticParams() {
-  // Fetch IDs from the backend or define a static list of IDs
-  const ids = ["id1", "id2", "id3"] // Replace with your actual list of IDs or logic to fetch IDs
+// export async function generateStaticParams() {
+//   // Fetch IDs from the backend or define a static list of IDs
+//   const ids = ["id1", "id2", "id3"] // Replace with your actual list of IDs or logic to fetch IDs
 
-  // Return an array of objects with `params` key
-  return ids.map(id => ({
-    params: { id },
-  }))
-}
+//   // Return an array of objects with `params` key
+//   return ids.map(id => ({
+//     params: { id },
+//   }))
+// }
 
 export default PropIdContent

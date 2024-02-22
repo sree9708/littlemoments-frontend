@@ -50,6 +50,17 @@ axiosInstance.interceptors.response.use(
               throw Error("Unauthorized")
             })
           return axiosInstance(prvsRequest)
+        } else if (prvsRequest.url?.includes("/admin")) {
+          await axiosTokenInstance
+            .get("/admin/refresh-token/verify")
+            .then(response => {
+              store.dispatch(setPropId(response.data.id))
+            })
+            .catch(error => {
+              store.dispatch(setPropId(null))
+              throw Error("Unauthorized")
+            })
+          return axiosInstance(prvsRequest)
         } else {
           throw Error("Unauthorized")
         }

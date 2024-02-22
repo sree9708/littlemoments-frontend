@@ -90,6 +90,7 @@ const PropIdDetails = () => {
       <div className="md:col-span-3 flex md:flex-col gap-2 sm:items-end">
         <div className="p-2 px-3 w-fit rounded-md bg-theme-1 text-secondary flex items-center gap-4">
           <div>Pan Card File</div>
+          <div>{placeDetails?.pan}</div>
           <div
             className="cursor-pointer"
             onClick={() => window.open(placeDetails?.pan, "_blank", "noopener noreferrer")}

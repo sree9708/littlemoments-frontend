@@ -36,9 +36,9 @@ const Hero = ({ placeDetails }: { placeDetails: any }) => {
             <div className="absolute top-4 right-4 bg-theme-4 p-1 px-3 rounded-full border border-primary font-bold">
               Popular
             </div>
-            <div className="absolute bottom-6 left-6 text-secondary font-title drop-shadow-md text-title-sm">
+            {/* <div className="absolute bottom-6 left-6 text-secondary font-title drop-shadow-md text-title-sm">
               PLACE
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="col-span-12 md:col-span-5">
