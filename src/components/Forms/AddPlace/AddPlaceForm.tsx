@@ -55,7 +55,7 @@ const AddPlaceForm = () => {
   const onSubmitSignup = async (data: any) => {
     if (genarateOtp) {
       try {
-        // await dispatch(generateOtpWithPhoneNumberThunk(data.displayContactNo))
+        await dispatch(generateOtpWithPhoneNumberThunk(data.displayContactNo))
         setGenarateOtp(false)
         setIsOtpInput(true)
       } catch (err: any) {
@@ -73,7 +73,7 @@ const AddPlaceForm = () => {
             if (!otp) {
               return setIsError("Please enter otp")
             }
-            // await dispatch(verifyOtpThunk({ phoneNumber: data.displayContactNo, otp }))
+            await dispatch(verifyOtpThunk({ phoneNumber: data.displayContactNo, otp }))
             setIsOtpInput(false)
             setIsError(null)
             dispatch(addPlaceOwner(data))
