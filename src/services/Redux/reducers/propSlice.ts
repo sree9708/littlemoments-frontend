@@ -19,6 +19,7 @@ import {
 interface PropState {
   isLoading: boolean
   id: string | null
+  isProfileAdded: boolean
   propDetailsForm: IProp | null
   propInformations: IProp | null
 }
@@ -26,6 +27,7 @@ interface PropState {
 const initialState: PropState = {
   isLoading: false,
   id: null,
+  isProfileAdded: false,
   propDetailsForm: null,
   propInformations: null,
 }
@@ -122,6 +124,7 @@ export const propSlice = createSlice({
       .addCase(verifyPropIdThunk.fulfilled, (state, action) => {
         state.isLoading = false
         state.id = action.payload.id
+        state.isProfileAdded = action.payload.isProfileAdded
       })
       .addCase(verifyPropIdThunk.rejected, (state, action) => {
         state.isLoading = false

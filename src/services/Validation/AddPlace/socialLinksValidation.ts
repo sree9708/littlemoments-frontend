@@ -5,17 +5,14 @@ const socialLinksValidation = yup
     fb: yup
       .string()
       .url("Please enter a valid URL")
-      .nullable()
       .max(200, "Facebook must not exceed 200 characters."),
     instagram: yup
       .string()
       .url("Please enter a valid URL")
-      .nullable()
       .max(200, "Instagram must not exceed 200 characters."),
     youtube: yup
       .string()
       .url("Please enter a valid URL")
-      .nullable()
       .max(200, "Youtube must not exceed 200 characters."),
     twitter: yup
       .string()
@@ -23,6 +20,5 @@ const socialLinksValidation = yup
       .nullable()
       .max(200, "Twitter must not exceed 200 characters."),
   })
-  .nullable()
 
 export default socialLinksValidation
