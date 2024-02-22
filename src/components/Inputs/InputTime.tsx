@@ -34,15 +34,9 @@ const timeOptions: string[] = [
   "11:30",
 ]
 
-const InputTime: React.FC<any> = ({
-  onTimeChange,
-  timings,
-}: {
-  onTimeChange: (data: any) => void
-  timings: ITimings | undefined
-}) => {
+const InputTime: React.FC<any> = ({ onTimeChange, timings }: { onTimeChange: (data: any) => void, timings: Schedule  }) => {
   const [dropdown, setDropdown] = useState(false)
-  const [schedule, setSchedule] = useState<ITimings>(
+  const [schedule, setSchedule] = useState<Schedule>(
     timings || {
       monday: ["closed"],
       tuesday: ["closed"],
@@ -51,8 +45,7 @@ const InputTime: React.FC<any> = ({
       friday: ["closed"],
       saturday: ["closed"],
       sunday: ["closed"],
-    },
-  )
+    })
 
   useEffect(() => {
     onTimeChange(schedule)
