@@ -8,7 +8,7 @@ import PopularPlaces from "@/layouts/LandingHomePage/PopularPlaces"
 
 export default function Home() {
   return (
-    <div id="hero">
+    <div>
       {/* <ClientComponent> */}
       <Navbar searchBar={true} />
       <Hero />
