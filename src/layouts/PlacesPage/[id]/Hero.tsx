@@ -11,11 +11,8 @@ import defaulImage from "../../../../public/default-images.jpeg"
 const Hero = ({ placeDetails }: { placeDetails: any }) => {
   const { setMoreVideos } = useContext(DetailPageContext) as DetailPageContextProps
 
-  const { push } = useRouter()
-
   const handleListingVideo = () => {
     setMoreVideos(true)
-    // push("#listing-videos")
   }
 
   return (

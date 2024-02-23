@@ -17,10 +17,9 @@ import HeroLazy from "@/layouts/PlacesPage/[id]/HeroLazy"
 import { errorMessage } from "@/hooks/useNotifications"
 
 export default function Main() {
-
   const dispatch = useAppDispatch()
   const { push } = useRouter()
-  const { id } : { id: string } = useParams()
+  const { id }: { id: string } = useParams()
 
   useEffect(() => {
     console.log("prop id :", id)

@@ -26,7 +26,7 @@ export const Title = () => {
   // const params = useParams()
   // const propId: string = params?.id as string
 
-  const { id } : { id: string } = useParams()
+  const { id }: { id: string } = useParams()
 
   const dispatch = useAppDispatch()
   const userId = useAppSelector(state => state.user?.id)

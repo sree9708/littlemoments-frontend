@@ -33,8 +33,10 @@ const LoginForm = () => {
 
   const onSubmitLogin = async (data: any) => {
     try {
-      await dispatch(generateOtpByLoginThunk(data.phoneNumber))
-      setIsOtpInput(true)
+      await dispatch(generateOtpByLoginThunk(data.phoneNumber)).then(() => {
+        setIsOtpInput(true)
+      })
+      setIsError(null)
     } catch (err: any) {
       console.log("err:", err)
       setIsOtpInput(false)
@@ -44,9 +46,11 @@ const LoginForm = () => {
   }
 
   function getCurrentPosition(options = {}) {
-    return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(resolve, reject, options)
-    })
+    try {
+      return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, options)
+      })
+    } catch (error) {}
   }
 
   const onSubmitOtp = async (data: any) => {
