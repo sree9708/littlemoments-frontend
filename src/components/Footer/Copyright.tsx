@@ -7,7 +7,7 @@ const Copyright: React.FC = () => {
       <div className="flex justify-between ">
         <div>All rights reserved by littlemoments.in</div>
         {/* <Link to="hero" smooth={true}> */}
-          <div>Back to top</div>
+        <div>Back to top</div>
         {/* </Link> */}
       </div>
       <div className="hidden 2xl:block ">
