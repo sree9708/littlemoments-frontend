@@ -51,7 +51,7 @@ export interface IPropCreate {
 }
 
 export interface ITimings {
-  [day: string]: string[] | "closed";
+  [day: string]: string[] | "closed"
   sunday: string[] | "closed"
   monday: string[] | "closed"
   tuesday: string[] | "closed"
