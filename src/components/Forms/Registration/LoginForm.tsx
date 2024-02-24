@@ -35,7 +35,7 @@ const LoginForm = () => {
     try {
       await dispatch(generateOtpByLoginThunk(data.phoneNumber)).then(() => {
         setIsOtpInput(true)
-      })
+      }).catch((error)=> console.log("Error :", error))
       setIsError(null)
     } catch (err: any) {
       console.log("err:", err)
