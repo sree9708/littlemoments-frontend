@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from "react"
-import { set, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import InputText from "../../Inputs/InputText"
 import RegistrationButton from "../../Buttons/RegistrationButton"
@@ -73,7 +73,7 @@ const LoginForm = () => {
           }),
         )
       } catch (err: any) {
-        errorMessage(err.message)
+        console.log("Location not send")
       }
       setIsOtpInput(false)
       route.push("/")
