@@ -33,7 +33,7 @@ export const verifyPropToken = async () => {
 export const getPropById = async (_: any, { getState }: { getState: any }) => {
   try {
     const propId = (getState() as RootState).prop.id as string
-    const response = await axios.get(`/props/${propId}`)
+    const response = await axios.get(`/props/profile/${propId}`)
     return response.data
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.message) {

@@ -5,14 +5,14 @@ import React from "react"
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <AddPlaceProtectRoute>
-      <TrackerProvider>
-        <div className="grid grid-cols-12 w-full h-screen">
-          {children}
-          <RightSide text="REGISTRATION FORM" />
-        </div>
-      </TrackerProvider>
-    </AddPlaceProtectRoute>
+    // <AddPlaceProtectRoute>
+    <TrackerProvider>
+      <div className="grid grid-cols-12 w-full h-screen">
+        {children}
+        <RightSide text="REGISTRATION FORM" />
+      </div>
+    </TrackerProvider>
+    // </AddPlaceProtectRoute>
   )
 }
 

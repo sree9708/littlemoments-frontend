@@ -67,6 +67,7 @@ const SignupForm = () => {
         />
         <select
           id="gender"
+          defaultValue=""
           className={`block w-full autofill:bg-yellow-200 bg-transparent rounded-lg p-4 my-3 border-2 text-xl border-primary focus:outline-none focus:ring-transparent appearance-none peer ${
             isGenderSelected === "" ? "text-gray-400" : "text-black"
           }`}
