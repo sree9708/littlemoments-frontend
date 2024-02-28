@@ -43,7 +43,6 @@ const SignupOtpForm = () => {
       await dispatch(generateOtpWithPhoneNumberThunk(data.phoneNumber))
       setIsOtpInput(true)
     } catch (err: any) {
-      setIsSignup(true)
       setIsError(err.message)
       errorMessage(err.message)
     }

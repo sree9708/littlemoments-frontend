@@ -20,7 +20,7 @@ const RightSide = () => {
   const dispatch = useAppDispatch()
   const userId = useAppSelector(state => state.user?.id)
   const propId = useAppSelector(state => state.prop?.id)
-  const propInformations = useAppSelector(state => state.prop?.propInformations)
+  const isProfileAdded = useAppSelector(state => state.prop?.isProfileAdded)
 
   const [dropdown, setDropdown] = useState(false)
 
@@ -37,7 +37,7 @@ const RightSide = () => {
     if (userId) {
       push("/profile")
     } else if (propId) {
-      if (propInformations?.isProfileAdded) {
+      if (isProfileAdded) {
         push("/profile/props")
       } else {
         push("/add-place")
@@ -49,7 +49,7 @@ const RightSide = () => {
     if (userId) {
       push("/profile")
     } else if (propId) {
-      if (propInformations?.isProfileAdded) {
+      if (isProfileAdded) {
         push("/profile/props")
       } else {
         Swal.fire({

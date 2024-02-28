@@ -129,6 +129,7 @@ export const propSlice = createSlice({
       .addCase(verifyPropIdThunk.rejected, (state, action) => {
         state.isLoading = false
         state.id = null
+        state.isProfileAdded = false
         throw Error(action.error.message)
       })
       .addCase(verifyPropTokenThunk.pending, state => {
