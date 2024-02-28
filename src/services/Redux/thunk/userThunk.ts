@@ -68,6 +68,19 @@ export const verifyOtp = async (params: { phoneNumber: string; otp: string }) =>
   }
 }
 
+export const validateUserDetails = async ({ email, username }: { email: string; username: string }) => {
+  try {
+    const response = await axios.get(`/users/validate-details`, { params: { username, email } })
+    return response.data
+  } catch (err: any) {
+    if (err.response && err.response.data && err.response.data.message) {
+      throw Error(err.response.data.message)
+    } else {
+      throw Error(err.message)
+    }
+  }
+}
+
 export const userLogin = async (params: { phoneNumber: string; otp: string }) => {
   try {
     const response = await axios.get(`/users/login`, { params: params })

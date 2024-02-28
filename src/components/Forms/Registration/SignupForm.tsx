@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useContext, useEffect } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import InputText from "../../Inputs/InputText"
@@ -8,8 +8,9 @@ import RegistrationButton from "../../Buttons/RegistrationButton"
 import Link from "next/link"
 import { SignupContext, SignupContextProps } from "@/services/Context/SignupContext"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
-import { adduserDetailsForm } from "@/services/Redux/reducers/userSlice"
+import { adduserDetailsForm, validateUserDetailsThunk } from "@/services/Redux/reducers/userSlice"
 import signupValidation from "@/services/Validation/Registration/signupValidation"
+import { errorMessage } from "@/hooks/useNotifications"
 
 const SignupForm = () => {
   const {
@@ -20,24 +21,35 @@ const SignupForm = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(signupValidation) })
 
+  const [isError, setIsError] = useState<string | null>(null)
+
   const { setIsSignup } = useContext(SignupContext) as SignupContextProps
   const dispatch = useAppDispatch()
   const userDetailsForm = useAppSelector(state => state.user?.userDetailsForm)
 
-  const onSubmitSignup = (data: any) => {
-    dispatch(adduserDetailsForm(data))
-    setIsSignup(false)
+  const onSubmitSignup = async (data: any) => {
+    try {
+      setIsError(null)
+      await dispatch(validateUserDetailsThunk({ email: data.email, username: data.username }))
+      dispatch(adduserDetailsForm(data))
+      setIsSignup(false)
+    } catch (err: any) {
+      setIsError(err.message)
+      errorMessage(err.message)
+    }
   }
 
   const isGenderSelected = watch("gender") || ""
   const defaultGender = userDetailsForm?.gender || ""
+
   useEffect(() => {
-    setValue("gender", defaultGender) // Set default value using setValue
+    setValue("gender", defaultGender)
   }, [defaultGender, setValue])
 
   return (
     <>
       <form className="py-8" onSubmit={handleSubmit(onSubmitSignup)}>
+        {isError && <div className="text-red-500 text-sm flex justify-center">{isError}</div>}
         <InputText
           name="username"
           type="text"

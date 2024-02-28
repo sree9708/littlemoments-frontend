@@ -14,6 +14,7 @@ import {
   generateOtpByLogin,
   userLogin,
   addLocation,
+  validateUserDetails,
 } from "../thunk/userThunk"
 
 export interface UserState {
@@ -42,6 +43,7 @@ export const generateOtpWithPhoneNumberThunk = createAsyncThunk(
   generateOtpWithPhoneNumber,
 )
 export const verifyOtpThunk = createAsyncThunk("user/verifyOtp", verifyOtp)
+export const validateUserDetailsThunk = createAsyncThunk("user/validateUserDetails", validateUserDetails)
 export const userLoginThunk = createAsyncThunk("user/userLogin", userLogin)
 export const addLocationThunk = createAsyncThunk("user/addLocation", addLocation)
 export const verifyUserTokenThunk = createAsyncThunk("user/verifyToken", verifyToken)
@@ -135,6 +137,17 @@ export const userSlice = createSlice({
         state.phoneNumberVerified = true
       })
       .addCase(verifyOtpThunk.rejected, (state, action) => {
+        state.isLoading = false
+        state.error = action.error.message
+        throw Error(action.error.message)
+      })
+      .addCase(validateUserDetailsThunk.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(validateUserDetailsThunk.fulfilled, (state, action) => {
+        state.isLoading = false
+      })
+      .addCase(validateUserDetailsThunk.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.error.message
         throw Error(action.error.message)

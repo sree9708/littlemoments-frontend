@@ -40,16 +40,11 @@ const SignupOtpForm = () => {
   const onSubmitSignup = async (data: any) => {
     try {
       dispatch(addphoneNumber(data.phoneNumber))
-      console.log("1")
       await dispatch(generateOtpWithPhoneNumberThunk(data.phoneNumber))
-      console.log("2")
       setIsOtpInput(true)
-      console.log("3")
     } catch (err: any) {
-      console.log("4")
       setIsError(err.message)
       errorMessage(err.message)
-      console.log("5")
     }
   }
 
