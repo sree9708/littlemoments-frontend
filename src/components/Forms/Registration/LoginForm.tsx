@@ -39,17 +39,17 @@ const LoginForm = () => {
   const onSubmitLogin = async (data: any) => {
     try {
       setIsError(null)
-      await dispatch(generateOtpByLoginThunk(data.phoneNumber))
-        .then(() => {
-          setIsOtpInput(true)
-          setIsError(null)
-        })
-        .catch((error: any) => {
-          console.log("Error :", error)
-          setIsOtpInput(false)
-          setIsError(error.message)
-          errorMessage(error.message)
-        })
+      // await dispatch(generateOtpByLoginThunk(data.phoneNumber))
+      //   .then(() => {
+      //     setIsOtpInput(true)
+      //     setIsError(null)
+      //   })
+      //   .catch((error: any) => {
+      //     console.log("Error :", error)
+      //     setIsOtpInput(false)
+      //     setIsError(error.message)
+      //     errorMessage(error.message)
+      //   })
     } catch (err: any) {
       console.log("err:", err)
       setIsOtpInput(false)
