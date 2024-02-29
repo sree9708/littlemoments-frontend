@@ -9,7 +9,7 @@ import ClientComponent from "./ClientComponent"
 export default function Home() {
   return (
     <div>
-      <ClientComponent>
+      {/* <ClientComponent> */}
       <Navbar searchBar={true} />
       <Hero />
       <Marquee />
@@ -17,7 +17,7 @@ export default function Home() {
       <AboutUs />
       <Marquee />
       <Footer />
-      </ClientComponent>
+      {/* </ClientComponent> */}
     </div>
   )
 }
