@@ -4,10 +4,12 @@ import Navbar from "@/layouts/CommonLayouts/Navbar"
 import AboutUs from "@/layouts/LandingHomePage/AboutUs"
 import Hero from "@/layouts/LandingHomePage/Hero"
 import PopularPlaces from "@/layouts/LandingHomePage/PopularPlaces"
+import ClientComponent from "./ClientComponent"
 
 export default function Home() {
   return (
     <div>
+      <ClientComponent>
       <Navbar searchBar={true} />
       <Hero />
       <Marquee />
@@ -15,6 +17,7 @@ export default function Home() {
       <AboutUs />
       <Marquee />
       <Footer />
+      </ClientComponent>
     </div>
   )
 }

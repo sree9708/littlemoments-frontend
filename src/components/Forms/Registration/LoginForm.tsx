@@ -39,6 +39,7 @@ const LoginForm = () => {
   const onSubmitLogin = async (data: any) => {
     try {
       setIsError(null)
+      setIsOtpInput(true)
       // await dispatch(generateOtpByLoginThunk(data.phoneNumber))
       //   .then(() => {
       //     setIsOtpInput(true)
