@@ -69,6 +69,9 @@ export const userSlice = createSlice({
         phoneNumber: action.payload,
       }
     },
+    removeUserDetailsForm: state => {
+      state.userDetailsForm = null
+    },
     logoutUser: state => {
       Object.assign(state, initialState)
     },
@@ -250,5 +253,6 @@ export const userSlice = createSlice({
   },
 })
 
-export const { setUserId, adduserDetailsForm, addphoneNumber, logoutUser } = userSlice.actions
+export const { setUserId, adduserDetailsForm, removeUserDetailsForm, addphoneNumber, logoutUser } =
+  userSlice.actions
 export default userSlice.reducer

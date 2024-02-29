@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import InputText from "../../Inputs/InputText"
@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation"
 import {
   addLocationThunk,
   generateOtpByLoginThunk,
+  removeUserDetailsForm,
   userLoginThunk,
 } from "@/services/Redux/reducers/userSlice"
 import { useAppDispatch } from "@/hooks/useStore"
@@ -30,6 +31,10 @@ const LoginForm = () => {
 
   const route = useRouter()
   const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(removeUserDetailsForm())
+  }, [])
 
   const onSubmitLogin = async (data: any) => {
     try {
@@ -58,28 +63,43 @@ const LoginForm = () => {
       return new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(resolve, reject, options)
       })
-    } catch (error) {}
+    } catch (error) {
+      console.log("Error in getCurrentPosition getting location :", error)
+    }
   }
 
   const onSubmitOtp = async (data: any) => {
     try {
       await dispatch(userLoginThunk({ phoneNumber: data.phoneNumber, otp }))
 
-      const position: any = await getCurrentPosition()
-      const { latitude: lat, longitude: long } = position.coords
+      let lat = 0, long = 0;
+
+      try{
+        const position: any = await getCurrentPosition()
+        lat = position.coords.latitude;
+        long = position.coords.longitude;
+      } catch (error) {
+        console.log("Error in getting location :", error)
+      }
 
       const browser = navigator.userAgent
       const device = navigator.platform
 
       try {
+        let newLat = lat;
+        let newLong = long;
+        if (!newLat || !newLong) {
+          newLat = 0;
+          newLong = 0;
+        }
         await dispatch(
           addLocationThunk({
-            lat,
-            long,
+            lat: newLat,
+            long: newLong,
             browser,
             device,
           }),
-        )
+        );
       } catch (err: any) {
         console.log("Location not send")
       }

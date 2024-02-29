@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useContext, useState } from "react"
-import { useForm } from "react-hook-form"
+import { set, useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import InputText from "../../Inputs/InputText"
 import RegistrationButton from "../../Buttons/RegistrationButton"
@@ -39,6 +39,7 @@ const SignupOtpForm = () => {
 
   const onSubmitSignup = async (data: any) => {
     try {
+      setIsError(null)
       dispatch(addphoneNumber(data.phoneNumber))
       await dispatch(generateOtpWithPhoneNumberThunk(data.phoneNumber))
       setIsOtpInput(true)
@@ -50,6 +51,7 @@ const SignupOtpForm = () => {
 
   const onSubmitOtp = async (data: any) => {
     try {
+      setIsError(null)
       await dispatch(verifyOtpThunk({ phoneNumber: data.phoneNumber, otp }))
       await dispatch(createUserThunk(undefined))
       setIsOtpInput(false)
