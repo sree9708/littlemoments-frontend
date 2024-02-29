@@ -12,8 +12,8 @@ export default function Home() {
       {/* <ClientComponent> */}
       {/* <Navbar searchBar={true} /> */}
       <Hero />
-      {/* <Marquee />
-      <PopularPlaces /> */}
+      <Marquee />
+      <PopularPlaces />
       <AboutUs />
       <Marquee />
       <Footer />
