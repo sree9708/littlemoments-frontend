@@ -11,12 +11,12 @@ export default function Home() {
     <div>
       {/* <ClientComponent> */}
       <Navbar searchBar={true} />
-      <Hero />
+      {/* <Hero />
       <Marquee />
       <PopularPlaces />
       <AboutUs />
       <Marquee />
-      <Footer />
+      <Footer /> */}
       {/* </ClientComponent> */}
     </div>
   )
