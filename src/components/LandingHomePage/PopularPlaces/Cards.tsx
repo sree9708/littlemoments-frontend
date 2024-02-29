@@ -13,17 +13,16 @@ const Cards: React.FC = () => {
   const isLoading = useAppSelector(state => state.place?.isLoading)
   const places = useAppSelector(state => state.place?.places) || []
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        // Dispatch the action only when the component mounts
-        await dispatch(getPlacesThunk({ skip: 0, limit: 12 }))
-      } catch (error: any) {
-        errorMessage(error.message)
-      }
-    }
-    fetchData()
-  }, []) // Empty dependency array ensures the effect runs only once
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     try {
+  //       await dispatch(getPlacesThunk({ skip: 0, limit: 12 }))
+  //     } catch (error: any) {
+  //       errorMessage(error.message)
+  //     }
+  //   }
+  //   fetchData()
+  // }, []) 
 
   return (
     <>
