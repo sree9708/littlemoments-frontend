@@ -10,7 +10,6 @@ export default function Home() {
   return (
     <div>
       {/* <ClientComponent> */}
-      <Navbar searchBar={true} />
       <Hero />
       <Marquee />
       <PopularPlaces />
