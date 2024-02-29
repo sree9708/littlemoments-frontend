@@ -10,13 +10,13 @@ export default function Home() {
   return (
     <div>
       {/* <ClientComponent> */}
-      <Navbar searchBar={true} />
+      {/* <Navbar searchBar={true} /> */}
       <Hero />
-      {/* <Marquee />
+      <Marquee />
       <PopularPlaces />
       <AboutUs />
       <Marquee />
-      <Footer /> */}
+      <Footer />
       {/* </ClientComponent> */}
     </div>
   )
