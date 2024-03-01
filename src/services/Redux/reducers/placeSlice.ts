@@ -52,9 +52,11 @@ export const placeSlice = createSlice({
       .addCase(getPlacesThunk.fulfilled, (state, action) => {
         state.isLoading = false
         state.places = action.payload.props
+        state.error = null
       })
       .addCase(getPlacesThunk.rejected, (state, action) => {
         state.isLoading = false
+        state.error = action.error.message
         throw Error(action.error.message)
       })
       .addCase(getPlacesBySkipAndLimitThunk.pending, state => {

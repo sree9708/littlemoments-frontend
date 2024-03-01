@@ -9,10 +9,20 @@ import React, { useEffect } from "react"
 const Cards: React.FC = () => {
   const hasMounted = useMounted()
 
+  const dispatch = useAppDispatch()
   const isLoading = useAppSelector(state => state.place?.isLoading)
   const places = useAppSelector(state => state.place?.places) || []
 
- 
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        await dispatch(getPlacesThunk({ skip: 0, limit: 12 }))
+      } catch (error: any) {
+        errorMessage(error.message)
+      }
+    }
+    fetchData()
+  }, []) 
 
   return (
     <>
