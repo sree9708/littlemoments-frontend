@@ -1,9 +1,7 @@
-// "use client"
 import Head from "next/head"
 import "./globals.css"
 import ReduxProvider from "@/services/Redux/Provider"
 import type { Metadata } from "next"
-import ModalProvider from "@/services/Context/ModalContext"
 
 export const metadata: Metadata = {
   title: "Little Moments",
@@ -16,11 +14,10 @@ const RootLayout: React.FC = ({ children }: any) => {
         <title>{String(metadata.title)}</title>
         <meta name="description" content={metadata.description ?? ""} />
         <link rel="icon" href="/favicon.ico" />
-        <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
       </Head>
       <body className="font-default font-normal text-base bg-background">
         <ReduxProvider>
-          <ModalProvider> {children} </ModalProvider>
+          {children}
         </ReduxProvider>
       </body>
     </html>

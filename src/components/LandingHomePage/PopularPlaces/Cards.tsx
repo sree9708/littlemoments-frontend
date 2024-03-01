@@ -1,29 +1,31 @@
+"use client"
+
 import Card from "@/components/Cards/PopularPlace/Card"
 import CardLazy from "@/components/Cards/PopularPlace/CardLazy"
 import useMounted from "@/hooks/useMounted"
 import { errorMessage } from "@/hooks/useNotifications"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { getPlacesThunk } from "@/services/Redux/reducers/placeSlice"
-import React, { useEffect } from "react"
+import React, { useLayoutEffect } from "react"
 
 const Cards: React.FC = () => {
   const hasMounted = useMounted()
 
   const dispatch = useAppDispatch()
   const isLoading = useAppSelector(state => state.place?.isLoading)
-  const places = useAppSelector(state => state.place?.places) || []
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     async function fetchData() {
       try {
-        // Dispatch the action only when the component mounts
         await dispatch(getPlacesThunk({ skip: 0, limit: 12 }))
       } catch (error: any) {
         errorMessage(error.message)
       }
     }
     fetchData()
-  }, []) // Empty dependency array ensures the effect runs only once
+  }, []) 
+
+  const places = useAppSelector(state => state.place?.places) || []
 
   return (
     <>
