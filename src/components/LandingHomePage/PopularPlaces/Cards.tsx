@@ -6,7 +6,7 @@ import useMounted from "@/hooks/useMounted"
 import { errorMessage } from "@/hooks/useNotifications"
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore"
 import { getPlacesThunk } from "@/services/Redux/reducers/placeSlice"
-import React, { useEffect } from "react"
+import React, { useLayoutEffect } from "react"
 
 const Cards: React.FC = () => {
   const hasMounted = useMounted()
@@ -15,7 +15,7 @@ const Cards: React.FC = () => {
   const isLoading = useAppSelector(state => state.place?.isLoading)
   const places = useAppSelector(state => state.place?.places) || []
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     async function fetchData() {
       try {
         await dispatch(getPlacesThunk({ skip: 0, limit: 12 }))
