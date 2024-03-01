@@ -73,12 +73,13 @@ const LoginForm = () => {
     try {
       await dispatch(userLoginThunk({ phoneNumber: data.phoneNumber, otp }))
 
-      let lat = 0, long = 0;
+      let lat = 0,
+        long = 0
 
-      try{
+      try {
         const position: any = await getCurrentPosition()
-        lat = position.coords.latitude;
-        long = position.coords.longitude;
+        lat = position.coords.latitude
+        long = position.coords.longitude
       } catch (error) {
         console.log("Error in getting location :", error)
       }
@@ -87,11 +88,11 @@ const LoginForm = () => {
       const device = navigator.platform
 
       try {
-        let newLat = lat;
-        let newLong = long;
+        let newLat = lat
+        let newLong = long
         if (!newLat || !newLong) {
-          newLat = 0;
-          newLong = 0;
+          newLat = 0
+          newLong = 0
         }
         await dispatch(
           addLocationThunk({
@@ -100,7 +101,7 @@ const LoginForm = () => {
             browser,
             device,
           }),
-        );
+        )
       } catch (err: any) {
         console.log("Location not send")
       }
