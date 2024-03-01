@@ -16,7 +16,9 @@ const RootLayout: React.FC = ({ children }: any) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <body className="font-default font-normal text-base bg-background">
-        <ReduxProvider>{children}</ReduxProvider>
+        <ReduxProvider>
+          {children}
+        </ReduxProvider>
       </body>
     </html>
   )

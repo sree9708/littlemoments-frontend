@@ -13,7 +13,6 @@ const Cards: React.FC = () => {
 
   const dispatch = useAppDispatch()
   const isLoading = useAppSelector(state => state.place?.isLoading)
-  const places = useAppSelector(state => state.place?.places) || []
 
   useLayoutEffect(() => {
     async function fetchData() {
@@ -25,6 +24,8 @@ const Cards: React.FC = () => {
     }
     fetchData()
   }, []) 
+
+  const places = useAppSelector(state => state.place?.places) || []
 
   return (
     <>
