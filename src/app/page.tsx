@@ -13,7 +13,7 @@ export default function Home() {
       <Navbar searchBar={true} />
       <Hero />
       <Marquee />
-      {/* <PopularPlaces /> */}
+      <PopularPlaces />
       <AboutUs />
       <Marquee />
       <Footer />
