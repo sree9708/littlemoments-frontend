@@ -18,7 +18,7 @@ import { errorMessage, successMessage } from "@/hooks/useNotifications"
 const RightSide = () => {
   const hasMounted = useMounted()
   const dispatch = useAppDispatch()
-  // const userId = useAppSelector(state => state.user?.id)
+  const userId = useAppSelector(state => state.user?.id)
   const propId = useAppSelector(state => state.prop?.id)
   const isProfileAdded = useAppSelector(state => state.prop?.isProfileAdded)
 
@@ -34,37 +34,37 @@ const RightSide = () => {
   })
 
   const handleAddPlace = () => {
-    // if (userId) {
-    //   push("/profile")
-    // } else if (propId) {
-    //   if (isProfileAdded) {
-    //     push("/profile/props")
-    //   } else {
-    //     push("/add-place")
-    //   }
-    // }
+    if (userId) {
+      push("/profile")
+    } else if (propId) {
+      if (isProfileAdded) {
+        push("/profile/props")
+      } else {
+        push("/add-place")
+      }
+    }
   }
 
   const handleProfile = () => {
-    // if (userId) {
-    //   push("/profile")
-    // } else if (propId) {
-    //   if (isProfileAdded) {
-    //     push("/profile/props")
-    //   } else {
-    //     Swal.fire({
-    //       title: "Please add your place details",
-    //       showCancelButton: true,
-    //       confirmButtonText: "Add Place",
-    //       cancelButtonText: "Cancel",
-    //       icon: "warning",
-    //     }).then(result => {
-    //       if (result.isConfirmed) {
-    //         push("/add-place")
-    //       }
-    //     })
-    //   }
-    // }
+    if (userId) {
+      push("/profile")
+    } else if (propId) {
+      if (isProfileAdded) {
+        push("/profile/props")
+      } else {
+        Swal.fire({
+          title: "Please add your place details",
+          showCancelButton: true,
+          confirmButtonText: "Add Place",
+          cancelButtonText: "Cancel",
+          icon: "warning",
+        }).then(result => {
+          if (result.isConfirmed) {
+            push("/add-place")
+          }
+        })
+      }
+    }
   }
 
   const handleLogout = async () => {
@@ -94,7 +94,7 @@ const RightSide = () => {
             </div>
           )}
           <div className="hidden sm:flex cursor-pointer whitespace-nowrap">Download App</div>
-          {/* {!userId && !propId ? (
+          {!userId && !propId ? (
             <Link
               href="/auth/login"
               className="flex items-center gap-2 py-4 px-2 sm:px-4 md:px-8 lg:px-12 bg-primary text-background cursor-pointer hover:opacity-80"
@@ -163,7 +163,7 @@ const RightSide = () => {
                 </div>
               )}
             </div>
-          )} */}
+          )}
         </div>
       )}
     </>
