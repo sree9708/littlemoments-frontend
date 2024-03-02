@@ -8,7 +8,7 @@ const PopularPlaces = () => {
   return (
     <div className="padding">
       <Title />
-      <Cards />
+      {/* <Cards /> */}
     </div>
   )
 }
