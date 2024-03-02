@@ -26,10 +26,6 @@ const LeftSide = ({ searchBar }: { searchBar: boolean }) => {
 
   return (
     <div className="flex items-center w-fit">
-      {/* <div className="px-2 sm:px-4 md:px-8 lg:px-12 ">
-        <div className="flex gap-2 sm:gap-6 md:gap-10 my-2">
-        <Dropdown />
-      </div> */}
       {showTitle && (
         <div className="transition-transform duration-300 ease-in-out  font-title text-theme-1 hidden sm:block sm:text-2xl mx-4 whitespace-nowrap">
           <CompanyName />

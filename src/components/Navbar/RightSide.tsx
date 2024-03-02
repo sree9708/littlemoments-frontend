@@ -71,9 +71,9 @@ const RightSide = () => {
     try {
       await dispatch(logoutUserThunk())
       await dispatch(logoutPropThunk())
-      dispatch(logoutUser())
-      dispatch(logoutProp())
-      dispatch(logoutReview())
+      // dispatch(logoutUser())
+      // dispatch(logoutProp())
+      // dispatch(logoutReview())
       successMessage("Logged out successfully.")
       push("/")
     } catch (error: any) {
@@ -140,7 +140,7 @@ const RightSide = () => {
                     >
                       Profile
                     </div>
-                    {userId && (
+                    {/* {userId && (
                       <div
                         className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-1 transition duration-300 ease-in-out hover:text-secondary cursor-pointer"
                         role="menuitem"
@@ -149,7 +149,7 @@ const RightSide = () => {
                       >
                         Wishlist
                       </div>
-                    )}
+                    )} */}
                     <div
                       className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-1 transition duration-300 ease-in-out hover:text-secondary cursor-pointer"
                       role="menuitem"
