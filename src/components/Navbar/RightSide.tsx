@@ -69,8 +69,8 @@ const RightSide = () => {
 
   const handleLogout = async () => {
     try {
-      await dispatch(logoutUserThunk())
-      await dispatch(logoutPropThunk())
+      // await dispatch(logoutUserThunk())
+      // await dispatch(logoutPropThunk())
       // dispatch(logoutUser())
       // dispatch(logoutProp())
       // dispatch(logoutReview())
