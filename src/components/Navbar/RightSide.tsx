@@ -140,7 +140,7 @@ const RightSide = () => {
                     >
                       Profile
                     </div>
-                    {userId && (
+                    {/* {userId && (
                       <div
                         className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-1 transition duration-300 ease-in-out hover:text-secondary cursor-pointer"
                         role="menuitem"
@@ -149,7 +149,7 @@ const RightSide = () => {
                       >
                         Wishlist
                       </div>
-                    )}
+                    )} */}
                     <div
                       className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-1 transition duration-300 ease-in-out hover:text-secondary cursor-pointer"
                       role="menuitem"
