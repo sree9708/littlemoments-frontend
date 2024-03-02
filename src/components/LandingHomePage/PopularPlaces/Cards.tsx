@@ -17,7 +17,7 @@ const Cards: React.FC = () => {
   useLayoutEffect(() => {
     async function fetchData() {
       try {
-        await dispatch(getPlacesThunk({ skip: 0, limit: 12 }))
+        // await dispatch(getPlacesThunk({ skip: 0, limit: 12 }))
       } catch (error: any) {
         errorMessage(error.message)
       }
