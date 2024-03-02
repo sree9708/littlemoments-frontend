@@ -69,11 +69,11 @@ const RightSide = () => {
 
   const handleLogout = async () => {
     try {
-      // await dispatch(logoutUserThunk())
-      // await dispatch(logoutPropThunk())
-      dispatch(logoutUser())
-      dispatch(logoutProp())
-      dispatch(logoutReview())
+      await dispatch(logoutUserThunk())
+      await dispatch(logoutPropThunk())
+      // dispatch(logoutUser())
+      // dispatch(logoutProp())
+      // dispatch(logoutReview())
       successMessage("Logged out successfully.")
       push("/")
     } catch (error: any) {
