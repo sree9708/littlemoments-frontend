@@ -23,7 +23,7 @@ const Cards: React.FC = () => {
       }
     }
     fetchData()
-  }, []) 
+  }, [])
 
   const places = useAppSelector(state => state.place?.places) || []
 
